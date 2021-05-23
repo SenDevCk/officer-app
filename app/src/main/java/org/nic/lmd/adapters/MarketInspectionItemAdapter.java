@@ -1,0 +1,143 @@
+package org.nic.lmd.adapters;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.nic.lmd.databases.DataBaseHelper;
+import org.nic.lmd.entities.MarketInspectionDetail;
+import org.nic.lmd.entities.MarketInspectionTab;
+import org.nic.lmd.entities.NatureOfBusiness;
+import org.nic.lmd.entities.SubDivision;
+import org.nic.lmd.entities.UserData;
+import org.nic.lmd.officerapp.MarketInspectionDetailsEntryActivity;
+import org.nic.lmd.officerapp.R;
+import org.nic.lmd.preferences.CommonPref;
+import org.nic.lmd.preferences.GlobalVariable;
+
+import java.util.List;
+
+
+/**
+ * Created by chandan on 24.02.2021
+ */
+
+public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInspectionItemAdapter.MyViewHolder> {
+
+    Activity activity;
+    List<NatureOfBusiness> premisesTypeEntities;
+    MarketInspectionTab mParam1;
+    int mParam2;
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView text_premisses,text_name, text_total_sum,edit_previous;
+        public EditText  edit_current;
+
+        public MyViewHolder(View view) {
+            super(view);
+            text_premisses = view.findViewById(R.id.text_premisses);
+            edit_previous = view.findViewById(R.id.edit_previous);
+            edit_current = view.findViewById(R.id.edit_current);
+            text_total_sum = view.findViewById(R.id.text_total_sum);
+        }
+    }
+
+
+    public MarketInspectionItemAdapter(Activity activity, MarketInspectionTab mParam1, int mParam2) {
+        this.activity = activity;
+        this.premisesTypeEntities = new DataBaseHelper(activity).getNatureofBusiness();
+        this.mParam1=mParam1;
+        this.mParam2=mParam2;
+        setHasStableIds(true);
+    }
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.market_ins_entry_item, parent, false);
+        return new MyViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+        final NatureOfBusiness premisesTypeEntity = premisesTypeEntities.get(position);
+        //DataBaseHelper db = new DataBaseHelper(activity);
+        holder.text_premisses.setText(""+premisesTypeEntity.getValue());
+        if (MarketInspectionDetailsEntryActivity.monthSelected==4) {
+            holder.edit_previous.setText("0");
+        }else{
+            holder.edit_previous.setText(""+MarketInspectionDetailsEntryActivity.marketInspectionDetails.get(mParam2*premisesTypeEntities.size()+position).previous_accu_count);
+        }
+        holder.text_total_sum.setText("0");
+        holder.edit_current.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                    if (!s.toString().trim().equals("")){
+                        if (Integer.parseInt(s.toString())>=0){
+                            UserData userData= CommonPref.getUserDetails(activity);
+                            holder.text_total_sum.setText(""+(Long.parseLong(s.toString())+Long.parseLong(holder.edit_previous.getText().toString().trim())));
+                            MarketInspectionDetail marketInspectionDetail_pre = MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.stream()
+                                    .filter((p) -> mParam1.getMarket_ins_id()==p.mar_ins_type.getMarket_ins_id() && p.nature_of_business.getId().equals(premisesTypeEntity.getId()))
+                                    .findAny()
+                                    .orElse(new MarketInspectionDetail());
+                            MarketInspectionDetail marketInspectionDetail=marketInspectionDetail_pre;
+                            //MarketInspectionDetail marketInspectionDetail=(MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.size()>(mParam2*premisesTypeEntities.size()+position))?MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.get(mParam2*premisesTypeEntities.size()+position):new MarketInspectionDetail();
+                            marketInspectionDetail.current_count=Long.parseLong(s.toString());
+                            marketInspectionDetail.previous_accu_count=(Long.parseLong(s.toString())+Long.parseLong(holder.edit_previous.getText().toString().trim()));
+                            marketInspectionDetail.m_month=MarketInspectionDetailsEntryActivity.monthSelected;
+                            marketInspectionDetail.m_year=MarketInspectionDetailsEntryActivity.yearSelected;
+                            marketInspectionDetail.sub_div=new SubDivision();
+                            marketInspectionDetail.sub_div.setId((userData.getEstbSubdivId().equals(""))?187:Integer.parseInt(userData.getEstbSubdivId()));
+                            marketInspectionDetail.user_id=userData.getUserid();
+                            marketInspectionDetail.nature_of_business=premisesTypeEntity;
+                            marketInspectionDetail.mar_ins_type=mParam1;
+                            if (marketInspectionDetail.mmid==0){
+                                GlobalVariable.m_id++;
+                                marketInspectionDetail.mmid=GlobalVariable.m_id;
+                                MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.add(marketInspectionDetail);
+                            }else{
+                                int index=MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.indexOf(marketInspectionDetail_pre);
+                                MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.set(index,marketInspectionDetail);
+                                //MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.set(mParam2*premisesTypeEntities.size()+position,marketInspectionDetail);
+                            }
+                        }
+                    }
+            }
+        });
+        holder.edit_current.setText("0");
+        holder.setIsRecyclable(false);
+    }
+
+    @Override
+    public int getItemCount() {
+        return premisesTypeEntities.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        //return super.getItemId(position);
+        return position;
+    }
+}

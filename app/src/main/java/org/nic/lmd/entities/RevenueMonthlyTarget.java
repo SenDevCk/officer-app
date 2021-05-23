@@ -1,0 +1,23 @@
+package org.nic.lmd.entities;
+
+import com.google.gson.annotations.SerializedName;
+
+import lombok.Data;
+
+@Data
+public class RevenueMonthlyTarget {
+    @SerializedName("tar_id")
+    private long tar_id;
+    @SerializedName("vf_target")
+    private double vf_target;
+    @SerializedName("af_target")
+    private double af_target;
+    @SerializedName("cf_target")
+    private double cf_target;
+    @SerializedName("tYear")
+    private int tYear;
+    @SerializedName("tMonth")
+    private int tMonth;
+    @SerializedName("subDiv")
+    private int subDiv;
+}
