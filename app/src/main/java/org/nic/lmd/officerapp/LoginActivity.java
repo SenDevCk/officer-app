@@ -123,9 +123,9 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 if (location.equals("") && area.equals("") && role.equals("")) {
                     Toast.makeText(this, "Select area ,location ,role", Toast.LENGTH_SHORT).show();
-                } else if (!validated && !otp_by_service.equals(otp_reg.getText().toString().trim())) {
+                } /*else if (!validated && !otp_by_service.equals(otp_reg.getText().toString().trim())) {
                     Toast.makeText(this, "OTP is not matching !", Toast.LENGTH_SHORT).show();
-                } else {
+                } */else {
                     //new LoginLoader(LoginActivity.this).execute(location, role, area);
                     startMainActivity();
 
