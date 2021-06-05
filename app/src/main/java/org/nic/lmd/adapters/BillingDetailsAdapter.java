@@ -24,6 +24,7 @@ public class BillingDetailsAdapter extends RecyclerView.Adapter<BillingDetailsAd
     Activity activity;
     private int lastPosition = -1;
     int count_for_ins;
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView text_tag,text_name, text_cat, text_qty, text_valid, text_cur_qtr, text_val_yr, text_vf_rate, text_vf, text_ur, text_af;
         public MyViewHolder(View view) {
