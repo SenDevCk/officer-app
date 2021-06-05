@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                                         int groupPosition, int childPosition, long id) {
                 //if (drawer.isDrawerOpen(drawer))
                 drawer.closeDrawers();
-                if (groupPosition == 0 && childPosition == 0) {
+                /*if (groupPosition == 0 && childPosition == 0) {
                     Intent intent = new Intent(MainActivity.this, ApplicationListActivity.class);
                     intent.putExtra("which", "pending");
                     startActivity(intent);
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, ManufacturerListActivity.class);
                     intent.putExtra("which", "verified");
                     startActivity(intent);
-                } else if (groupPosition == 2 && childPosition == 0) {
+                } else*/ if (groupPosition == 2 && childPosition == 0) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (checkAndRequestPermissions()) {
                             goToscanCode();
