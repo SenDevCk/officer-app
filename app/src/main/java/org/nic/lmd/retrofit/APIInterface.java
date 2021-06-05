@@ -16,29 +16,29 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface APIInterface {
-    @GET("/api/dashboard/m/all")
+    @GET("/app/dashboard/m/all")
     Call<DashboardResponse> doGetDashboardAllData();
 
 
-    @GET("/api/dashboard/m/all/{locationType}/{location}")
+    @GET("/app/dashboard/m/all/{locationType}/{location}")
     Call<DashboardResponse> doGetDashboardAllData(@Path("locationType") String locationType, @Path("location") String location);
 
-    @GET("/api/vendor/{vendorId}")
+    @GET("/app/vendor/{vendorId}")
     Call<VendorDataResponse> doGetVender(@Path("vendorId") String vendorId);
 
-    @GET("/api/manufacturer/{manufacurerId}")
+    @GET("/app/manufacturer/{manufacurerId}")
     Call<ManufacturerPoso> doGetManufacture(@Path("manufacurerId") String manufacurerId);
 
-    @GET("/api/lmd/getMarketInspectionDetails/{monthSelected}/{yearSelected}/{userid}")
+    @GET("/app/lmd/getMarketInspectionDetails/{monthSelected}/{yearSelected}/{userid}")
     Call<MyResponse<List<MarketInspectionDetail>>> doGetMarketInspectionDetails(@Path("monthSelected")int monthSelected, @Path("yearSelected")int yearSelected, @Path("userid")String userid);
 
-    @POST("/api/lmd/saveMarketInspectionDetails")
+    @POST("/app/lmd/saveMarketInspectionDetails")
     Call<MyResponse<String>> saveMarketInspectionDetails(@Body List<MarketInspectionDetail> marketInspectionDetail);
 
-    @GET("/api/lmd/getMonthlyRevenueDetails/{monthSelected}/{yearSelected}/{userid}")
+    @GET("/app/lmd/getMonthlyRevenueDetails/{monthSelected}/{yearSelected}/{userid}")
     Call<MyResponse<RequestForRevenueData>> doGetRevenueReportDetails(@Path("monthSelected")int monthSelected, @Path("yearSelected")int yearSelected, @Path("userid")String userid);
 
-    @POST("/api/lmd/saveRevenueReportDetails")
+    @POST("/app/lmd/saveRevenueReportDetails")
     Call<MyResponse<String>> saveRevenueReport(@Body RequestForRevenueData requestForRevenueData);
     /* @GET("/api/manufacturer/11112")
     Call<ManufacturerPoso> doGetManufacture();*/
