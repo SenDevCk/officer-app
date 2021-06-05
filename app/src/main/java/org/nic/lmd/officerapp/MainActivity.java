@@ -176,18 +176,20 @@ public class MainActivity extends AppCompatActivity {
                         goToscanCode();
                     }
                 }else if(groupPosition == 2 && childPosition == 1){
-                    if(userData.getEstbSubdivId().equals("")){
+                    if(!loginRole.contains("Inspector")){
                         Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
                     }else {
                         Intent intent = new Intent(MainActivity.this, MarketInspectionDetailsEntryActivity.class);
+                        intent.putExtra("subDiv",loginLocation);
                         startActivity(intent);
                     }
                 }
                 else if(groupPosition == 2 && childPosition == 2){
-                    if(userData.getEstbSubdivId().equals("")){
+                    if(!loginRole.contains("Inspector")){
                         Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
                     }else {
                         Intent intent = new Intent(MainActivity.this, MonthlyRevenueEntryActivity.class);
+                        intent.putExtra("subDiv",loginLocation);
                         startActivity(intent);
                     }
                 }

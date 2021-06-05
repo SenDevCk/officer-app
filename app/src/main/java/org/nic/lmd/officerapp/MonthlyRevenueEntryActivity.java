@@ -57,7 +57,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
     public static List<RevenueReportEntity> revenueReportEntities;
     public static List<RevenueReportEntity> revenueReportEntities_entry = new ArrayList<>();
     EditText edit_vf_tar,edit_af_tar,edit_cf_tar;
-
+    private String subDiv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +76,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
                 MonthlyRevenueEntryActivity.super.onBackPressed();
             }
         });
+        subDiv=getIntent().getStringExtra("subDiv");
         revenueReportEntities_entry.clear();
         marketInspectionTabs = new DataBaseHelper(MonthlyRevenueEntryActivity.this).getMarketInspectionTabs();
         upload_data = findViewById(R.id.upload_data);
@@ -132,10 +133,9 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
                 text_year_month.setText("" + monthSelected + "-" + yearSelected);
                 text_year_month.setClickable(false);
                 revenueReportEntities_entry.clear();
-                userData = CommonPref.getUserDetails(MonthlyRevenueEntryActivity.this);
                 GlobalVariable.m_id=0;
                 //GlobalVariable.m_id = Long.parseLong((String.valueOf(monthSelected).length() == 1) ? "" + String.valueOf(yearSelected).substring(1, 3) + "0" + monthSelected + (userData.getEstbSubdivId().equals("" ) ? 187 : userData.getEstbSubdivId()) + "000" : "" + String.valueOf(yearSelected).substring(1, 3) + "" + (userData.getEstbSubdivId().equals("" ) ? 187 : userData.getEstbSubdivId()) + "000" );
-                GlobalVariable.m_id=Long.parseLong(""+String.valueOf(yearSelected).substring(2, 4)+((String.valueOf(monthSelected).length() == 1)?"0"+monthSelected:""+monthSelected)+((userData.getEstbSubdivId().equals("")) ? 187 : Integer.parseInt(userData.getEstbSubdivId()))+"000");
+                GlobalVariable.m_id=Long.parseLong(""+String.valueOf(yearSelected).substring(2, 4)+((String.valueOf(monthSelected).length() == 1)?"0"+monthSelected:""+monthSelected)+((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv))+"000");
                 if (monthSelected == 4) {
                     upload_data.setVisibility(View.VISIBLE);
                     populateRecycler();
@@ -190,9 +190,8 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
         progressDialog.setMessage("Loading...");
         progressDialog.show();
         apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
-        UserData userData=CommonPref.getUserDetails(MonthlyRevenueEntryActivity.this);
-        if (monthSelected == 1) call1 = apiInterface.doGetRevenueReportDetails(12,yearSelected-1,(userData.getEstbSubdivId().equals(""))?"187":userData.getEstbSubdivId());
-        else call1 = apiInterface.doGetRevenueReportDetails(monthSelected-1,yearSelected,(userData.getEstbSubdivId().equals(""))?"187":userData.getEstbSubdivId());
+        if (monthSelected == 1) call1 = apiInterface.doGetRevenueReportDetails(12,yearSelected-1,(subDiv.equals(""))?"187":subDiv);
+        else call1 = apiInterface.doGetRevenueReportDetails(monthSelected-1,yearSelected,(subDiv.equals(""))?"187":subDiv);
         call1.enqueue(new Callback<MyResponse<RequestForRevenueData>>() {
             @Override
             public void onResponse(Call<MyResponse<RequestForRevenueData>> call, Response<MyResponse<RequestForRevenueData>> response) {
@@ -249,11 +248,11 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
             Toast.makeText(this, "Please go online !", Toast.LENGTH_SHORT).show();
         }else{
             RevenueMonthlyTarget revenueMonthlyTarget=new RevenueMonthlyTarget();
-            revenueMonthlyTarget.setTar_id(Long.parseLong(""+String.valueOf(yearSelected).substring(2, 4)+((String.valueOf(monthSelected).length() == 1)?"0"+monthSelected:""+monthSelected)+((userData.getEstbSubdivId().equals("")) ? 187 : Integer.parseInt(userData.getEstbSubdivId()))));
+            revenueMonthlyTarget.setTar_id(Long.parseLong(""+String.valueOf(yearSelected).substring(2, 4)+((String.valueOf(monthSelected).length() == 1)?"0"+monthSelected:""+monthSelected)+((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv))));
             revenueMonthlyTarget.setVf_target(Double.parseDouble(edit_vf_tar.getText().toString().trim()));
             revenueMonthlyTarget.setAf_target(Double.parseDouble(edit_af_tar.getText().toString().trim()));
             revenueMonthlyTarget.setCf_target(Double.parseDouble(edit_cf_tar.getText().toString().trim()));
-            revenueMonthlyTarget.setSubDiv(((userData.getEstbSubdivId().equals("")) ? 187 : Integer.parseInt(userData.getEstbSubdivId())));
+            revenueMonthlyTarget.setSubDiv(((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv)));
             revenueMonthlyTarget.setTMonth(monthSelected);
             revenueMonthlyTarget.setTYear(yearSelected);
             RequestForRevenueData re=new RequestForRevenueData();

@@ -29,16 +29,16 @@ public interface APIInterface {
     @GET("/app/manufacturer/{manufacurerId}")
     Call<ManufacturerPoso> doGetManufacture(@Path("manufacurerId") String manufacurerId);
 
-    @GET("/app/lmd/getMarketInspectionDetails/{monthSelected}/{yearSelected}/{userid}")
+    @GET("/lmd-api/lmd/getMarketInspectionDetails/{monthSelected}/{yearSelected}/{userid}")
     Call<MyResponse<List<MarketInspectionDetail>>> doGetMarketInspectionDetails(@Path("monthSelected")int monthSelected, @Path("yearSelected")int yearSelected, @Path("userid")String userid);
 
-    @POST("/app/lmd/saveMarketInspectionDetails")
+    @POST("/lmd-api/lmd/saveMarketInspectionDetails")
     Call<MyResponse<String>> saveMarketInspectionDetails(@Body List<MarketInspectionDetail> marketInspectionDetail);
 
-    @GET("/app/lmd/getMonthlyRevenueDetails/{monthSelected}/{yearSelected}/{userid}")
+    @GET("/lmd-api/lmd/getMonthlyRevenueDetails/{monthSelected}/{yearSelected}/{userid}")
     Call<MyResponse<RequestForRevenueData>> doGetRevenueReportDetails(@Path("monthSelected")int monthSelected, @Path("yearSelected")int yearSelected, @Path("userid")String userid);
 
-    @POST("/app/lmd/saveRevenueReportDetails")
+    @POST("/lmd-api/lmd/saveRevenueReportDetails")
     Call<MyResponse<String>> saveRevenueReport(@Body RequestForRevenueData requestForRevenueData);
     /* @GET("/api/manufacturer/11112")
     Call<ManufacturerPoso> doGetManufacture();*/

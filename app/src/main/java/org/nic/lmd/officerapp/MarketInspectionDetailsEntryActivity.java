@@ -61,7 +61,7 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
     public static List<MarketInspectionDetail> marketInspectionDetails;
     public static List<MarketInspectionDetail> marketInspectionDetails_entry = new ArrayList<>();
     boolean[] tabs_selected;
-
+    private String subDiv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +80,7 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                 MarketInspectionDetailsEntryActivity.super.onBackPressed();
             }
         });
+        subDiv=getIntent().getStringExtra("subDiv");
         marketInspectionDetails_entry.clear();
         marketInspectionTabs = new DataBaseHelper(MarketInspectionDetailsEntryActivity.this).getMarketInspectionTabs();
         tabs_selected = new boolean[marketInspectionTabs.size()];
@@ -117,9 +118,8 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                 text_year_month.setText("" + monthSelected + "-" + yearSelected);
                 text_year_month.setClickable(false);
                 marketInspectionDetails_entry.clear();
-                UserData userData = CommonPref.getUserDetails(MarketInspectionDetailsEntryActivity.this);
                 GlobalVariable.m_id = 0;
-                GlobalVariable.m_id = Long.parseLong("" + String.valueOf(yearSelected).substring(2, 4) + ((String.valueOf(monthSelected).length() == 1) ? "0" + monthSelected : "" + monthSelected) + ((userData.getEstbSubdivId().equals("")) ? 187 : Integer.parseInt(userData.getEstbSubdivId())) + "0000");
+                GlobalVariable.m_id = Long.parseLong("" + String.valueOf(yearSelected).substring(2, 4) + ((String.valueOf(monthSelected).length() == 1) ? "0" + monthSelected : "" + monthSelected) + ((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv)) + "0000");
                 if (monthSelected == 4) {
                     upload_data.setVisibility(View.VISIBLE);
                     populateTabs();
@@ -140,9 +140,8 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
         progressDialog.setMessage("Loading...");
         progressDialog.show();
         apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
-        UserData userData = CommonPref.getUserDetails(MarketInspectionDetailsEntryActivity.this);
-        if (monthSelected == 1) call1 = apiInterface.doGetMarketInspectionDetails(12, yearSelected - 1, (userData.getEstbSubdivId().equals("")) ? "187" : userData.getEstbSubdivId());
-        else call1 = apiInterface.doGetMarketInspectionDetails(monthSelected - 1, yearSelected, (userData.getEstbSubdivId().equals("")) ? "187" : userData.getEstbSubdivId());
+        if (monthSelected == 1) call1 = apiInterface.doGetMarketInspectionDetails(12, yearSelected - 1, (subDiv.equals("")) ? "187" : subDiv);
+        else call1 = apiInterface.doGetMarketInspectionDetails(monthSelected - 1, yearSelected, (subDiv.equals("")) ? "187" : subDiv);
         call1.enqueue(new Callback<MyResponse<List<MarketInspectionDetail>>>() {
             @Override
             public void onResponse(Call<MyResponse<List<MarketInspectionDetail>>> call, Response<MyResponse<List<MarketInspectionDetail>>> response) {
