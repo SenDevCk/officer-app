@@ -335,7 +335,7 @@
                 <TextView
                     android:id="@+id/text_row_tot2"
                     android:layout_width="wrap_content"
-                    android:layout_height="9dp"
+                    android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:gravity="center"
                     android:hint="0"
@@ -354,16 +354,17 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight=".2">
+
                 <TextView
                     android:id="@+id/text_row_tot3"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:gravity="center"
                     android:layout_centerInParent="true"
-                    android:textStyle="bold"
-                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:text="0"
                     android:textColor="@color/blueNavy"
-                    android:text="0"/>
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>
         <View

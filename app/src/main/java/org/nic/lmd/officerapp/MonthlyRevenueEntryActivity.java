@@ -56,7 +56,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
     public static ArrayList<MarketInspectionTab> marketInspectionTabs;
     public static List<RevenueReportEntity> revenueReportEntities;
     public static List<RevenueReportEntity> revenueReportEntities_entry = new ArrayList<>();
-    EditText edit_vf_tar,edit_af_tar,edit_cf_tar;
+    EditText edit_vf_tar,edit_af_tar,edit_cf_tar,edit_lic_fee,edit_reg_fee;
     private String subDiv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +113,8 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
         edit_vf_tar = findViewById(R.id.edit_vf_tar);
         edit_af_tar=findViewById(R.id.edit_af_tar);
         edit_cf_tar=findViewById(R.id.edit_cf_tar);
+        edit_lic_fee=findViewById(R.id.edit_lic_fee);
+        edit_reg_fee=findViewById(R.id.edit_reg_fee);
     }
 
     public void monthYearPicker() {
@@ -241,6 +243,18 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
         else if (Double.parseDouble(edit_cf_tar.getText().toString().trim())<=0){
             Toast.makeText(this, "Enter CF target Amount !", Toast.LENGTH_SHORT).show();
         }
+        else if (isEmpty(edit_lic_fee)){
+            Toast.makeText(this, "Enter Licence Fee !", Toast.LENGTH_SHORT).show();
+        }
+        else if (Double.parseDouble(edit_lic_fee.getText().toString().trim())<=0){
+            Toast.makeText(this, "Enter Valid Licence Fee !", Toast.LENGTH_SHORT).show();
+        }
+        else if (isEmpty(edit_reg_fee)){
+            Toast.makeText(this, "Enter Registration Fee !", Toast.LENGTH_SHORT).show();
+        }
+        else if (Double.parseDouble(edit_reg_fee.getText().toString().trim())<=0){
+            Toast.makeText(this, "Enter valid Registration Fee !", Toast.LENGTH_SHORT).show();
+        }
         else if (revenueReportEntities_entry.size()<=0){
             Toast.makeText(this, "No data found !", Toast.LENGTH_SHORT).show();
         }
@@ -252,6 +266,8 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
             revenueMonthlyTarget.setVf_target(Double.parseDouble(edit_vf_tar.getText().toString().trim()));
             revenueMonthlyTarget.setAf_target(Double.parseDouble(edit_af_tar.getText().toString().trim()));
             revenueMonthlyTarget.setCf_target(Double.parseDouble(edit_cf_tar.getText().toString().trim()));
+            revenueMonthlyTarget.setLic_rev_fee(Double.parseDouble(edit_lic_fee.getText().toString().trim()));
+            revenueMonthlyTarget.setReg_fee(Double.parseDouble(edit_reg_fee.getText().toString().trim()));
             revenueMonthlyTarget.setSubDiv(((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv)));
             revenueMonthlyTarget.setTMonth(monthSelected);
             revenueMonthlyTarget.setTYear(yearSelected);
