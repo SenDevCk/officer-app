@@ -33,6 +33,7 @@ import java.util.List;
 public class RevenueReportItemAdapter extends RecyclerView.Adapter<RevenueReportItemAdapter.MyViewHolder> {
 
     Activity activity;
+    private String subDiv;
     List<NatureOfBusiness> premisesTypeEntities;
     int mParam2;
     public interface SumListener{
@@ -67,8 +68,9 @@ public class RevenueReportItemAdapter extends RecyclerView.Adapter<RevenueReport
     }
 
 
-    public RevenueReportItemAdapter(Activity activity) {
+    public RevenueReportItemAdapter(Activity activity,String subDiv) {
         this.activity = activity;
+        this.subDiv = subDiv;
         this.premisesTypeEntities = new DataBaseHelper(activity).getNatureofBusiness();
         this.mParam2 = mParam2;
         setHasStableIds(true);
@@ -136,7 +138,6 @@ public class RevenueReportItemAdapter extends RecyclerView.Adapter<RevenueReport
             public void afterTextChanged(Editable s) {
                 if (!holder.edit_vf_current.getText().toString().trim().equals("")&&!holder.edit_af_current.getText().toString().trim().equals("")&&!holder.edit_cf_current.getText().toString().trim().equals("")) {
                     if (Double.parseDouble(holder.edit_vf_current.getText().toString().trim()) >= 0 && Double.parseDouble(holder.edit_af_current.getText().toString().trim()) >= 0 && Double.parseDouble(holder.edit_cf_current.getText().toString().trim()) >= 0) {
-                        UserData userData = CommonPref.getUserDetails(activity);
                         //holder.text_total_sum.setText(""+(Long.parseLong(s.toString())+Long.parseLong(holder.edit_previous.getText().toString().trim())));
                         RevenueReportEntity revenueReportEntity_pre=MonthlyRevenueEntryActivity.revenueReportEntities_entry.stream().filter((re)->natureOfBusiness.getId().equals(re.getType_of_bussiness().getId())).findAny().orElse(new RevenueReportEntity());
                         //RevenueReportEntity revenueReportEntity = (MonthlyRevenueEntryActivity.revenueReportEntities_entry.size() > (position)) ? MonthlyRevenueEntryActivity.revenueReportEntities_entry.get(position) : new RevenueReportEntity();
@@ -150,8 +151,9 @@ public class RevenueReportItemAdapter extends RecyclerView.Adapter<RevenueReport
                         revenueReportEntity.setAf_total_current(revenueReportEntity.getAf_current() + Double.parseDouble(holder.text_af_previous.getText().toString().trim()));
                         revenueReportEntity.setCf_total_current(revenueReportEntity.getCf_current() + Double.parseDouble(holder.text_cf_previous.getText().toString().trim()));
                         SubDivision sub = new SubDivision();
-                        sub.setId((userData.getEstbSubdivId().equals("" )) ? 187 : Integer.parseInt(userData.getEstbSubdivId()));
+                        sub.setId((subDiv.equals("" )) ? 187 : Integer.parseInt(subDiv));
                         revenueReportEntity.setSub_div(sub);
+                        UserData userData=CommonPref.getUserDetails(activity);
                         revenueReportEntity.setUser_id(userData.getUserid());
                         revenueReportEntity.setType_of_bussiness(natureOfBusiness);
                         if (revenueReportEntity.getRev_rep_id() == 0) {

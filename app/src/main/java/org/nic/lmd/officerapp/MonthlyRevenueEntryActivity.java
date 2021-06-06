@@ -158,7 +158,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
                 showGrandTotal();
             }
         });
-        RevenueReportItemAdapter revenueReportItemAdapter = new RevenueReportItemAdapter(MonthlyRevenueEntryActivity.this);
+        RevenueReportItemAdapter revenueReportItemAdapter = new RevenueReportItemAdapter(MonthlyRevenueEntryActivity.this,subDiv);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(MonthlyRevenueEntryActivity.this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -266,7 +266,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
             revenueMonthlyTarget.setVf_target(Double.parseDouble(edit_vf_tar.getText().toString().trim()));
             revenueMonthlyTarget.setAf_target(Double.parseDouble(edit_af_tar.getText().toString().trim()));
             revenueMonthlyTarget.setCf_target(Double.parseDouble(edit_cf_tar.getText().toString().trim()));
-            revenueMonthlyTarget.setLic_rev_fee(Double.parseDouble(edit_lic_fee.getText().toString().trim()));
+            revenueMonthlyTarget.setLic_ren_fee(Double.parseDouble(edit_lic_fee.getText().toString().trim()));
             revenueMonthlyTarget.setReg_fee(Double.parseDouble(edit_reg_fee.getText().toString().trim()));
             revenueMonthlyTarget.setSubDiv(((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv)));
             revenueMonthlyTarget.setTMonth(monthSelected);

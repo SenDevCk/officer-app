@@ -33,6 +33,7 @@ import java.util.List;
 public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInspectionItemAdapter.MyViewHolder> {
 
     Activity activity;
+    String subDiv;
     List<NatureOfBusiness> premisesTypeEntities;
     MarketInspectionTab mParam1;
     int mParam2;
@@ -50,8 +51,9 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
     }
 
 
-    public MarketInspectionItemAdapter(Activity activity, MarketInspectionTab mParam1, int mParam2) {
+    public MarketInspectionItemAdapter(Activity activity, MarketInspectionTab mParam1, int mParam2 , String subDiv) {
         this.activity = activity;
+        this.subDiv = subDiv;
         this.premisesTypeEntities = new DataBaseHelper(activity).getNatureofBusiness();
         this.mParam1=mParam1;
         this.mParam2=mParam2;
@@ -104,7 +106,7 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
                             marketInspectionDetail.m_month=MarketInspectionDetailsEntryActivity.monthSelected;
                             marketInspectionDetail.m_year=MarketInspectionDetailsEntryActivity.yearSelected;
                             marketInspectionDetail.sub_div=new SubDivision();
-                            marketInspectionDetail.sub_div.setId((userData.getEstbSubdivId().equals(""))?187:Integer.parseInt(userData.getEstbSubdivId()));
+                            marketInspectionDetail.sub_div.setId((subDiv.equals(""))?187:Integer.parseInt(subDiv));
                             marketInspectionDetail.user_id=userData.getUserid();
                             marketInspectionDetail.nature_of_business=premisesTypeEntity;
                             marketInspectionDetail.mar_ins_type=mParam1;

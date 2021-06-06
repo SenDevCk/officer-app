@@ -61,7 +61,7 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
     public static List<MarketInspectionDetail> marketInspectionDetails;
     public static List<MarketInspectionDetail> marketInspectionDetails_entry = new ArrayList<>();
     boolean[] tabs_selected;
-    private String subDiv;
+    private String subDiv="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,7 +171,7 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
     public void populateTabs() {
         if (viewPager.getChildCount() > 0) viewPager.invalidate();
         if (tabLayout.getTabCount() > 0) tabLayout.removeAllTabs();
-        marketInspectionEntryAdapter = new MarketInspectionEntryAdapter(MarketInspectionDetailsEntryActivity.this, "0", marketInspectionTabs);
+        marketInspectionEntryAdapter = new MarketInspectionEntryAdapter(MarketInspectionDetailsEntryActivity.this, "0", marketInspectionTabs,subDiv);
         viewPager.setAdapter(marketInspectionEntryAdapter);
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText("")).attach();
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
