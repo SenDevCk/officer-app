@@ -3,8 +3,6 @@ import lombok.Data;
 
 @Data
 public class UserData {
-
-
     private String userid;
     private String staffId;
     private String password;
@@ -18,7 +16,4 @@ public class UserData {
     private String estbSubdivId;
     private String disId;
     private String divId;
-
-
-
 }
