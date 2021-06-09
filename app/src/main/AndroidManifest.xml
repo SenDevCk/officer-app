@@ -41,7 +41,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
-
+        <activity
+            android:name=".Ren_RegFeeEntryActivity"
+            android:exported="true" />
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait">
@@ -113,8 +115,8 @@
         <activity
             android:name=".MonthlyRevenueEntryActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateVisible"
-            />
+            android:windowSoftInputMode="adjustPan|stateVisible" />
+
         <receiver
             android:name="org.nic.lmd.smsRecever.SmsReceiver"
             android:enabled="true"
