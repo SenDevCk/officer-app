@@ -21,6 +21,7 @@ public class ExpandableListDataPump {
         scanner.add("Scanner");
         scanner.add("Market Inspection Details Entry");
         scanner.add("Revenue Details Entry");
+        scanner.add("Reneval/Registration Entry");
         expandableListDetail.put("Utilities", scanner);
         List<String> settings = new ArrayList<String>();
         settings.add("Profile");

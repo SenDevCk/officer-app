@@ -45,6 +45,10 @@ public interface APIInterface {
     @GET("/lmd-api/lmd/getRenevalRegData/{monthSelected}/{yearSelected}/{userid}")
     Call<MyResponse<RenevalAndRegistrationFee>> doGetRenRegData(@Path("monthSelected")int monthSelected, @Path("yearSelected")int yearSelected, @Path("userid")String userid);
 
+    @POST("/lmd-api/lmd/saveRenevalResitrationFee")
+    Call<MyResponse<String>> saveRenRegFee(@Body RenevalAndRegistrationFee requestForRevenueData);
+
+
     /* @GET("/api/manufacturer/11112")
     Call<ManufacturerPoso> doGetManufacture();*/
 

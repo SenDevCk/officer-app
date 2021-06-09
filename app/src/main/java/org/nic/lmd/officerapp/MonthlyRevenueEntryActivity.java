@@ -45,7 +45,6 @@ import retrofit2.Response;
 public class MonthlyRevenueEntryActivity extends AppCompatActivity implements View.OnClickListener {
     RecyclerView recyclerView;
     NestedScrollView nest_ll;
-    UserData userData;
     TextView text_vf_previous_tot,text_vf_current_tot,text_vf_tot_sum_tot,text_af_previous_tot,text_af_current_tot,text_af_tot_sum_tot;
     TextView text_cf_previous_tot,text_cf_current_tot,text_cf_total_sum_tot,text_gt_pr_mon,text_gt_cr_mon,text_gt_tot_sum;
 
@@ -58,12 +57,15 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
     public static List<RevenueReportEntity> revenueReportEntities_entry = new ArrayList<>();
     EditText edit_vf_tar,edit_af_tar,edit_cf_tar,edit_lic_fee,edit_reg_fee;
     private String subDiv="";
+    APIInterface apiInterface;
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monthly_revenue_entry);
         toolbar = findViewById(R.id.toolbar_rev);
-        toolbar.setTitle("Revenue Report");
+        toolbar.setTitle("Revenue Report Entry");
         toolbar.setSubtitle(getResources().getString(R.string.app_name));
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
@@ -184,8 +186,6 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
         uploadData();
     }
 
-    APIInterface apiInterface;
-    ProgressDialog progressDialog;
     private void callServiceForData() {
         Call<MyResponse<RequestForRevenueData>> call1=null;
         progressDialog=new ProgressDialog(MonthlyRevenueEntryActivity.this);
@@ -207,6 +207,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
                     else {
                         upload_data.setVisibility(View.GONE);
                         Toast.makeText(MonthlyRevenueEntryActivity.this, ""+response.body().getRemarks(), Toast.LENGTH_SHORT).show();
+                        populateRecycler();
                     }
                 }
             }

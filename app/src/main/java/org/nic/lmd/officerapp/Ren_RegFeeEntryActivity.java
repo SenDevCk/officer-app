@@ -74,6 +74,24 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
         edit_d_current=findViewById(R.id.edit_d_current);
         edit_r_current=findViewById(R.id.edit_r_current);
         edit_p_current=findViewById(R.id.edit_p_current);
+        addTextChange(edit_m_current,'M');
+        addTextChange(edit_d_current,'D');
+        addTextChange(edit_r_current,'R');
+        addTextChange(edit_p_current,'P');
+        text_m_previous=findViewById(R.id.text_m_previous);
+        text_d_previous=findViewById(R.id.text_d_previous);
+        text_r_previous=findViewById(R.id.text_r_previous);
+        text_p_previous=findViewById(R.id.text_p_previous);
+
+        text_m_tot_sum=findViewById(R.id.text_m_tot_sum);
+        text_d_tot_sum=findViewById(R.id.text_d_tot_sum);
+        text_r_tot_sum=findViewById(R.id.text_r_tot_sum);
+        text_p_tot_sum=findViewById(R.id.text_p_tot_sum);
+
+        text_row_tot1=findViewById(R.id.text_row_tot1);
+        text_row_tot2=findViewById(R.id.text_row_tot2);
+        text_row_tot3=findViewById(R.id.text_row_tot3);
+        //text_row_tot4=findViewById(R.id.text_row_tot4);
 
         upload_data = findViewById(R.id.upload_data);
         upload_data.setVisibility(View.GONE);
@@ -116,7 +134,7 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
             }
         });
     }
-    private void addTextChange(EditText editText, final int position, char type) {
+    private void addTextChange(EditText editText, char type) {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -130,48 +148,33 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!edit_m_current.getText().toString().trim().equals("")&&!edit_d_current.getText().toString().trim().equals("")&&!edit_d_current.getText().toString().trim().equals("")&&!edit_p_current.getText().toString().trim().equals("")) {
+                if (!edit_m_current.getText().toString().trim().equals("")&&!edit_d_current.getText().toString().trim().equals("")&&!edit_r_current.getText().toString().trim().equals("")&&!edit_p_current.getText().toString().trim().equals("")) {
                     if (Double.parseDouble(edit_m_current.getText().toString().trim()) >= 0 && Double.parseDouble(edit_d_current.getText().toString().trim()) >= 0 && Double.parseDouble(edit_r_current.getText().toString().trim()) >= 0 && Double.parseDouble(edit_r_current.getText().toString().trim()) >= 0) {
-                        //holder.text_total_sum.setText(""+(Long.parseLong(s.toString())+Long.parseLong(holder.edit_previous.getText().toString().trim())));
-                        RenevalAndRegistrationFee revenueReportEntity_pre=Ren_RegFeeEntryActivity.revenueReportEntities_entry.stream().filter((re)->natureOfBusiness.getId().equals(re.getType_of_bussiness().getId())).findAny().orElse(new RevenueReportEntity());
-                        //RevenueReportEntity revenueReportEntity = (Ren_RegFeeEntryActivity.revenueReportEntities_entry.size() > (position)) ? Ren_RegFeeEntryActivity.revenueReportEntities_entry.get(position) : new RevenueReportEntity();
-                        RevenueReportEntity revenueReportEntity=revenueReportEntity_pre;
-                        revenueReportEntity.setMonth(Ren_RegFeeEntryActivity.monthSelected);
-                        revenueReportEntity.setYear(Ren_RegFeeEntryActivity.yearSelected);
-                        revenueReportEntity.setVf_current(Long.parseLong(holder.edit_vf_current.getText().toString().trim()));
-                        revenueReportEntity.setAf_current(Long.parseLong(holder.edit_af_current.getText().toString().trim()));
-                        revenueReportEntity.setCf_current(Long.parseLong(holder.edit_cf_current.getText().toString().trim()));
-                        revenueReportEntity.setVf_total_current(revenueReportEntity.getVf_current() + Double.parseDouble(holder.text_vf_previous.getText().toString().trim()));
-                        revenueReportEntity.setAf_total_current(revenueReportEntity.getAf_current() + Double.parseDouble(holder.text_af_previous.getText().toString().trim()));
-                        revenueReportEntity.setCf_total_current(revenueReportEntity.getCf_current() + Double.parseDouble(holder.text_cf_previous.getText().toString().trim()));
-                        SubDivision sub = new SubDivision();
-                        sub.setId((subDiv.equals("" )) ? 187 : Integer.parseInt(subDiv));
-                        revenueReportEntity.setSub_div(sub);
-                        UserData userData= CommonPref.getUserDetails(activity);
-                        revenueReportEntity.setUser_id(userData.getUserid());
-                        revenueReportEntity.setType_of_bussiness(natureOfBusiness);
-                        if (revenueReportEntity.getRev_rep_id() == 0) {
-                            GlobalVariable.m_id++;
-                            revenueReportEntity.setRev_rep_id(GlobalVariable.m_id);
-                            Ren_RegFeeEntryActivity.revenueReportEntities_entry.add(revenueReportEntity);
-                        } else {
-                            int index=Ren_RegFeeEntryActivity.revenueReportEntities_entry.indexOf(revenueReportEntity_pre);
-                            Ren_RegFeeEntryActivity.revenueReportEntities_entry.set(index, revenueReportEntity);
-                            //Ren_RegFeeEntryActivity.revenueReportEntities_entry.set(position, revenueReportEntity);
-                        }
-                        holder.text_vf_tot_sum.setText(""+revenueReportEntity.getVf_total_current());
-                        holder.text_af_tot_sum.setText(""+revenueReportEntity.getAf_total_current());
-                        holder.text_cf_total_sum.setText(""+revenueReportEntity.getCf_total_current());
-                        calculateTotal(holder);
-                        sumlisten.success();
+                     switch (type){
+                         case  'M' :
+                             text_m_tot_sum.setText(""+(Double.parseDouble(text_m_previous.getText().toString().trim())+Double.parseDouble(edit_m_current.getText().toString().trim())));
+                          break;
+                         case  'D' :
+                             text_d_tot_sum.setText(""+(Double.parseDouble(text_d_previous.getText().toString().trim())+Double.parseDouble(edit_d_current.getText().toString().trim())));
+                             break;
+                         case  'R' :
+                             text_r_tot_sum.setText(""+(Double.parseDouble(text_r_previous.getText().toString().trim())+Double.parseDouble(edit_r_current.getText().toString().trim())));
+                             break;
+                         case  'P' :
+                             text_p_tot_sum.setText(""+(Double.parseDouble(text_p_previous.getText().toString().trim())+Double.parseDouble(edit_p_current.getText().toString().trim())));
+                             break;
+                         default:
+                             Toast.makeText(Ren_RegFeeEntryActivity.this, "Default show", Toast.LENGTH_SHORT).show();
+                             break;
+                     }
+                        showGrandTotal();
                     }
                 }else{
                     Log.e("e-log","blank data");
-                    ;                }
-
+                }
             }
         });
-        editText.setText("0" );
+        //editText.setText("0" );
     }
     APIInterface apiInterface;
     ProgressDialog progressDialog;
@@ -196,6 +199,7 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
                     else {
                         upload_data.setVisibility(View.GONE);
                         Toast.makeText(Ren_RegFeeEntryActivity.this, ""+response.body().getRemarks(), Toast.LENGTH_SHORT).show();
+                        populateData();
                     }
                 }
             }
@@ -210,37 +214,49 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
         });
     }
     private void populateData() {
-        text_m_previous.setText(renevalAndRegistrationFee.);
-        text_d_previous.setText();
-        text_r_previous.setText();
-        text_p_previous.setText();
+        text_m_previous.setText(""+((renevalAndRegistrationFee!=null)?renevalAndRegistrationFee.getMTotalCurrent():0));
+        text_d_previous.setText(""+((renevalAndRegistrationFee!=null)?renevalAndRegistrationFee.getDTotalCurrent():0));
+        text_r_previous.setText(""+((renevalAndRegistrationFee!=null)?renevalAndRegistrationFee.getRTotalCurrent():0));
+        text_p_previous.setText(""+((renevalAndRegistrationFee!=null)?renevalAndRegistrationFee.getRTotalCurrent():0));
     }
     private boolean isEmpty(EditText etText) {
         return etText.getText().toString().trim().length() == 0;
     }
     private void uploadData() {
-        if (isEmpty(edit_vf_tar)){
-            Toast.makeText(this, "Enter VF target Amount !", Toast.LENGTH_SHORT).show();
+        if (isEmpty(edit_m_current)){
+            Toast.makeText(this, "Enter manufacture Amount !", Toast.LENGTH_SHORT).show();
         }
-    else{
-            RevenueMonthlyTarget revenueMonthlyTarget=new RevenueMonthlyTarget();
-            revenueMonthlyTarget.setTar_id(Long.parseLong(""+String.valueOf(yearSelected).substring(2, 4)+((String.valueOf(monthSelected).length() == 1)?"0"+monthSelected:""+monthSelected)+((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv))));
-            revenueMonthlyTarget.setVf_target(Double.parseDouble(edit_vf_tar.getText().toString().trim()));
-            revenueMonthlyTarget.setAf_target(Double.parseDouble(edit_af_tar.getText().toString().trim()));
-            revenueMonthlyTarget.setCf_target(Double.parseDouble(edit_cf_tar.getText().toString().trim()));
-            revenueMonthlyTarget.setLic_ren_fee(Double.parseDouble(edit_lic_fee.getText().toString().trim()));
-            revenueMonthlyTarget.setReg_fee(Double.parseDouble(edit_reg_fee.getText().toString().trim()));
-            revenueMonthlyTarget.setSubDiv(((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv)));
-            revenueMonthlyTarget.setTMonth(monthSelected);
-            revenueMonthlyTarget.setTYear(yearSelected);
-            RequestForRevenueData re=new RequestForRevenueData();
-            re.setRevenueReportEntities_entry(revenueReportEntities_entry);
-            re.setRevenueMonthlyTarget(revenueMonthlyTarget);
+        if (isEmpty(edit_d_current)){
+            Toast.makeText(this, "Enter deler Amount !", Toast.LENGTH_SHORT).show();
+        }
+        if (isEmpty(edit_r_current)){
+            Toast.makeText(this, "Enter repairer Amount !", Toast.LENGTH_SHORT).show();
+        }
+        if (isEmpty(edit_p_current)){
+            Toast.makeText(this, "Enter packer Amount !", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            RenevalAndRegistrationFee revenueMonthlyTarget=new RenevalAndRegistrationFee();
+            revenueMonthlyTarget.setRenRegId(Long.parseLong(""+String.valueOf(yearSelected).substring(2, 4)+((String.valueOf(monthSelected).length() == 1)?"0"+monthSelected:""+monthSelected)+((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv))));
+            revenueMonthlyTarget.setMCurrent(Double.parseDouble(edit_m_current.getText().toString().trim()));
+            revenueMonthlyTarget.setMTotalCurrent(Double.parseDouble(text_m_tot_sum.getText().toString().trim()));
+            revenueMonthlyTarget.setDCurrent(Double.parseDouble(edit_d_current.getText().toString().trim()));
+            revenueMonthlyTarget.setDTotalCurrent(Double.parseDouble(text_d_tot_sum.getText().toString().trim()));
+            revenueMonthlyTarget.setRCurrent(Double.parseDouble(edit_r_current.getText().toString().trim()));
+            revenueMonthlyTarget.setRTotalCurrent(Double.parseDouble(text_r_tot_sum.getText().toString().trim()));
+            revenueMonthlyTarget.setPCurrent(Double.parseDouble(edit_p_current.getText().toString().trim()));
+            revenueMonthlyTarget.setPTotalCurrent(Double.parseDouble(text_p_tot_sum.getText().toString().trim()));
+            SubDivision subDivision=new SubDivision();
+            subDivision.setId(((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv)));
+            revenueMonthlyTarget.setSub_div(subDivision);
+            revenueMonthlyTarget.setMonth(monthSelected);
+            revenueMonthlyTarget.setYear(yearSelected);
+            revenueMonthlyTarget.setUser_id(CommonPref.getUserDetails(Ren_RegFeeEntryActivity.this).getUserid());
             progressDialog=new ProgressDialog(Ren_RegFeeEntryActivity.this);
             progressDialog.setTitle("Upload...");
             progressDialog.show();
             apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
-            Call<MyResponse<String>> call1 = apiInterface.saveRevenueReport(re);
+            Call<MyResponse<String>> call1 = apiInterface.saveRenRegFee(revenueMonthlyTarget);
             call1.enqueue(new Callback<MyResponse<String>>() {
                 @Override
                 public void onResponse(Call<MyResponse<String>> call, Response<MyResponse<String>> response) {
@@ -268,7 +284,11 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
             });
         }
     }
-
+    private void showGrandTotal(){
+        text_row_tot1.setText(""+(Double.parseDouble(text_m_previous.getText().toString().trim())+Double.parseDouble(text_d_previous.getText().toString().trim())+Double.parseDouble(text_r_previous.getText().toString().trim())));
+        text_row_tot2.setText(""+(Double.parseDouble(edit_m_current.getText().toString().trim())+Double.parseDouble(edit_d_current.getText().toString().trim())+Double.parseDouble(edit_r_current.getText().toString().trim())));
+        text_row_tot3.setText(""+(Double.parseDouble(text_m_tot_sum.getText().toString().trim())+Double.parseDouble(text_d_tot_sum.getText().toString().trim())+Double.parseDouble(text_r_tot_sum.getText().toString().trim())));
+    }
     @Override
     public void onClick(View v) {
         uploadData();

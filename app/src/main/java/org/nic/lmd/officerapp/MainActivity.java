@@ -193,6 +193,15 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
+                else if(groupPosition == 2 && childPosition == 3){
+                    if(!loginRole.contains("Inspector")){
+                        Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Intent intent = new Intent(MainActivity.this, Ren_RegFeeEntryActivity.class);
+                        intent.putExtra("subDiv",loginLocation);
+                        startActivity(intent);
+                    }
+                }
                 else if (groupPosition == 3 && childPosition == 1) {
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle("Really Logout ?")
@@ -261,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
                 scanner.add("Scanner");
                 scanner.add("Market Inspection Details Entry");
                 scanner.add("Revenue Details Entry");
+                scanner.add("Reneval/Registration Entry");
                 expandableListDetail.put("Extras", scanner);
                 List<String> settings = new ArrayList<String>();
                 settings.add("Profile");
