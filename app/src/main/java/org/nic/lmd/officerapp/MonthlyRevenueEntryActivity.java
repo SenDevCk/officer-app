@@ -202,10 +202,6 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
                     if (response.body().getStatusCode()==200){
                         revenueReportEntities = response.body().getData().getRevenueReportEntities_entry();
                         upload_data.setVisibility(View.VISIBLE);
-                       /* RevenueMonthlyTarget revenueMonthlyTarget=response.body().getData().getRevenueMonthlyTarget();
-                        edit_vf_tar.setText(""+revenueMonthlyTarget.getVf_target());
-                        edit_af_tar.setText(""+revenueMonthlyTarget.getAf_target());
-                        edit_cf_tar.setText(""+revenueMonthlyTarget.getCf_target());*/
                         populateRecycler();
                     }
                     else {
@@ -243,7 +239,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
         else if (Double.parseDouble(edit_cf_tar.getText().toString().trim())<=0){
             Toast.makeText(this, "Enter CF target Amount !", Toast.LENGTH_SHORT).show();
         }
-        else if (isEmpty(edit_lic_fee)){
+        /*else if (isEmpty(edit_lic_fee)){
             Toast.makeText(this, "Enter Licence Fee !", Toast.LENGTH_SHORT).show();
         }
         else if (Double.parseDouble(edit_lic_fee.getText().toString().trim())<=0){
@@ -254,7 +250,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
         }
         else if (Double.parseDouble(edit_reg_fee.getText().toString().trim())<=0){
             Toast.makeText(this, "Enter valid Registration Fee !", Toast.LENGTH_SHORT).show();
-        }
+        }*/
         else if (revenueReportEntities_entry.size()<=0){
             Toast.makeText(this, "No data found !", Toast.LENGTH_SHORT).show();
         }

@@ -1,6 +1,7 @@
 package org.nic.lmd.retrofit;
 
 import org.nic.lmd.entities.MarketInspectionDetail;
+import org.nic.lmd.entities.RenevalAndRegistrationFee;
 import org.nic.lmd.retrofitPojo.DashboardResponse;
 import org.nic.lmd.retrofitPojo.ManufacturerPoso;
 import org.nic.lmd.retrofitPojo.MyResponse;
@@ -40,6 +41,10 @@ public interface APIInterface {
 
     @POST("/lmd-api/lmd/saveRevenueReportDetails")
     Call<MyResponse<String>> saveRevenueReport(@Body RequestForRevenueData requestForRevenueData);
+
+    @GET("/lmd-api/lmd/getRenevalRegData/{monthSelected}/{yearSelected}/{userid}")
+    Call<MyResponse<RenevalAndRegistrationFee>> doGetRenRegData(@Path("monthSelected")int monthSelected, @Path("yearSelected")int yearSelected, @Path("userid")String userid);
+
     /* @GET("/api/manufacturer/11112")
     Call<ManufacturerPoso> doGetManufacture();*/
 

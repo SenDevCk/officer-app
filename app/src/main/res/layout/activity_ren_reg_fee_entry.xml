@@ -20,6 +20,47 @@
             app:popupTheme="@style/AppTheme" >
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight=".7">
+
+            <TextView
+                android:id="@+id/text_year_month"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rectengleshape"
+                android:gravity="center"
+                android:text="-- Select Month-Year --"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/colorPrimary"
+                android:background="@android:color/white"
+                android:text=" Select Month-Year " />
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/upload_data"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight=".3"
+            android:background="@drawable/green_button"
+            android:text="Save" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
