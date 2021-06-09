@@ -199,6 +199,7 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
                     else {
                         upload_data.setVisibility(View.GONE);
                         Toast.makeText(Ren_RegFeeEntryActivity.this, ""+response.body().getRemarks(), Toast.LENGTH_SHORT).show();
+                        upload_data.setVisibility(View.VISIBLE);
                         populateData();
                     }
                 }

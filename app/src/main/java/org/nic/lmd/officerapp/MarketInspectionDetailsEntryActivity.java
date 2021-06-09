@@ -155,6 +155,7 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                         upload_data.setVisibility(View.GONE);
                         Toast.makeText(MarketInspectionDetailsEntryActivity.this, "" + response.body().getRemarks(), Toast.LENGTH_SHORT).show();
                         populateTabs();
+                        upload_data.setVisibility(View.VISIBLE);
                     }
                 }
             }
