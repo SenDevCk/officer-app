@@ -57,7 +57,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
     public static List<RevenueReportEntity> revenueReportEntities;
     public static List<RevenueReportEntity> revenueReportEntities_entry = new ArrayList<>();
     EditText edit_vf_tar,edit_af_tar,edit_cf_tar,edit_lic_fee,edit_reg_fee;
-    private String subDiv;
+    private String subDiv="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
