@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         goToscanCode();
                     }
-                }else if(groupPosition == 2 && childPosition == 1){
+                }else if(groupPosition == 3 && childPosition == 0){
                     if(!loginRole.contains("Inspector")){
                         Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
                     }else {
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
-                else if(groupPosition == 2 && childPosition == 2){
+                else if(groupPosition == 3 && childPosition == 1){
                     if(!loginRole.contains("Inspector")){
                         Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
                     }else {
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
-                else if(groupPosition == 2 && childPosition == 3){
+                else if(groupPosition == 3 && childPosition == 2){
                     if(!loginRole.contains("Inspector")){
                         Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
                     }else {
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
-                else if (groupPosition == 3 && childPosition == 1) {
+                else if (groupPosition == 4 && childPosition == 1) {
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle("Really Logout ?")
                             .setMessage("Are you sure you want to logout ?")
@@ -268,10 +268,14 @@ public class MainActivity extends AppCompatActivity {
                 expandableListDetail.put("Manufacturer Applications", manufacturer);
                 List<String> scanner = new ArrayList<String>();
                 scanner.add("Scanner");
-                scanner.add("Market Inspection Details Entry");
-                scanner.add("Revenue Details Entry");
-                scanner.add("Reneval/Registration Entry");
-                expandableListDetail.put("Extras", scanner);
+                expandableListDetail.put("Tools", scanner);
+
+                List<String> report = new ArrayList<String>();
+                report.add("Market Inspection Details Entry");
+                report.add("Revenue Details Entry");
+                report.add("Reneval/Registration Entry");
+                expandableListDetail.put("Progress Report Entry", report);
+
                 List<String> settings = new ArrayList<String>();
                 settings.add("Profile");
                 settings.add("Logout");

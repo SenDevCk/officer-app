@@ -19,10 +19,12 @@ public class ExpandableListDataPump {
         expandableListDetail.put("Manufacturer Applications", manufacturer);
         List<String> scanner = new ArrayList<String>();
         scanner.add("Scanner");
-        scanner.add("Market Inspection Details Entry");
-        scanner.add("Revenue Details Entry");
-        scanner.add("Reneval/Registration Entry");
-        expandableListDetail.put("Utilities", scanner);
+        expandableListDetail.put("Tools", scanner);
+        List<String> report = new ArrayList<String>();
+        report.add("Market Inspection Details Entry");
+        report.add("Revenue Details Entry");
+        report.add("Reneval/Registration Entry");
+        expandableListDetail.put("Progress Report Entry", report);
         List<String> settings = new ArrayList<String>();
         settings.add("Profile");
         settings.add("Logout");
