@@ -167,15 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, ManufacturerListActivity.class);
                     intent.putExtra("which", "verified");
                     startActivity(intent);
-                } else*/ if (groupPosition == 2 && childPosition == 0) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (checkAndRequestPermissions()) {
-                            goToscanCode();
-                        }
-                    } else {
-                        goToscanCode();
-                    }
-                }else if(groupPosition == 3 && childPosition == 0){
+                } else*/  if(groupPosition == 2 && childPosition == 0){
                     if(!loginRole.contains("Inspector")){
                         Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
                     }else {
@@ -184,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
-                else if(groupPosition == 3 && childPosition == 1){
+                else if(groupPosition == 2 && childPosition == 1){
                     if(!loginRole.contains("Inspector")){
                         Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
                     }else {
@@ -193,13 +185,22 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
-                else if(groupPosition == 3 && childPosition == 2){
+                else if(groupPosition == 2 && childPosition == 2){
                     if(!loginRole.contains("Inspector")){
                         Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
                     }else {
                         Intent intent = new Intent(MainActivity.this, Ren_RegFeeEntryActivity.class);
                         intent.putExtra("subDiv",loginLocation);
                         startActivity(intent);
+                    }
+                }
+                else if (groupPosition == 3 && childPosition == 0) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (checkAndRequestPermissions()) {
+                            goToscanCode();
+                        }
+                    } else {
+                        goToscanCode();
                     }
                 }
                 else if (groupPosition == 4 && childPosition == 1) {
@@ -260,21 +261,21 @@ public class MainActivity extends AppCompatActivity {
                 trader.add("Pending:" + pending_vender.size());
                 trader.add("Varified:" + verified_vendor.size());
                 trader.add("Rejected:0");
-                expandableListDetail.put("Trader Applications", trader);
+                expandableListDetail.put("Trader", trader);
                 List<String> manufacturer = new ArrayList<String>();
                 manufacturer.add("Pending:" + pending_manu.size());
                 manufacturer.add("Varified:" + verified_manu.size());
                 manufacturer.add("Rejected:0");
-                expandableListDetail.put("Manufacturer Applications", manufacturer);
-                List<String> scanner = new ArrayList<String>();
-                scanner.add("Scanner");
-                expandableListDetail.put("Tools", scanner);
+                expandableListDetail.put("Manufacturer", manufacturer);
+                List<String> tools = new ArrayList<String>();
+                tools.add("Scanner");
+                expandableListDetail.put("Tools", tools);
 
                 List<String> report = new ArrayList<String>();
                 report.add("Market Inspection Details Entry");
                 report.add("Revenue Details Entry");
                 report.add("Reneval/Registration Entry");
-                expandableListDetail.put("Progress Report Entry", report);
+                expandableListDetail.put("Report", report);
 
                 List<String> settings = new ArrayList<String>();
                 settings.add("Profile");
