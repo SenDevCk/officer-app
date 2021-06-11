@@ -99,10 +99,12 @@ public class RevenueReportItemAdapter extends RecyclerView.Adapter<RevenueReport
             holder.text_cf_previous.setText("" + MonthlyRevenueEntryActivity.revenueReportEntities.get(position).getCf_total_current());
         }
         calculateTotal(holder);
-        addTextChange(holder.edit_vf_current, position,premisesTypeEntity,holder);
-        addTextChange(holder.edit_af_current, position,premisesTypeEntity,holder);
-        addTextChange(holder.edit_cf_current, position,premisesTypeEntity,holder);
-
+        addTextChange(holder.edit_vf_current, premisesTypeEntity,holder);
+        addTextChange(holder.edit_af_current, premisesTypeEntity,holder);
+        addTextChange(holder.edit_cf_current, premisesTypeEntity,holder);
+        addFocusChangeListner(holder.edit_af_current);
+        addFocusChangeListner(holder.edit_vf_current);
+        addFocusChangeListner(holder.edit_cf_current);
         holder.setIsRecyclable(false);
     }
 
@@ -121,8 +123,23 @@ public class RevenueReportItemAdapter extends RecyclerView.Adapter<RevenueReport
         //return super.getItemId(position);
         return position;
     }
-
-    private void addTextChange(EditText editText, final int position, NatureOfBusiness natureOfBusiness,MyViewHolder holder) {
+    private void addFocusChangeListner(EditText editText){
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if(editText.getText().toString().trim().equals("0")){
+                        editText.setText("");
+                    }
+                }else{
+                    if(editText.getText().toString().trim().equals("")){
+                        editText.setText("0");
+                    }
+                }
+            }
+        });
+    }
+    private void addTextChange(EditText editText,  NatureOfBusiness natureOfBusiness,MyViewHolder holder) {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

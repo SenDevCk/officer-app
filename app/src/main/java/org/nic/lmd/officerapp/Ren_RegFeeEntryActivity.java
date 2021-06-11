@@ -175,7 +175,26 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
             }
         });
         //editText.setText("0" );
+        addFocusChangeListner(editText);
     }
+
+    private void addFocusChangeListner(EditText editText){
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if(editText.getText().toString().trim().equals("0")){
+                        editText.setText("");
+                    }
+                }else{
+                    if(editText.getText().toString().trim().equals("")){
+                        editText.setText("0");
+                    }
+                }
+            }
+        });
+    }
+
     APIInterface apiInterface;
     ProgressDialog progressDialog;
     private void callServiceForData() {
@@ -199,8 +218,6 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
                     else {
                         upload_data.setVisibility(View.GONE);
                         Toast.makeText(Ren_RegFeeEntryActivity.this, ""+response.body().getRemarks(), Toast.LENGTH_SHORT).show();
-                        upload_data.setVisibility(View.VISIBLE);
-                        populateData();
                     }
                 }
             }

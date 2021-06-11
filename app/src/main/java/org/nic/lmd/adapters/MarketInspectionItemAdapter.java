@@ -124,6 +124,7 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
             }
         });
         holder.edit_current.setText("0");
+        addFocusChangeListner(holder.edit_current);
         holder.setIsRecyclable(false);
     }
 
@@ -141,5 +142,22 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
     public long getItemId(int position) {
         //return super.getItemId(position);
         return position;
+    }
+
+    private void addFocusChangeListner(EditText editText){
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if(editText.getText().toString().trim().equals("0")){
+                        editText.setText("");
+                    }
+                }else{
+                    if(editText.getText().toString().trim().equals("")){
+                        editText.setText("0");
+                    }
+                }
+            }
+        });
     }
 }

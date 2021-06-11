@@ -154,8 +154,8 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                     } else {
                         upload_data.setVisibility(View.GONE);
                         Toast.makeText(MarketInspectionDetailsEntryActivity.this, "" + response.body().getRemarks(), Toast.LENGTH_SHORT).show();
-                        populateTabs();
-                        upload_data.setVisibility(View.VISIBLE);
+                        //populateTabs();
+                        //upload_data.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -180,7 +180,9 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 Log.d("selectedTab", String.valueOf(tab.getPosition()));
-                tabs_selected[tab.getPosition()] = true;
+                if ( tabs_selected[tab.getPosition()]==false) {
+                    tabs_selected[tab.getPosition()] = true;
+                }
             }
 
             @Override

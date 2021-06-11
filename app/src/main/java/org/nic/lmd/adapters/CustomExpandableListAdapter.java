@@ -51,7 +51,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         }
         TextView expandedListTextView =  convertView.findViewById(R.id.expandedListItem);
         TextView text_badge =  convertView.findViewById(R.id.text_badge);
-        if (listTitle.contains("Applications")){
+        if (listTitle.contains("Trader")||listTitle.contains("Manufacturer")){
             text_badge.setVisibility(View.VISIBLE);
             String[] tokens=expandedListText.split(":");
             expandedListTextView.setText(tokens[0]);

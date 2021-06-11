@@ -19,22 +19,22 @@ public class RenevalAndRegistrationFee {
 	private String user_id;
 	@SerializedName("sub_div")
 	private SubDivision sub_div;
-	@SerializedName("mCurrent")
+	@SerializedName("mcurrent")
 	private double mCurrent;
-	@SerializedName("mTotalCurrent")
+	@SerializedName("mtotalCurrent")
 	private double mTotalCurrent;
-	@SerializedName("dCurrent")
+	@SerializedName("dcurrent")
 	private double dCurrent;
-	@SerializedName("dTotalCurrent")
+	@SerializedName("dtotalCurrent")
 	private double dTotalCurrent;
-	@SerializedName("rCurrent")
+	@SerializedName("rcurrent")
 	private double rCurrent;
-	@SerializedName("rTotalCurrent")
+	@SerializedName("rtotalCurrent")
 	private double rTotalCurrent;
 
-	@SerializedName("pCurrent")
+	@SerializedName("pcurrent")
 	private double pCurrent;
-	@SerializedName("pTotalCurrent")
+	@SerializedName("ptotalCurrent")
 	private double pTotalCurrent;
 	
 }

@@ -207,8 +207,8 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
                     else {
                         upload_data.setVisibility(View.GONE);
                         Toast.makeText(MonthlyRevenueEntryActivity.this, ""+response.body().getRemarks(), Toast.LENGTH_SHORT).show();
-                        upload_data.setVisibility(View.VISIBLE);
-                        populateRecycler();
+                        //upload_data.setVisibility(View.VISIBLE);
+                        //populateRecycler();
                     }
                 }
             }

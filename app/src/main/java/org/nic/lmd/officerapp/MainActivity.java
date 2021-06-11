@@ -151,6 +151,8 @@ public class MainActivity extends AppCompatActivity {
                                         int groupPosition, int childPosition, long id) {
                 //if (drawer.isDrawerOpen(drawer))
                 drawer.closeDrawers();
+                String name_child=parent.getExpandableListAdapter().getChild(groupPosition,childPosition).toString();
+                //Toast.makeText(MainActivity.this, ""+name_child, Toast.LENGTH_SHORT).show();
                 /*if (groupPosition == 0 && childPosition == 0) {
                     Intent intent = new Intent(MainActivity.this, ApplicationListActivity.class);
                     intent.putExtra("which", "pending");
@@ -167,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, ManufacturerListActivity.class);
                     intent.putExtra("which", "verified");
                     startActivity(intent);
-                } else*/  if(groupPosition == 2 && childPosition == 0){
+                } else*/  if(name_child.equals("Market Inspection Details Entry")){
                     if(!loginRole.contains("Inspector")){
                         Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
                     }else {
@@ -176,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
-                else if(groupPosition == 2 && childPosition == 1){
+                else if(name_child.equals("Revenue Details Entry")){
                     if(!loginRole.contains("Inspector")){
                         Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
                     }else {
@@ -185,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
-                else if(groupPosition == 2 && childPosition == 2){
+                else if(name_child.equals("Reneval/Registration Entry")){
                     if(!loginRole.contains("Inspector")){
                         Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
                     }else {
@@ -194,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
-                else if (groupPosition == 3 && childPosition == 0) {
+                else if (name_child.equals("Scanner")) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (checkAndRequestPermissions()) {
                             goToscanCode();
@@ -203,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                         goToscanCode();
                     }
                 }
-                else if (groupPosition == 4 && childPosition == 1) {
+                else if (name_child.equals("Logout")) {
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle("Really Logout ?")
                             .setMessage("Are you sure you want to logout ?")
