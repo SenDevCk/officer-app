@@ -68,7 +68,7 @@
         android:background="@color/colorPrimary">
         <TextView
             android:layout_width="0dp"
-            android:layout_weight=".4"
+            android:layout_weight=".45"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:layout_gravity="center_vertical"
@@ -76,7 +76,7 @@
             android:textColor="@color/white"/>
         <TextView
             android:layout_width="0dp"
-            android:layout_weight=".2"
+            android:layout_weight=".18"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:layout_gravity="center_vertical"
@@ -85,7 +85,7 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight=".2"
+            android:layout_weight=".18"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="Current Month"
@@ -93,7 +93,7 @@
             android:textColor="@color/white"/>
         <TextView
             android:layout_width="0dp"
-            android:layout_weight=".2"
+            android:layout_weight=".18"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="Total Sum"
@@ -111,7 +111,7 @@
             android:background="@color/colorPrimary"
             android:textColor="@color/white"
             android:padding="10dp"
-            android:text="Reneval/Licence Fee"/>
+            android:text="Renewal/Licence Fee"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,7 +121,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight=".4">
+                android:layout_weight=".45">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_weight=".2">
+                android:layout_weight=".18">
 
                 <TextView
                     android:id="@+id/text_m_previous"
@@ -162,7 +162,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".2">
+                android:layout_weight=".18">
                 <EditText
                     android:id="@+id/edit_m_current"
                     android:layout_width="match_parent"
@@ -184,7 +184,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight=".2">
+                android:layout_weight=".18">
 
                 <TextView
                     android:id="@+id/text_m_tot_sum"
@@ -211,7 +211,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight=".4">
+                android:layout_weight=".45">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -221,7 +221,7 @@
                     android:textSize="17sp"
                     android:gravity="center_vertical"
                     android:textColor="@android:color/holo_blue_dark"
-                    android:text="Deler"/>
+                    android:text="Dealer"/>
             </LinearLayout>
             <View
                 android:layout_width="1dp"
@@ -230,7 +230,7 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_weight=".2">
+                android:layout_weight=".18">
 
                 <TextView
                     android:id="@+id/text_d_previous"
@@ -252,7 +252,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".2">
+                android:layout_weight=".18">
                 <EditText
                     android:id="@+id/edit_d_current"
                     android:layout_width="match_parent"
@@ -274,7 +274,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight=".2">
+                android:layout_weight=".18">
 
                 <TextView
                     android:id="@+id/text_d_tot_sum"
@@ -301,7 +301,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight=".4">
+                android:layout_weight=".45">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -320,7 +320,7 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_weight=".2">
+                android:layout_weight=".18">
 
                 <TextView
                     android:id="@+id/text_r_previous"
@@ -342,7 +342,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".2">
+                android:layout_weight=".18">
                 <EditText
                     android:id="@+id/edit_r_current"
                     android:layout_width="match_parent"
@@ -364,7 +364,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight=".2">
+                android:layout_weight=".18">
                 <TextView
                     android:id="@+id/text_r_tot_sum"
                     android:layout_width="wrap_content"
@@ -390,7 +390,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight=".4">
+                android:layout_weight=".45">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -409,7 +409,7 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_weight=".2">
+                android:layout_weight=".18">
 
                 <TextView
                     android:id="@+id/text_row_tot1"
@@ -431,7 +431,7 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight=".2">
+                android:layout_weight=".18">
 
                 <TextView
                     android:id="@+id/text_row_tot2"
@@ -450,11 +450,12 @@
                 android:layout_width="1dp"
                 android:layout_height="40dp"
                 android:background="@color/cardview_dark_background"/>
+
             <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_weight=".2">
+                android:layout_weight=".18">
 
                 <TextView
                     android:id="@+id/text_row_tot3"
@@ -490,7 +491,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight=".4">
+            android:layout_weight=".45">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -500,7 +501,7 @@
                 android:textSize="17sp"
                 android:gravity="center_vertical"
                 android:textColor="@android:color/holo_blue_dark"
-                android:text="Packer"/>
+                android:text="Package Commodity"/>
         </LinearLayout>
         <View
             android:layout_width="1dp"
@@ -509,7 +510,7 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_weight=".2">
+            android:layout_weight=".18">
 
             <TextView
                 android:id="@+id/text_p_previous"
@@ -531,7 +532,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".2">
+            android:layout_weight=".18">
             <EditText
                 android:id="@+id/edit_p_current"
                 android:layout_width="match_parent"
@@ -553,7 +554,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight=".2">
+            android:layout_weight=".18">
             <TextView
                 android:id="@+id/text_p_tot_sum"
                 android:layout_width="wrap_content"
