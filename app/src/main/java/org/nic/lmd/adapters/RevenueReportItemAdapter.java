@@ -92,7 +92,10 @@ public class RevenueReportItemAdapter extends RecyclerView.Adapter<RevenueReport
         final NatureOfBusiness premisesTypeEntity = premisesTypeEntities.get(position);
         //DataBaseHelper db = new DataBaseHelper(activity);
         RevenueReportEntity revenueReportEntity_pre = null;
-        if (MonthlyRevenueEntryActivity.revenueReportEntities.size() > 0) {
+        if (MonthlyRevenueEntryActivity.revenueReportEntities==null){
+            revenueReportEntity_pre = new RevenueReportEntity();
+        }
+        else if (MonthlyRevenueEntryActivity.revenueReportEntities.size() > 0) {
             revenueReportEntity_pre = MonthlyRevenueEntryActivity.revenueReportEntities.get(position);
         } else {
             revenueReportEntity_pre = new RevenueReportEntity();
@@ -114,11 +117,13 @@ public class RevenueReportItemAdapter extends RecyclerView.Adapter<RevenueReport
             holder.edit_vf_current.setText("" + revenueReportEntity_pre.getVf_current());
             holder.edit_af_current.setText("" + revenueReportEntity_pre.getAf_current());
             holder.edit_cf_current.setText("" + revenueReportEntity_pre.getCf_current());
-        }
-        {
+        }else {
             holder.text_vf_previous.setText("" + revenueReportEntity_pre.getVf_total_current());
             holder.text_af_previous.setText("" + revenueReportEntity_pre.getAf_total_current());
             holder.text_cf_previous.setText("" + revenueReportEntity_pre.getCf_total_current());
+            holder.edit_vf_current.setText("0");
+            holder.edit_af_current.setText("0");
+            holder.edit_cf_current.setText("0");
 
         }
         holder.setIsRecyclable(false);

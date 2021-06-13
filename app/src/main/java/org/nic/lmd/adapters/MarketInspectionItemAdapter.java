@@ -74,19 +74,29 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
         final NatureOfBusiness premisesTypeEntity = premisesTypeEntities.get(position);
         //DataBaseHelper db = new DataBaseHelper(activity);
         holder.text_premisses.setText(""+premisesTypeEntity.getValue());
-        MarketInspectionDetail marketInspectionDetail_pre = MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.stream()
-                .filter((p) -> mParam1.getMarket_ins_id()==p.mar_ins_type.getMarket_ins_id() && p.nature_of_business.getId().equals(premisesTypeEntity.getId()))
-                .findAny()
-                .orElse(new MarketInspectionDetail());
-        if (MarketInspectionDetailsEntryActivity.monthSelected==4 && isPrevious) {
-            holder.edit_previous.setText("0");
-        }else if (MarketInspectionDetailsEntryActivity.monthSelected==4 && !isPrevious){
-            holder.edit_previous.setText(""+(marketInspectionDetail_pre.previous_accu_count-marketInspectionDetail_pre.current_count));
+        MarketInspectionDetail marketInspectionDetail_pre=null;
+        if (MarketInspectionDetailsEntryActivity.marketInspectionDetails!=null) {
+           marketInspectionDetail_pre = MarketInspectionDetailsEntryActivity.marketInspectionDetails.stream()
+                    .filter((p) -> mParam1.getMarket_ins_id() == p.mar_ins_type.getMarket_ins_id() && p.nature_of_business.getId().equals(premisesTypeEntity.getId()))
+                    .findAny()
+                    .orElse(new MarketInspectionDetail());
         }else{
-            if (isPrevious) holder.edit_previous.setText(""+marketInspectionDetail_pre.previous_accu_count);
-            else holder.edit_previous.setText(""+(marketInspectionDetail_pre.previous_accu_count-marketInspectionDetail_pre.current_count));
+            marketInspectionDetail_pre=new MarketInspectionDetail();
         }
         holder.text_total_sum.setText("0");
+        addTextChangeListener(marketInspectionDetail_pre,holder,premisesTypeEntity);
+        addFocusChangeListner(holder.edit_current);
+        if (isPrevious){
+           holder.edit_previous.setText(""+(marketInspectionDetail_pre.previous_accu_count));
+           holder.edit_current.setText("0");
+       }else{
+           holder.edit_previous.setText(""+(marketInspectionDetail_pre.previous_accu_count-marketInspectionDetail_pre.current_count));
+           holder.edit_current.setText(""+marketInspectionDetail_pre.current_count);
+       }
+        holder.setIsRecyclable(false);
+    }
+
+    private void addTextChangeListener(final MarketInspectionDetail marketInspectionDetail_pre ,MyViewHolder holder,NatureOfBusiness premisesTypeEntity) {
         holder.edit_current.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -100,37 +110,33 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
 
             @Override
             public void afterTextChanged(Editable s) {
-                    if (!s.toString().trim().equals("")){
-                        if (Integer.parseInt(s.toString())>=0){
-                            UserData userData= CommonPref.getUserDetails(activity);
-                            holder.text_total_sum.setText(""+(Long.parseLong(s.toString())+Long.parseLong(holder.edit_previous.getText().toString().trim())));
-                            MarketInspectionDetail marketInspectionDetail=marketInspectionDetail_pre;
-                            //MarketInspectionDetail marketInspectionDetail=(MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.size()>(mParam2*premisesTypeEntities.size()+position))?MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.get(mParam2*premisesTypeEntities.size()+position):new MarketInspectionDetail();
-                            marketInspectionDetail.current_count=Long.parseLong(s.toString());
-                            marketInspectionDetail.previous_accu_count=(Long.parseLong(s.toString())+Long.parseLong(holder.edit_previous.getText().toString().trim()));
-                            marketInspectionDetail.m_month=MarketInspectionDetailsEntryActivity.monthSelected;
-                            marketInspectionDetail.m_year=MarketInspectionDetailsEntryActivity.yearSelected;
-                            marketInspectionDetail.sub_div=new SubDivision();
-                            marketInspectionDetail.sub_div.setId(Integer.parseInt(subDiv));
-                            marketInspectionDetail.user_id=userData.getUserid();
-                            marketInspectionDetail.nature_of_business=premisesTypeEntity;
-                            marketInspectionDetail.mar_ins_type=mParam1;
-                            if (marketInspectionDetail.mmid==0){
-                                GlobalVariable.m_id++;
-                                marketInspectionDetail.mmid=GlobalVariable.m_id;
-                                MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.add(marketInspectionDetail);
-                            }else{
-                                int index=MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.indexOf(marketInspectionDetail_pre);
-                                MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.set(index,marketInspectionDetail);
-                                //MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.set(mParam2*premisesTypeEntities.size()+position,marketInspectionDetail);
-                            }
+                if (!s.toString().trim().equals("")){
+                    if (Integer.parseInt(s.toString())>=0){
+                        UserData userData= CommonPref.getUserDetails(activity);
+                        holder.text_total_sum.setText(""+(Long.parseLong(s.toString())+Long.parseLong(holder.edit_previous.getText().toString().trim())));
+                        MarketInspectionDetail marketInspectionDetail=marketInspectionDetail_pre;
+                        marketInspectionDetail.current_count=Long.parseLong(s.toString());
+                        marketInspectionDetail.previous_accu_count=(Long.parseLong(s.toString())+Long.parseLong(holder.edit_previous.getText().toString().trim()));
+                        marketInspectionDetail.m_month=MarketInspectionDetailsEntryActivity.monthSelected;
+                        marketInspectionDetail.m_year=MarketInspectionDetailsEntryActivity.yearSelected;
+                        marketInspectionDetail.sub_div=new SubDivision();
+                        marketInspectionDetail.sub_div.setId(Integer.parseInt(subDiv));
+                        marketInspectionDetail.user_id=userData.getUserid();
+                        marketInspectionDetail.nature_of_business=premisesTypeEntity;
+                        marketInspectionDetail.mar_ins_type=mParam1;
+                        if (marketInspectionDetail.mmid==0){
+                            GlobalVariable.m_id++;
+                            marketInspectionDetail.mmid=GlobalVariable.m_id;
+                            MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.add(marketInspectionDetail);
+                        }else{
+                            int index=(MarketInspectionDetailsEntryActivity.marketInspectionDetails!=null)?MarketInspectionDetailsEntryActivity.marketInspectionDetails.indexOf(marketInspectionDetail_pre):0;
+                            if (!isPrevious && index!=0)MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.set(index,marketInspectionDetail);
+                           else MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.add(marketInspectionDetail);
                         }
                     }
+                }
             }
         });
-        holder.edit_current.setText(""+marketInspectionDetail_pre.current_count);
-        addFocusChangeListner(holder.edit_current);
-        holder.setIsRecyclable(false);
     }
 
     @Override

@@ -195,17 +195,17 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
 
     APIInterface apiInterface;
     ProgressDialog progressDialog;
-
+    int i=0;
     private void callServiceForData(int month_g, int year_g, boolean isPre) {
         Call<MyResponse<RenevalAndRegistrationFee>> call1 = null;
         progressDialog = new ProgressDialog(Ren_RegFeeEntryActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
         apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
-        if (monthSelected == 1)
+      /*  if (monthSelected == 1)
             call1 = apiInterface.doGetRenRegData(12, yearSelected - 1, (subDiv.equals("")) ? "187" : subDiv);
-        else
-            call1 = apiInterface.doGetRenRegData(monthSelected - 1, yearSelected, (subDiv.equals("")) ? "187" : subDiv);
+        else*/
+            call1 = apiInterface.doGetRenRegData(month_g, year_g, subDiv);
         call1.enqueue(new Callback<MyResponse<RenevalAndRegistrationFee>>() {
             @Override
             public void onResponse(Call<MyResponse<RenevalAndRegistrationFee>> call, Response<MyResponse<RenevalAndRegistrationFee>> response) {
@@ -216,18 +216,21 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
                         upload_data.setVisibility(View.VISIBLE);
                         populateData(isPre);
                     } else {
-                        if (isPre) {
-                            upload_data.setVisibility(View.GONE);
-                            Toast.makeText(Ren_RegFeeEntryActivity.this, "" + response.body().getRemarks(), Toast.LENGTH_SHORT).show();
-                        } else {
+                        renevalAndRegistrationFee=null;
+                        if (!isPre && i==0) {
+                            i++;
                             if (monthSelected != 4) {
                                 if (monthSelected == 1)
-                                    callServiceForData(12, yearSelected - 1, true);
-                                else callServiceForData(monthSelected - 1, yearSelected, true);
+                                    callServiceForData(12, year_g - 1, true);
+                                else callServiceForData(month_g - 1, year_g, true);
                             } else {
                                 upload_data.setVisibility(View.VISIBLE);
                                 populateData(false);
                             }
+                        } else {
+                            upload_data.setVisibility(View.GONE);
+                            populateData(false);
+                            Toast.makeText(Ren_RegFeeEntryActivity.this, "" + response.body().getRemarks(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -249,6 +252,10 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
             text_d_previous.setText("" + ((renevalAndRegistrationFee != null) ? renevalAndRegistrationFee.getDTotalCurrent() : 0));
             text_r_previous.setText("" + ((renevalAndRegistrationFee != null) ? renevalAndRegistrationFee.getRTotalCurrent() : 0));
             text_p_previous.setText("" + ((renevalAndRegistrationFee != null) ? renevalAndRegistrationFee.getPTotalCurrent() : 0));
+            edit_m_current.setText("0");
+            edit_d_current.setText("0");
+            edit_r_current.setText("0");
+            edit_p_current.setText("0");
         } else {
             text_m_previous.setText("" + ((renevalAndRegistrationFee != null) ? (renevalAndRegistrationFee.getMTotalCurrent() - renevalAndRegistrationFee.getMCurrent()) : 0));
             text_d_previous.setText("" + ((renevalAndRegistrationFee != null) ? (renevalAndRegistrationFee.getDTotalCurrent() - renevalAndRegistrationFee.getDCurrent()) : 0));

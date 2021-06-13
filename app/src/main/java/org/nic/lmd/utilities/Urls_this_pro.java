@@ -9,11 +9,11 @@ public class Urls_this_pro {
 
 
     //local
-    //public static final String RETROFIT_BASE_URL= "http://192.168.0.151:65000/api/";
-    //public static final String RETROFIT_BASE_URL2= "http://192.168.0.101:8085/api/";
+    public static final String RETROFIT_BASE_URL= "http://192.168.0.100:8080/app/";
+    public static final String RETROFIT_BASE_URL2= "http://192.168.0.101:8085/lmd-api/";
       //live
-     public static final String RETROFIT_BASE_URL="https://wemmis.bih.nic.in/app/";
-     public static final String RETROFIT_BASE_URL2="https://wemmis.bih.nic.in/lmd-api/";
+     //public static final String RETROFIT_BASE_URL="https://wemmis.bih.nic.in/app/";
+     //public static final String RETROFIT_BASE_URL2="https://wemmis.bih.nic.in/lmd-api/";
 
 
     public static final String LOG_IN_URL = RETROFIT_BASE_URL+"staff/m/login";
@@ -45,7 +45,6 @@ public class Urls_this_pro {
     public static final String LOAD_OTP_FOR_REGISTER= RETROFIT_BASE_URL+"text";
     public static final String LOAD_FINAL_REGISTER= RETROFIT_BASE_URL+"staff";
     public static final String GET_TAB_DETAILS= RETROFIT_BASE_URL2+"lmd/getMarketInspectionTab";
-
 
 }
 
