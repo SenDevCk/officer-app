@@ -116,17 +116,11 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                 yearSelected = year;
                 monthSelected = monthOfYear + 1;
                 text_year_month.setText("" + monthSelected + "-" + yearSelected);
-                text_year_month.setClickable(false);
+                //text_year_month.setClickable(false);
                 marketInspectionDetails_entry.clear();
                 GlobalVariable.m_id = 0;
                 GlobalVariable.m_id = Long.parseLong("" + String.valueOf(yearSelected).substring(2, 4) + ((String.valueOf(monthSelected).length() == 1) ? "0" + monthSelected : "" + monthSelected) + ((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv)) + "0000");
-                if (monthSelected == 4) {
-                    upload_data.setVisibility(View.VISIBLE);
-                    populateTabs();
-                } else {
-                    upload_data.setVisibility(View.GONE);
-                    callServiceForData();
-                }
+                callServiceForData(monthSelected,yearSelected,subDiv,false);
             }
         });
     }
@@ -134,14 +128,14 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
     APIInterface apiInterface;
     ProgressDialog progressDialog;
 
-    private void callServiceForData() {
+    private void callServiceForData(int s_month,int s_year,String sub_div,boolean mflag) {
         Call<MyResponse<List<MarketInspectionDetail>>> call1 = null;
         progressDialog = new ProgressDialog(MarketInspectionDetailsEntryActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
         apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
-        if (monthSelected == 1) call1 = apiInterface.doGetMarketInspectionDetails(12, yearSelected - 1, (subDiv.equals("")) ? "187" : subDiv);
-        else call1 = apiInterface.doGetMarketInspectionDetails(monthSelected - 1, yearSelected, (subDiv.equals("")) ? "187" : subDiv);
+      /*  if (monthSelected == 1) call1 = apiInterface.doGetMarketInspectionDetails(12, yearSelected - 1, subDiv);
+        else */call1 = apiInterface.doGetMarketInspectionDetails(s_month, s_year, sub_div);
         call1.enqueue(new Callback<MyResponse<List<MarketInspectionDetail>>>() {
             @Override
             public void onResponse(Call<MyResponse<List<MarketInspectionDetail>>> call, Response<MyResponse<List<MarketInspectionDetail>>> response) {
@@ -150,12 +144,21 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                     if (response.body().getStatusCode() == 200) {
                         marketInspectionDetails = response.body().getData();
                         upload_data.setVisibility(View.VISIBLE);
-                        populateTabs();
+                        populateTabs(mflag);
                     } else {
-                        upload_data.setVisibility(View.GONE);
-                        Toast.makeText(MarketInspectionDetailsEntryActivity.this, "" + response.body().getRemarks(), Toast.LENGTH_SHORT).show();
-                        //populateTabs();
-                        //upload_data.setVisibility(View.VISIBLE);
+                        if (mflag){
+                            upload_data.setVisibility(View.GONE);
+                            Toast.makeText(MarketInspectionDetailsEntryActivity.this, "" + response.body().getRemarks(), Toast.LENGTH_SHORT).show();
+                        }else {
+                            if (s_month != 4) {
+                                if (monthSelected == 1)
+                                    callServiceForData(12, s_year - 1, sub_div, true);
+                                else callServiceForData(s_month - 1, s_year, sub_div, false);
+                            } else {
+                                populateTabs(true);
+                                upload_data.setVisibility(View.VISIBLE);
+                            }
+                        }
                     }
                 }
             }
@@ -170,10 +173,10 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
         });
     }
 
-    public void populateTabs() {
+    public void populateTabs(boolean flag_for_datatype) {
         if (viewPager.getChildCount() > 0) viewPager.invalidate();
         if (tabLayout.getTabCount() > 0) tabLayout.removeAllTabs();
-        marketInspectionEntryAdapter = new MarketInspectionEntryAdapter(MarketInspectionDetailsEntryActivity.this, "0", marketInspectionTabs,subDiv);
+        marketInspectionEntryAdapter = new MarketInspectionEntryAdapter(MarketInspectionDetailsEntryActivity.this, "0", marketInspectionTabs,subDiv,flag_for_datatype);
         viewPager.setAdapter(marketInspectionEntryAdapter);
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText("")).attach();
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

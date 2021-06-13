@@ -23,7 +23,7 @@ public class ExpandableListDataPump {
         List<String> report = new ArrayList<String>();
         report.add("Market Inspection Details Entry");
         report.add("Revenue Details Entry");
-        report.add("Reneval/Registration Entry");
+        report.add("Renewal/Registration Entry");
         expandableListDetail.put("Report", report);
         List<String> settings = new ArrayList<String>();
         settings.add("Profile");

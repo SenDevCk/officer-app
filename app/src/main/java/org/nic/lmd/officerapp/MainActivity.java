@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
-                else if(name_child.equals("Reneval/Registration Entry")){
+                else if(name_child.equals("Renewal/Registration Entry")){
                     if(!loginRole.contains("Inspector")){
                         Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
                     }else {
@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                 List<String> report = new ArrayList<String>();
                 report.add("Market Inspection Details Entry");
                 report.add("Revenue Details Entry");
-                report.add("Reneval/Registration Entry");
+                report.add("Renewal/Registration Entry");
                 expandableListDetail.put("Report", report);
 
                 List<String> settings = new ArrayList<String>();

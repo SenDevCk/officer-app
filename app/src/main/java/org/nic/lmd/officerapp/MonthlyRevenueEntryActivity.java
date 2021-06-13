@@ -135,23 +135,18 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
                 yearSelected = year;
                 monthSelected = monthOfYear + 1;
                 text_year_month.setText("" + monthSelected + "-" + yearSelected);
-                text_year_month.setClickable(false);
+                //text_year_month.setClickable(false);
                 revenueReportEntities_entry.clear();
                 GlobalVariable.m_id=0;
                 //GlobalVariable.m_id = Long.parseLong((String.valueOf(monthSelected).length() == 1) ? "" + String.valueOf(yearSelected).substring(1, 3) + "0" + monthSelected + (userData.getEstbSubdivId().equals("" ) ? 187 : userData.getEstbSubdivId()) + "000" : "" + String.valueOf(yearSelected).substring(1, 3) + "" + (userData.getEstbSubdivId().equals("" ) ? 187 : userData.getEstbSubdivId()) + "000" );
                 GlobalVariable.m_id=Long.parseLong(""+String.valueOf(yearSelected).substring(2, 4)+((String.valueOf(monthSelected).length() == 1)?"0"+monthSelected:""+monthSelected)+((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv))+"000");
-                if (monthSelected == 4) {
-                    upload_data.setVisibility(View.VISIBLE);
-                    populateRecycler();
-                } else {
-                    upload_data.setVisibility(View.GONE);
-                    callServiceForData();
-                }
+                upload_data.setVisibility(View.GONE);
+                    callServiceForData(monthSelected,yearSelected,false);
             }
         });
     }
 
-    public void populateRecycler() {
+    public void populateRecycler(boolean isPre) {
         nest_ll.setVisibility(View.VISIBLE);
         recyclerView.invalidate();
         RevenueReportItemAdapter.listenForSum(new RevenueReportItemAdapter.SumListener() {
@@ -160,7 +155,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
                 showGrandTotal();
             }
         });
-        RevenueReportItemAdapter revenueReportItemAdapter = new RevenueReportItemAdapter(MonthlyRevenueEntryActivity.this,subDiv);
+        RevenueReportItemAdapter revenueReportItemAdapter = new RevenueReportItemAdapter(MonthlyRevenueEntryActivity.this,subDiv,isPre);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(MonthlyRevenueEntryActivity.this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -186,14 +181,14 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
         uploadData();
     }
 
-    private void callServiceForData() {
+    private void callServiceForData(int month_g,int year_g,boolean isPre) {
         Call<MyResponse<RequestForRevenueData>> call1=null;
         progressDialog=new ProgressDialog(MonthlyRevenueEntryActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
         apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
-        if (monthSelected == 1) call1 = apiInterface.doGetRevenueReportDetails(12,yearSelected-1,(subDiv.equals(""))?"187":subDiv);
-        else call1 = apiInterface.doGetRevenueReportDetails(monthSelected-1,yearSelected,(subDiv.equals(""))?"187":subDiv);
+        //if (monthSelected == 1) call1 = apiInterface.doGetRevenueReportDetails(12,yearSelected-1,(subDiv.equals(""))?"187":subDiv);
+         call1 = apiInterface.doGetRevenueReportDetails(month_g,year_g,subDiv);
         call1.enqueue(new Callback<MyResponse<RequestForRevenueData>>() {
             @Override
             public void onResponse(Call<MyResponse<RequestForRevenueData>> call, Response<MyResponse<RequestForRevenueData>> response) {
@@ -202,13 +197,22 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
                     if (response.body().getStatusCode()==200){
                         revenueReportEntities = response.body().getData().getRevenueReportEntities_entry();
                         upload_data.setVisibility(View.VISIBLE);
-                        populateRecycler();
+                        populateRecycler(isPre);
                     }
                     else {
-                        upload_data.setVisibility(View.GONE);
-                        Toast.makeText(MonthlyRevenueEntryActivity.this, ""+response.body().getRemarks(), Toast.LENGTH_SHORT).show();
-                        //upload_data.setVisibility(View.VISIBLE);
-                        //populateRecycler();
+                        if (isPre) {
+                            upload_data.setVisibility(View.GONE);
+                            Toast.makeText(MonthlyRevenueEntryActivity.this, "" + response.body().getRemarks(), Toast.LENGTH_SHORT).show();
+                        }else {
+                            if (monthSelected != 4) {
+                                if (monthSelected == 1)
+                                    callServiceForData(12, yearSelected - 1, true);
+                                else callServiceForData(monthSelected - 1, yearSelected, true);
+                            } else {
+                                upload_data.setVisibility(View.VISIBLE);
+                                populateRecycler(false);
+                            }
+                        }
                     }
                 }
             }

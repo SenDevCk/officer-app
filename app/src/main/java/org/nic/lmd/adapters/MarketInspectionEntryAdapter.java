@@ -13,11 +13,13 @@ import java.util.ArrayList;
 public class MarketInspectionEntryAdapter extends FragmentStateAdapter {
     ArrayList<MarketInspectionTab> marketInspectionTabs;
     String flag;
+    boolean flag2;
     String subDiv;
-    public MarketInspectionEntryAdapter(FragmentActivity fa,String flag, ArrayList<MarketInspectionTab> marketInspectionTabs,String subDiv) {
+    public MarketInspectionEntryAdapter(FragmentActivity fa,String flag, ArrayList<MarketInspectionTab> marketInspectionTabs,String subDiv,boolean flag2) {
         super(fa);
         this.marketInspectionTabs=marketInspectionTabs;
         this.flag=flag;
+        this.flag2=flag2;
         this.subDiv=subDiv;
     }
 
@@ -26,13 +28,13 @@ public class MarketInspectionEntryAdapter extends FragmentStateAdapter {
         Fragment fragment=null;
         switch (flag){
             case "0":
-                fragment= new MarketInspectionEntryFragment().newInstance(marketInspectionTabs.get(position),position,subDiv);
+                fragment= new MarketInspectionEntryFragment().newInstance(marketInspectionTabs.get(position),position,subDiv,flag2);
                 break ;
             case "1":
                 fragment= new RevenueEntryFragment();
                 break ;
             default:
-                fragment= new MarketInspectionEntryFragment().newInstance(marketInspectionTabs.get(position),position,subDiv);
+                fragment= new MarketInspectionEntryFragment().newInstance(marketInspectionTabs.get(position),position,subDiv,flag2);
                 break ;
         }
         return fragment;
