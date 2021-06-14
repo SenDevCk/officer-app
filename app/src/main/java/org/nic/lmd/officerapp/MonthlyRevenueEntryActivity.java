@@ -181,7 +181,6 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
         uploadData();
     }
 
-    int i = 0;
 
     private void callServiceForData(int month_g, int year_g, boolean isPre) {
         Call<MyResponse<RequestForRevenueData>> call1 = null;
@@ -198,12 +197,24 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
                 if (response.body() != null) {
                     if (response.body().getStatusCode() == 200) {
                         revenueReportEntities = response.body().getData().getRevenueReportEntities_entry();
+                        RevenueMonthlyTarget re = response.body().getData().getRevenueMonthlyTarget();
                         upload_data.setVisibility(View.VISIBLE);
+                        if(!isPre){
+                            upload_data.setText("Update");
+                            edit_af_tar.setText(""+re.getAf_target());
+                            edit_vf_tar.setText(""+re.getVf_target());
+                            edit_cf_tar.setText(""+re.getCf_target());
+                        }else{
+                            upload_data.setText("Save");
+                            edit_af_tar.setText("");
+                            edit_vf_tar.setText("");
+                            edit_cf_tar.setText("");
+                        }
                         populateRecycler(isPre);
                     } else {
                         revenueReportEntities=null;
                         revenueReportEntities_entry.clear();
-                        if (!isPre && i == 0) {
+                        if (!isPre) {
                             if (monthSelected != 4) {
                                 if (monthSelected == 1)
                                     callServiceForData(12, year_g - 1, true);

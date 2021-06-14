@@ -92,12 +92,10 @@ public class RevenueReportItemAdapter extends RecyclerView.Adapter<RevenueReport
         final NatureOfBusiness premisesTypeEntity = premisesTypeEntities.get(position);
         //DataBaseHelper db = new DataBaseHelper(activity);
         RevenueReportEntity revenueReportEntity_pre = null;
-        if (MonthlyRevenueEntryActivity.revenueReportEntities==null){
-            revenueReportEntity_pre = new RevenueReportEntity();
+        if (MonthlyRevenueEntryActivity.revenueReportEntities!=null){
+            revenueReportEntity_pre = MonthlyRevenueEntryActivity.revenueReportEntities.stream().filter((re) -> premisesTypeEntity.getId().equals(re.getType_of_bussiness().getId())).findAny().orElse(new RevenueReportEntity());
         }
-        else if (MonthlyRevenueEntryActivity.revenueReportEntities.size() > 0) {
-            revenueReportEntity_pre = MonthlyRevenueEntryActivity.revenueReportEntities.get(position);
-        } else {
+        else {
             revenueReportEntity_pre = new RevenueReportEntity();
         }
         holder.text_title.setText("" + premisesTypeEntity.getValue());
@@ -201,7 +199,7 @@ public class RevenueReportItemAdapter extends RecyclerView.Adapter<RevenueReport
                             revenueReportEntity.setRev_rep_id(GlobalVariable.m_id);
                             MonthlyRevenueEntryActivity.revenueReportEntities_entry.add(revenueReportEntity);
                         } else {
-                            int index = MonthlyRevenueEntryActivity.revenueReportEntities_entry.indexOf(revenueReportEntity_pre);
+                            int index = MonthlyRevenueEntryActivity.revenueReportEntities_entry.indexOf(revenueReportEntity);
                             MonthlyRevenueEntryActivity.revenueReportEntities_entry.set(index, revenueReportEntity);
                             //MonthlyRevenueEntryActivity.revenueReportEntities_entry.set(position, revenueReportEntity);
                         }

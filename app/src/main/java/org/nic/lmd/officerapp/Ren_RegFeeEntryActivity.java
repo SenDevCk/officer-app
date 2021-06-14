@@ -181,7 +181,7 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    if (editText.getText().toString().trim().equals("0")) {
+                    if (editText.getText().toString().trim().equals("0") || editText.getText().toString().trim().equals("0.0")) {
                         editText.setText("");
                     }
                 } else {
@@ -195,7 +195,6 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
 
     APIInterface apiInterface;
     ProgressDialog progressDialog;
-    int i=0;
     private void callServiceForData(int month_g, int year_g, boolean isPre) {
         Call<MyResponse<RenevalAndRegistrationFee>> call1 = null;
         progressDialog = new ProgressDialog(Ren_RegFeeEntryActivity.this);
@@ -217,8 +216,8 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
                         populateData(isPre);
                     } else {
                         renevalAndRegistrationFee=null;
-                        if (!isPre && i==0) {
-                            i++;
+                        if (!isPre) {
+
                             if (monthSelected != 4) {
                                 if (monthSelected == 1)
                                     callServiceForData(12, year_g - 1, true);

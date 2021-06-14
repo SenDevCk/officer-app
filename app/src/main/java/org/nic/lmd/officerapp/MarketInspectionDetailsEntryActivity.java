@@ -128,7 +128,6 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
 
     APIInterface apiInterface;
     ProgressDialog progressDialog;
-    int i=0;
     private void callServiceForData(int s_month,int s_year,String sub_div,boolean mflag) {
         Call<MyResponse<List<MarketInspectionDetail>>> call1 = null;
         progressDialog = new ProgressDialog(MarketInspectionDetailsEntryActivity.this);
@@ -151,11 +150,12 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                         }
                         upload_data.setVisibility(View.VISIBLE);
                         if (!mflag) upload_data.setText("update");
+                        else upload_data.setText("Save");
                         populateTabs(mflag,true);
                     } else {
                         marketInspectionDetails=null;
                         marketInspectionDetails_entry.clear();
-                        if (!mflag && i==0){
+                        if (!mflag){
                             if (s_month != 4) {
                                 if (monthSelected == 1)
                                     callServiceForData(12, s_year - 1, sub_div, true);
