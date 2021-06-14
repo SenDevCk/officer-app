@@ -59,7 +59,7 @@ public class NatureOfBusinessLoader extends AsyncTask<String,Void, ArrayList<Nat
                 Toast.makeText(activity, "No data found !", Toast.LENGTH_SHORT).show();
             }
         }else {
-            //Toast.makeText(activity, "Something went wrong !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "Something went wrong ! OR No Internet Connection !", Toast.LENGTH_SHORT).show();
             Log.e("log","null on NatureOfBusiness");
         }
     }

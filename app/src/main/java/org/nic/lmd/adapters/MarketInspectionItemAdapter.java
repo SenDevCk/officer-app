@@ -37,7 +37,7 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
     List<NatureOfBusiness> premisesTypeEntities;
     MarketInspectionTab mParam1;
     int mParam2;
-    boolean isPrevious;
+    boolean isPrevious,isDataFound;
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView text_premisses,text_name, text_total_sum,edit_previous;
         public EditText  edit_current;
@@ -52,13 +52,14 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
     }
 
 
-    public MarketInspectionItemAdapter(Activity activity, MarketInspectionTab mParam1, int mParam2 , String subDiv,boolean isPrevious) {
+    public MarketInspectionItemAdapter(Activity activity, MarketInspectionTab mParam1, int mParam2 , String subDiv,boolean isPrevious,boolean isDataFound) {
         this.activity = activity;
         this.subDiv = subDiv;
         this.premisesTypeEntities = new DataBaseHelper(activity).getNatureofBusiness();
         this.mParam1=mParam1;
         this.mParam2=mParam2;
         this.isPrevious=isPrevious;
+        this.isDataFound=isDataFound;
         setHasStableIds(true);
     }
 
@@ -75,7 +76,7 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
         //DataBaseHelper db = new DataBaseHelper(activity);
         holder.text_premisses.setText(""+premisesTypeEntity.getValue());
         MarketInspectionDetail marketInspectionDetail_pre=null;
-        if (MarketInspectionDetailsEntryActivity.marketInspectionDetails!=null) {
+        if (isDataFound) {
            marketInspectionDetail_pre = MarketInspectionDetailsEntryActivity.marketInspectionDetails.stream()
                     .filter((p) -> mParam1.getMarket_ins_id() == p.mar_ins_type.getMarket_ins_id() && p.nature_of_business.getId().equals(premisesTypeEntity.getId()))
                     .findAny()
@@ -84,10 +85,10 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
             marketInspectionDetail_pre=new MarketInspectionDetail();
         }
         holder.text_total_sum.setText("0");
-        addTextChangeListener(marketInspectionDetail_pre,holder,premisesTypeEntity);
+        addTextChangeListener(holder,premisesTypeEntity);
         addFocusChangeListner(holder.edit_current);
         if (isPrevious){
-           holder.edit_previous.setText(""+(marketInspectionDetail_pre.previous_accu_count));
+            holder.edit_previous.setText(""+(marketInspectionDetail_pre.previous_accu_count));
            holder.edit_current.setText("0");
        }else{
            holder.edit_previous.setText(""+(marketInspectionDetail_pre.previous_accu_count-marketInspectionDetail_pre.current_count));
@@ -96,7 +97,7 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
         holder.setIsRecyclable(false);
     }
 
-    private void addTextChangeListener(final MarketInspectionDetail marketInspectionDetail_pre ,MyViewHolder holder,NatureOfBusiness premisesTypeEntity) {
+    private void addTextChangeListener(MyViewHolder holder,NatureOfBusiness premisesTypeEntity) {
         holder.edit_current.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -114,7 +115,10 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
                     if (Integer.parseInt(s.toString())>=0){
                         UserData userData= CommonPref.getUserDetails(activity);
                         holder.text_total_sum.setText(""+(Long.parseLong(s.toString())+Long.parseLong(holder.edit_previous.getText().toString().trim())));
-                        MarketInspectionDetail marketInspectionDetail=marketInspectionDetail_pre;
+                        MarketInspectionDetail marketInspectionDetail=MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.stream()
+                                .filter((p) -> mParam1.getMarket_ins_id() == p.mar_ins_type.getMarket_ins_id() && p.nature_of_business.getId().equals(premisesTypeEntity.getId()))
+                                .findAny()
+                                .orElse(new MarketInspectionDetail());
                         marketInspectionDetail.current_count=Long.parseLong(s.toString());
                         marketInspectionDetail.previous_accu_count=(Long.parseLong(s.toString())+Long.parseLong(holder.edit_previous.getText().toString().trim()));
                         marketInspectionDetail.m_month=MarketInspectionDetailsEntryActivity.monthSelected;
@@ -129,9 +133,8 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
                             marketInspectionDetail.mmid=GlobalVariable.m_id;
                             MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.add(marketInspectionDetail);
                         }else{
-                            int index=(MarketInspectionDetailsEntryActivity.marketInspectionDetails!=null)?MarketInspectionDetailsEntryActivity.marketInspectionDetails.indexOf(marketInspectionDetail_pre):0;
-                            if (!isPrevious && index!=0)MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.set(index,marketInspectionDetail);
-                           else MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.add(marketInspectionDetail);
+                            int index=MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.indexOf(marketInspectionDetail);
+                            MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.set(index,marketInspectionDetail);
                         }
                     }
                 }
@@ -160,7 +163,7 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus){
-                    if(editText.getText().toString().trim().equals("0")){
+                    if(editText.getText().toString().trim().equals("0")||editText.getText().toString().trim().equals("0.0")){
                         editText.setText("");
                     }
                 }else{

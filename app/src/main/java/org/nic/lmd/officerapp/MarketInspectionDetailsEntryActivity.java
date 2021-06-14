@@ -145,12 +145,13 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                         if (mflag){
                             marketInspectionDetails=response.body().getData();
                         }else{
-                            marketInspectionDetails_entry=null;
+                            marketInspectionDetails=null;
+                            marketInspectionDetails_entry.clear();
                             marketInspectionDetails=response.body().getData();
-                            marketInspectionDetails_entry=response.body().getData();
                         }
                         upload_data.setVisibility(View.VISIBLE);
-                        populateTabs(mflag);
+                        if (!mflag) upload_data.setText("update");
+                        populateTabs(mflag,true);
                     } else {
                         marketInspectionDetails=null;
                         marketInspectionDetails_entry.clear();
@@ -160,12 +161,12 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                                     callServiceForData(12, s_year - 1, sub_div, true);
                                 else callServiceForData(s_month - 1, s_year, sub_div, true);
                             } else {
-                                populateTabs(false);
+                                populateTabs(false,false);
                                 upload_data.setVisibility(View.VISIBLE);
                             }
                         }else {
                             upload_data.setVisibility(View.GONE);
-                            populateTabs(false);
+                            populateTabs(false,false);
                             Toast.makeText(MarketInspectionDetailsEntryActivity.this, "" + response.body().getRemarks(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -182,10 +183,10 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
         });
     }
 
-    public void populateTabs(boolean flag_for_datatype) {
+    public void populateTabs(boolean flag_for_datatype,boolean isDatafound) {
         if (viewPager.getChildCount() > 0) viewPager.invalidate();
         if (tabLayout.getTabCount() > 0) tabLayout.removeAllTabs();
-        marketInspectionEntryAdapter = new MarketInspectionEntryAdapter(MarketInspectionDetailsEntryActivity.this, "0", marketInspectionTabs,subDiv,flag_for_datatype);
+        marketInspectionEntryAdapter = new MarketInspectionEntryAdapter(MarketInspectionDetailsEntryActivity.this, "0", marketInspectionTabs,subDiv,flag_for_datatype,isDatafound);
         viewPager.setAdapter(marketInspectionEntryAdapter);
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText("")).attach();
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

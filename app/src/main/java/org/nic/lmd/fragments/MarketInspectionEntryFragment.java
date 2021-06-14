@@ -33,6 +33,7 @@ public class MarketInspectionEntryFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
     private static final String ARG_PARAM4 = "param4";
+    private static final String ARG_PARAM5 = "param5";
     RecyclerView recyclerView;
     TextView text_head;
     NestedScrollView nest_ll;
@@ -41,19 +42,21 @@ public class MarketInspectionEntryFragment extends Fragment {
     private int mParam2;
     private String mParam3;
     private boolean mParam4;
+    private boolean mParam5;
 
     public MarketInspectionEntryFragment() {
         // Required empty public constructor
     }
 
 
-    public static MarketInspectionEntryFragment newInstance(MarketInspectionTab param1, int param2,String param3,boolean param4) {
+    public static MarketInspectionEntryFragment newInstance(MarketInspectionTab param1, int param2,String param3,boolean param4,boolean param5) {
         MarketInspectionEntryFragment fragment = new MarketInspectionEntryFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PARAM1, param1);
         args.putInt(ARG_PARAM2, param2);
         args.putString(ARG_PARAM3, param3);
         args.putBoolean(ARG_PARAM4, param4);
+        args.putBoolean(ARG_PARAM5, param5);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,6 +69,7 @@ public class MarketInspectionEntryFragment extends Fragment {
             mParam2 = getArguments().getInt(ARG_PARAM2);
             mParam3 = getArguments().getString(ARG_PARAM3);
             mParam4 = getArguments().getBoolean(ARG_PARAM4);
+            mParam5 = getArguments().getBoolean(ARG_PARAM5);
         }
     }
 
@@ -79,7 +83,7 @@ public class MarketInspectionEntryFragment extends Fragment {
         nest_ll=root.findViewById(R.id.nest_ll);
         nest_ll.setNestedScrollingEnabled(false);
         recyclerView=root.findViewById(R.id.recycler_mar_ins_entry);
-        MarketInspectionItemAdapter manufacturerWeightAdapter = new MarketInspectionItemAdapter(getActivity(),mParam1,mParam2,mParam3,mParam4);
+        MarketInspectionItemAdapter manufacturerWeightAdapter = new MarketInspectionItemAdapter(getActivity(),mParam1,mParam2,mParam3,mParam4,mParam5);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
