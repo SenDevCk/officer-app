@@ -67,7 +67,7 @@
                 android:layout_weight=".3"
                 android:background="@drawable/green_button"
                 android:layout_marginRight="10dp"
-                android:text="Save" />
+                android:text="Next" />
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout

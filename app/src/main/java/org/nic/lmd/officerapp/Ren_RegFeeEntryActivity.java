@@ -49,7 +49,7 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
     EditText edit_m_current, edit_d_current, edit_r_current, edit_p_current;
     TextView text_m_previous, text_d_previous, text_r_previous, text_p_previous;
     TextView text_m_tot_sum, text_d_tot_sum, text_r_tot_sum, text_p_tot_sum;
-    TextView text_row_tot1, text_row_tot2, text_row_tot3, text_row_tot4;
+    TextView text_row_tot1, text_row_tot2, text_row_tot3;
     RenevalAndRegistrationFee renevalAndRegistrationFee;
 
     @Override
@@ -125,7 +125,7 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
                 //text_year_month.setClickable(false);
                 GlobalVariable.m_id = 0;
                 //GlobalVariable.m_id = Long.parseLong((String.valueOf(monthSelected).length() == 1) ? "" + String.valueOf(yearSelected).substring(1, 3) + "0" + monthSelected + (userData.getEstbSubdivId().equals("" ) ? 187 : userData.getEstbSubdivId()) + "000" : "" + String.valueOf(yearSelected).substring(1, 3) + "" + (userData.getEstbSubdivId().equals("" ) ? 187 : userData.getEstbSubdivId()) + "000" );
-                GlobalVariable.m_id = Long.parseLong("" + String.valueOf(yearSelected).substring(2, 4) + ((String.valueOf(monthSelected).length() == 1) ? "0" + monthSelected : "" + monthSelected) + ((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv)));
+                GlobalVariable.m_id = Long.parseLong("" + String.valueOf(yearSelected).substring(2, 4) + ((String.valueOf(monthSelected).length() == 1) ? "0" + monthSelected : "" + monthSelected) +  Integer.parseInt(subDiv));
                 upload_data.setVisibility(View.GONE);
                 callServiceForData(monthSelected, yearSelected, false);
             }
@@ -296,7 +296,7 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
             revenueMonthlyTarget.setPCurrent(Double.parseDouble(edit_p_current.getText().toString().trim()));
             revenueMonthlyTarget.setPTotalCurrent(Double.parseDouble(text_p_tot_sum.getText().toString().trim()));
             SubDivision subDivision = new SubDivision();
-            subDivision.setId(((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv)));
+            subDivision.setId(Integer.parseInt(subDiv));
             revenueMonthlyTarget.setSub_div(subDivision);
             revenueMonthlyTarget.setMonth(monthSelected);
             revenueMonthlyTarget.setYear(yearSelected);

@@ -74,26 +74,36 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
     public void onBindViewHolder(MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final NatureOfBusiness premisesTypeEntity = premisesTypeEntities.get(position);
         //DataBaseHelper db = new DataBaseHelper(activity);
-        holder.text_premisses.setText(""+premisesTypeEntity.getValue());
-        MarketInspectionDetail marketInspectionDetail_pre=null;
-        if (isDataFound) {
-           marketInspectionDetail_pre = MarketInspectionDetailsEntryActivity.marketInspectionDetails.stream()
+        holder.text_premisses.setText("" + premisesTypeEntity.getValue());
+        addTextChangeListener(holder, premisesTypeEntity);
+        addFocusChangeListner(holder.edit_current);
+        MarketInspectionDetail marketInspectionDetail_pre = null;
+        if (!MarketInspectionDetailsEntryActivity.tabs_selected[mParam2]) {
+            if (isDataFound) {
+                marketInspectionDetail_pre = MarketInspectionDetailsEntryActivity.marketInspectionDetails.stream()
+                        .filter((p) -> mParam1.getMarket_ins_id() == p.mar_ins_type.getMarket_ins_id() && p.nature_of_business.getId().equals(premisesTypeEntity.getId()))
+                        .findAny()
+                        .orElse(new MarketInspectionDetail());
+            } else {
+                marketInspectionDetail_pre = new MarketInspectionDetail();
+            }
+            holder.text_total_sum.setText("0");
+
+            if (isPrevious) {
+                holder.edit_previous.setText("" + (marketInspectionDetail_pre.previous_accu_count));
+                holder.edit_current.setText("0");
+            } else {
+                holder.edit_previous.setText("" + (marketInspectionDetail_pre.previous_accu_count - marketInspectionDetail_pre.current_count));
+                holder.edit_current.setText("" + marketInspectionDetail_pre.current_count);
+            }
+        }else{
+            marketInspectionDetail_pre = MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.stream()
                     .filter((p) -> mParam1.getMarket_ins_id() == p.mar_ins_type.getMarket_ins_id() && p.nature_of_business.getId().equals(premisesTypeEntity.getId()))
                     .findAny()
                     .orElse(new MarketInspectionDetail());
-        }else{
-            marketInspectionDetail_pre=new MarketInspectionDetail();
+            holder.edit_previous.setText("" + (marketInspectionDetail_pre.previous_accu_count-marketInspectionDetail_pre.current_count));
+            holder.edit_current.setText(""+marketInspectionDetail_pre.current_count);
         }
-        holder.text_total_sum.setText("0");
-        addTextChangeListener(holder,premisesTypeEntity);
-        addFocusChangeListner(holder.edit_current);
-        if (isPrevious){
-            holder.edit_previous.setText(""+(marketInspectionDetail_pre.previous_accu_count));
-           holder.edit_current.setText("0");
-       }else{
-           holder.edit_previous.setText(""+(marketInspectionDetail_pre.previous_accu_count-marketInspectionDetail_pre.current_count));
-           holder.edit_current.setText(""+marketInspectionDetail_pre.current_count);
-       }
         holder.setIsRecyclable(false);
     }
 

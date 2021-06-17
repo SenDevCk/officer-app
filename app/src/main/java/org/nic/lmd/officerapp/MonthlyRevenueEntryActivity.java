@@ -139,7 +139,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
                 revenueReportEntities_entry.clear();
                 GlobalVariable.m_id = 0;
                 //GlobalVariable.m_id = Long.parseLong((String.valueOf(monthSelected).length() == 1) ? "" + String.valueOf(yearSelected).substring(1, 3) + "0" + monthSelected + (userData.getEstbSubdivId().equals("" ) ? 187 : userData.getEstbSubdivId()) + "000" : "" + String.valueOf(yearSelected).substring(1, 3) + "" + (userData.getEstbSubdivId().equals("" ) ? 187 : userData.getEstbSubdivId()) + "000" );
-                GlobalVariable.m_id = Long.parseLong("" + String.valueOf(yearSelected).substring(2, 4) + ((String.valueOf(monthSelected).length() == 1) ? "0" + monthSelected : "" + monthSelected) + ((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv)) + "000");
+                GlobalVariable.m_id = Long.parseLong("" + String.valueOf(yearSelected).substring(2, 4) + ((String.valueOf(monthSelected).length() == 1) ? "0" + monthSelected : "" + monthSelected) +  Integer.parseInt(subDiv) + "000");
                 upload_data.setVisibility(View.GONE);
                 callServiceForData(monthSelected, yearSelected, false);
             }
@@ -280,7 +280,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
             revenueMonthlyTarget.setCf_target(Double.parseDouble(edit_cf_tar.getText().toString().trim()));
             revenueMonthlyTarget.setLic_ren_fee(Double.parseDouble(edit_lic_fee.getText().toString().trim()));
             revenueMonthlyTarget.setReg_fee(Double.parseDouble(edit_reg_fee.getText().toString().trim()));
-            revenueMonthlyTarget.setSubDiv(((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv)));
+            revenueMonthlyTarget.setSubDiv(Integer.parseInt(subDiv));
             revenueMonthlyTarget.setTMonth(monthSelected);
             revenueMonthlyTarget.setTYear(yearSelected);
             RequestForRevenueData re = new RequestForRevenueData();

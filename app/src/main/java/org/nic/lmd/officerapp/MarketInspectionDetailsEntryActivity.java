@@ -60,8 +60,10 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
     public static ArrayList<MarketInspectionTab> marketInspectionTabs;
     public static List<MarketInspectionDetail> marketInspectionDetails;
     public static List<MarketInspectionDetail> marketInspectionDetails_entry = new ArrayList<>();
-    boolean[] tabs_selected;
+    public static boolean[] tabs_selected;
     private String subDiv="";
+    String buttonText="";
+    int tabPos=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,10 +119,10 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                 monthSelected = monthOfYear + 1;
                 text_year_month.setText("" + monthSelected + "-" + yearSelected);
                 //text_year_month.setClickable(false);
-                marketInspectionDetails=null;
+                //marketInspectionDetails=null;
                 marketInspectionDetails_entry.clear();
                 GlobalVariable.m_id = 0;
-                GlobalVariable.m_id = Long.parseLong("" + String.valueOf(yearSelected).substring(2, 4) + ((String.valueOf(monthSelected).length() == 1) ? "0" + monthSelected : "" + monthSelected) + ((subDiv.equals("")) ? 187 : Integer.parseInt(subDiv)) + "0000");
+                GlobalVariable.m_id = Long.parseLong("" + String.valueOf(yearSelected).substring(2, 4) + ((String.valueOf(monthSelected).length() == 1) ? "0" + monthSelected : "" + monthSelected) + Integer.parseInt(subDiv) + "0000");
                 callServiceForData(monthSelected,yearSelected,subDiv,false);
             }
         });
@@ -149,10 +151,11 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                             marketInspectionDetails=response.body().getData();
                         }
                         upload_data.setVisibility(View.VISIBLE);
-                        if (!mflag) upload_data.setText("update");
-                        else upload_data.setText("Save");
+                        if (!mflag) buttonText="update";
+                        else buttonText="Save";
                         populateTabs(mflag,true);
                     } else {
+                        buttonText="Save";
                         marketInspectionDetails=null;
                         marketInspectionDetails_entry.clear();
                         if (!mflag){
@@ -170,6 +173,8 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                             Toast.makeText(MarketInspectionDetailsEntryActivity.this, "" + response.body().getRemarks(), Toast.LENGTH_SHORT).show();
                         }
                     }
+                }else {
+                    buttonText="Save";
                 }
             }
 
@@ -196,6 +201,9 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                 if ( tabs_selected[tab.getPosition()]==false) {
                     tabs_selected[tab.getPosition()] = true;
                 }
+                if (isAllTabSelected()){
+                    upload_data.setText(""+buttonText);
+                }
             }
 
             @Override
@@ -215,7 +223,8 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
         if (marketInspectionDetails_entry.size() <= 0) {
             Toast.makeText(this, "No data found !", Toast.LENGTH_SHORT).show();
         } else if (!isAllTabSelected()) {
-            Toast.makeText(this, "Scroll left and please fill All tabs", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Scroll left and Please fill All tabs", Toast.LENGTH_SHORT).show();
+            tabLayout.selectTab(tabLayout.getTabAt(tabPos));
         } else if (!Utiilties.isOnline(MarketInspectionDetailsEntryActivity.this)) {
             Toast.makeText(this, "Please go online !", Toast.LENGTH_SHORT).show();
         } else {
@@ -256,12 +265,13 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
         for (int i = 0; i < tabs_selected.length; i++) {
             if (tabs_selected[i] == false) {
                 isAllSelected = false;
-                tabLayout.selectTab(tabLayout.getTabAt(i));
+                 tabPos=i;
                 break;
             }
         }
         return isAllSelected;
     }
+
 
     @Override
     public void onClick(View v) {
