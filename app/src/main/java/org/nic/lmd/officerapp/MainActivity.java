@@ -299,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         new AlertDialog.Builder(MainActivity.this)
                 .setTitle("Really Exit ?")
-                .setMessage("Are you sure you want to exit ?")
+                .setMessage("Are you sure want to exit ?")
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {

@@ -90,7 +90,6 @@ public class RevenueReportItemAdapter extends RecyclerView.Adapter<RevenueReport
     @Override
     public void onBindViewHolder(MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final NatureOfBusiness premisesTypeEntity = premisesTypeEntities.get(position);
-        //DataBaseHelper db = new DataBaseHelper(activity);
         RevenueReportEntity revenueReportEntity_pre = null;
         if (MonthlyRevenueEntryActivity.revenueReportEntities!=null){
             revenueReportEntity_pre = MonthlyRevenueEntryActivity.revenueReportEntities.stream().filter((re) -> premisesTypeEntity.getId().equals(re.getType_of_bussiness().getId())).findAny().orElse(new RevenueReportEntity());
@@ -176,9 +175,7 @@ public class RevenueReportItemAdapter extends RecyclerView.Adapter<RevenueReport
             public void afterTextChanged(Editable s) {
                 if (!holder.edit_vf_current.getText().toString().trim().equals("") && !holder.edit_af_current.getText().toString().trim().equals("") && !holder.edit_cf_current.getText().toString().trim().equals("")) {
                     if (Double.parseDouble(holder.edit_vf_current.getText().toString().trim()) >= 0 && Double.parseDouble(holder.edit_af_current.getText().toString().trim()) >= 0 && Double.parseDouble(holder.edit_cf_current.getText().toString().trim()) >= 0) {
-                        //holder.text_total_sum.setText(""+(Long.parseLong(s.toString())+Long.parseLong(holder.edit_previous.getText().toString().trim())));
                         RevenueReportEntity revenueReportEntity_pre = MonthlyRevenueEntryActivity.revenueReportEntities_entry.stream().filter((re) -> natureOfBusiness.getId().equals(re.getType_of_bussiness().getId())).findAny().orElse(new RevenueReportEntity());
-                        //RevenueReportEntity revenueReportEntity = (MonthlyRevenueEntryActivity.revenueReportEntities_entry.size() > (position)) ? MonthlyRevenueEntryActivity.revenueReportEntities_entry.get(position) : new RevenueReportEntity();
                         RevenueReportEntity revenueReportEntity = revenueReportEntity_pre;
                         revenueReportEntity.setMonth(MonthlyRevenueEntryActivity.monthSelected);
                         revenueReportEntity.setYear(MonthlyRevenueEntryActivity.yearSelected);
@@ -201,7 +198,6 @@ public class RevenueReportItemAdapter extends RecyclerView.Adapter<RevenueReport
                         } else {
                             int index = MonthlyRevenueEntryActivity.revenueReportEntities_entry.indexOf(revenueReportEntity);
                             MonthlyRevenueEntryActivity.revenueReportEntities_entry.set(index, revenueReportEntity);
-                            //MonthlyRevenueEntryActivity.revenueReportEntities_entry.set(position, revenueReportEntity);
                         }
                         holder.text_vf_tot_sum.setText("" + revenueReportEntity.getVf_total_current());
                         holder.text_af_tot_sum.setText("" + revenueReportEntity.getAf_total_current());

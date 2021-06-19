@@ -78,7 +78,8 @@ public class MarketInspectionItemAdapter extends RecyclerView.Adapter<MarketInsp
         addTextChangeListener(holder, premisesTypeEntity);
         addFocusChangeListner(holder.edit_current);
         MarketInspectionDetail marketInspectionDetail_pre = null;
-        if (!MarketInspectionDetailsEntryActivity.tabs_selected[mParam2]) {
+        //if (!MarketInspectionDetailsEntryActivity.tabs_selected[mParam2]) {
+        if (MarketInspectionDetailsEntryActivity.marketInspectionDetails_entry.size()<((mParam2+1)*premisesTypeEntities.size())) {
             if (isDataFound) {
                 marketInspectionDetail_pre = MarketInspectionDetailsEntryActivity.marketInspectionDetails.stream()
                         .filter((p) -> mParam1.getMarket_ins_id() == p.mar_ins_type.getMarket_ins_id() && p.nature_of_business.getId().equals(premisesTypeEntity.getId()))

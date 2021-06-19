@@ -1,5 +1,6 @@
 package org.nic.lmd.officerapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -131,16 +133,14 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
         dialogFragment.setOnDateSetListener(new MonthYearPickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(int year, int monthOfYear) {
-                // do something
                 yearSelected = year;
                 monthSelected = monthOfYear + 1;
                 text_year_month.setText("" + monthSelected + "-" + yearSelected);
-                //text_year_month.setClickable(false);
-                revenueReportEntities_entry.clear();
                 GlobalVariable.m_id = 0;
-                //GlobalVariable.m_id = Long.parseLong((String.valueOf(monthSelected).length() == 1) ? "" + String.valueOf(yearSelected).substring(1, 3) + "0" + monthSelected + (userData.getEstbSubdivId().equals("" ) ? 187 : userData.getEstbSubdivId()) + "000" : "" + String.valueOf(yearSelected).substring(1, 3) + "" + (userData.getEstbSubdivId().equals("" ) ? 187 : userData.getEstbSubdivId()) + "000" );
                 GlobalVariable.m_id = Long.parseLong("" + String.valueOf(yearSelected).substring(2, 4) + ((String.valueOf(monthSelected).length() == 1) ? "0" + monthSelected : "" + monthSelected) +  Integer.parseInt(subDiv) + "000");
                 upload_data.setVisibility(View.GONE);
+                revenueReportEntities=null;
+                revenueReportEntities_entry.clear();
                 callServiceForData(monthSelected, yearSelected, false);
             }
         });
@@ -186,6 +186,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
         Call<MyResponse<RequestForRevenueData>> call1 = null;
         progressDialog = new ProgressDialog(MonthlyRevenueEntryActivity.this);
         progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
         apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
         //if (monthSelected == 1) call1 = apiInterface.doGetRevenueReportDetails(12,yearSelected-1,(subDiv.equals(""))?"187":subDiv);
@@ -194,6 +195,8 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
             @Override
             public void onResponse(Call<MyResponse<RequestForRevenueData>> call, Response<MyResponse<RequestForRevenueData>> response) {
                 if (progressDialog.isShowing()) progressDialog.dismiss();
+                revenueReportEntities=null;
+                revenueReportEntities_entry.clear();
                 if (response.body() != null) {
                     if (response.body().getStatusCode() == 200) {
                         revenueReportEntities = response.body().getData().getRevenueReportEntities_entry();
@@ -212,8 +215,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
                         }
                         populateRecycler(isPre);
                     } else {
-                        revenueReportEntities=null;
-                        revenueReportEntities_entry.clear();
+                        upload_data.setText("Save");
                         if (!isPre) {
                             if (monthSelected != 4) {
                                 if (monthSelected == 1)
@@ -256,7 +258,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
         } else if (Double.parseDouble(edit_cf_tar.getText().toString().trim()) <= 0) {
             Toast.makeText(this, "Enter CF target Amount !", Toast.LENGTH_SHORT).show();
         }
-        /*else if (isEmpty(edit_lic_fee)){
+        /* else if (isEmpty(edit_lic_fee)){
             Toast.makeText(this, "Enter Licence Fee !", Toast.LENGTH_SHORT).show();
         }
         else if (Double.parseDouble(edit_lic_fee.getText().toString().trim())<=0){
@@ -267,7 +269,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
         }
         else if (Double.parseDouble(edit_reg_fee.getText().toString().trim())<=0){
             Toast.makeText(this, "Enter valid Registration Fee !", Toast.LENGTH_SHORT).show();
-        }*/
+        } */
         else if (revenueReportEntities_entry.size() <= 0) {
             Toast.makeText(this, "No data found !", Toast.LENGTH_SHORT).show();
         } else if (!Utiilties.isOnline(MonthlyRevenueEntryActivity.this)) {
@@ -288,6 +290,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
             re.setRevenueMonthlyTarget(revenueMonthlyTarget);
             progressDialog = new ProgressDialog(MonthlyRevenueEntryActivity.this);
             progressDialog.setTitle("Upload...");
+            progressDialog.setCancelable(false);
             progressDialog.show();
             apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
             Call<MyResponse<String>> call1 = apiInterface.saveRevenueReport(re);
@@ -351,5 +354,19 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
         text_gt_pr_mon.setText("" + gr_tot1);
         text_gt_cr_mon.setText("" + gr_tot2);
         text_gt_tot_sum.setText("" + gr_tot3);
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(MonthlyRevenueEntryActivity.this)
+                .setTitle("Really Exit ?")
+                .setMessage("Are you sure want to close ?")
+                .setPositiveButton(android.R.string.no, null)
+                .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        MonthlyRevenueEntryActivity.super.onBackPressed();
+                        //finish();
+                    }
+                }).create().show();
     }
 }

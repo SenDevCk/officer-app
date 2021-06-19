@@ -1,9 +1,11 @@
 package org.nic.lmd.officerapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -199,6 +201,7 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
         Call<MyResponse<RenevalAndRegistrationFee>> call1 = null;
         progressDialog = new ProgressDialog(Ren_RegFeeEntryActivity.this);
         progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
         apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
       /*  if (monthSelected == 1)
@@ -209,15 +212,14 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
             @Override
             public void onResponse(Call<MyResponse<RenevalAndRegistrationFee>> call, Response<MyResponse<RenevalAndRegistrationFee>> response) {
                 if (progressDialog.isShowing()) progressDialog.dismiss();
+                renevalAndRegistrationFee=null;
                 if (response.body() != null) {
                     if (response.body().getStatusCode() == 200) {
                         renevalAndRegistrationFee = response.body().getData();
                         upload_data.setVisibility(View.VISIBLE);
                         populateData(isPre);
                     } else {
-                        renevalAndRegistrationFee=null;
                         if (!isPre) {
-
                             if (monthSelected != 4) {
                                 if (monthSelected == 1)
                                     callServiceForData(12, year_g - 1, true);
@@ -303,6 +305,7 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
             revenueMonthlyTarget.setUser_id(CommonPref.getUserDetails(Ren_RegFeeEntryActivity.this).getUserid());
             progressDialog = new ProgressDialog(Ren_RegFeeEntryActivity.this);
             progressDialog.setTitle("Upload...");
+            progressDialog.setCancelable(false);
             progressDialog.show();
             apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
             Call<MyResponse<String>> call1 = apiInterface.saveRenRegFee(revenueMonthlyTarget);
@@ -343,5 +346,19 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
     @Override
     public void onClick(View v) {
         uploadData();
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(Ren_RegFeeEntryActivity.this)
+                .setTitle("Really Exit ?")
+                .setMessage("Are you sure want to close ?")
+                .setPositiveButton(android.R.string.no, null)
+                .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Ren_RegFeeEntryActivity.super.onBackPressed();
+                        //finish();
+                    }
+                }).create().show();
     }
 }
