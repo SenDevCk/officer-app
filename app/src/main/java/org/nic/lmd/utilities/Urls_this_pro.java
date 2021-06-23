@@ -12,8 +12,8 @@ public class Urls_this_pro {
     /* public static final String RETROFIT_BASE_URL= "http://192.168.0.100:8080/app/";
      public static final String RETROFIT_BASE_URL2= "http://192.168.0.106:8085/lmd-api/";*/
       //live
-     //public static final String RETROFIT_BASE_URL="https://wemmis.bih.nic.in/app/";
-     //public static final String RETROFIT_BASE_URL2="https://wemmis.bih.nic.in/lmd-api/";
+     /*public static final String RETROFIT_BASE_URL="https://wemmis.bih.nic.in/app/";
+     public static final String RETROFIT_BASE_URL2="https://wemmis.bih.nic.in/lmd-api/";*/
     //live demo server
     public static final String RETROFIT_BASE_URL="https://maaptaul.bih.nic.in/app/";
     public static final String RETROFIT_BASE_URL2="https://maaptaul.bih.nic.in/lmd-api/";

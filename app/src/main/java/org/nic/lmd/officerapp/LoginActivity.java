@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.Telephony;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 public class LoginActivity extends AppCompatActivity {
 
     Button register, button_login;
-    TextView text_log;
+    TextView text_log,check_con_pay;
     EditText user_name, password, otp_reg;
     Spinner sp_loc_type, sp_area, sp_position;
     LinearLayout ll_otp, ll_area_role;
@@ -46,9 +48,10 @@ public class LoginActivity extends AppCompatActivity {
     JSONArray jsonArray_loc, jsonArray_area;
     SmsReceiver smsReceiver;
     IntentFilter filter;
-    String otp_by_service;
+    String otp_by_service="";
     ImageView img_login;
     private boolean validated = false;
+    CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,8 @@ public class LoginActivity extends AppCompatActivity {
         button_login = findViewById(R.id.button_login);
         button_login.setText("Login");
         register = findViewById(R.id.button_signup);
+        check_con_pay = findViewById(R.id.check_con_pay);
+        check_con_pay.setVisibility(View.GONE);
         text_log = findViewById(R.id.text_log);
         text_log.setText(getResources().getString(R.string.app_name));
         user_name = findViewById(R.id.user_name);
@@ -94,14 +99,33 @@ public class LoginActivity extends AppCompatActivity {
                         public void messageReceived(String messageText) {
                             // text_resend.setVisibility(View.GONE);
                             Log.d("messageText", "" + messageText);
-                            String otp_by_sms = Utiilties.extractInt(messageText).trim();
-                            otp_reg.setText(otp_by_sms);
+                            //String otp_by_sms = Utiilties.extractInt(messageText).trim();
+                            String[] tokens=messageText.split(",");
+                            otp_reg.setText(tokens[1].trim().substring(0,4));
                         }
                     });
                     LoginLoader.initiateLogin(new LoginLoader.LoginListener() {
                         @Override
                         public void success(String otp) {
                             otp_by_service = otp;
+                            countDownTimer = new CountDownTimer(50000, 1000) {
+                                public void onTick(long millisUntilFinished) {
+                                    check_con_pay.setVisibility(View.VISIBLE);
+                                    check_con_pay.setText(Html.fromHtml("OTP Valid for <b style=\"color:Tomato;\">:" + (millisUntilFinished / 1000) + "</b> Seconds."));
+                                    check_con_pay.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
+                                    //here you can have your logic to set text to edittext
+                                }
+                                public void onFinish() {
+
+                                    check_con_pay.setVisibility(View.GONE);
+                                    otp_by_service="";
+                                    ll_otp.setVisibility(View.GONE);
+                                    button_login.setText("Login");
+                                    findViewById(R.id.ll_user).setVisibility(View.VISIBLE);
+                                    register.setVisibility(View.VISIBLE);
+                                    setHeader(80,35);
+                                }
+                            }.start();
                             loadData(1, "", "");
                         }
                     });
@@ -113,6 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                         findViewById(R.id.ll_user).setVisibility(View.GONE);
                         button_login.setText("Proceed");
                         otp_reg.setVisibility(View.GONE);
+                        register.setVisibility(View.GONE);
                         validated = true;
                         loadData(1, "", "");
                     }else{
@@ -124,9 +149,13 @@ public class LoginActivity extends AppCompatActivity {
                 if (location.equals("") || area.equals("") || role.equals("")) {
                     Toast.makeText(this, "Select area ,location ,role", Toast.LENGTH_SHORT).show();
 
-                /*} else if (!validated && !otp_by_service.equals(otp_reg.getText().toString().trim())) {
+                }
+                else if (!validated && otp_reg.getText().toString().trim().equals("")) {
+                    Toast.makeText(this, "enter OTP !", Toast.LENGTH_SHORT).show();
+                }
+                else if (!validated && !otp_by_service.equals(otp_reg.getText().toString().trim())) {
                     Toast.makeText(this, "OTP is not matching !", Toast.LENGTH_SHORT).show();
-                */ }else {
+                 }else {
                     //new LoginLoader(LoginActivity.this).execute(location, role, area);
                     startMainActivity();
 
@@ -204,11 +233,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
             } else if (flag_sp == 2) {
                 ll_area_role.setVisibility(View.VISIBLE);
-                img_login.getLayoutParams().height = 40;
-                img_login.getLayoutParams().width = 40;
-                img_login.requestLayout();
-                text_log.setTextSize(20);
-                text_log.requestLayout();
+                setHeader(40,20);
                 sp_area.setAdapter(new ArrayAdapter<String>(LoginActivity.this, android.R.layout.simple_list_item_1, arrayList2));
                 sp_position.setAdapter(new ArrayAdapter<String>(LoginActivity.this, android.R.layout.simple_list_item_1, arrayList3));
                 sp_area.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -261,6 +286,14 @@ public class LoginActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void setHeader(int img_size, int text_size) {
+        img_login.getLayoutParams().height = img_size;
+        img_login.getLayoutParams().width = img_size;
+        img_login.requestLayout();
+        text_log.setTextSize(text_size);
+        text_log.requestLayout();
     }
 
     public void loadData(int f, String data1, String data2) {
