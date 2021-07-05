@@ -108,10 +108,10 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void success(String otp) {
                             otp_by_service = otp;
-                            countDownTimer = new CountDownTimer(50000, 1000) {
+                            countDownTimer = new CountDownTimer(300000, 1000) {
                                 public void onTick(long millisUntilFinished) {
                                     check_con_pay.setVisibility(View.VISIBLE);
-                                    check_con_pay.setText(Html.fromHtml("OTP Valid for <b style=\"color:Tomato;\">:" + (millisUntilFinished / 1000) + "</b> Seconds."));
+                                    check_con_pay.setText(Html.fromHtml("OTP Valid for <b style=\"color:Tomato;\">:" + (millisUntilFinished / 1000) + "</b> intervals."));
                                     check_con_pay.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
                                     //here you can have your logic to set text to edittext
                                 }

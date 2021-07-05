@@ -18,9 +18,9 @@ public class RevenueMonthlyTarget {
     private double lic_ren_fee;
     @SerializedName("reg_fee")
     private double reg_fee;
-    @SerializedName("tYear")
+    @SerializedName("tyear")
     private int tYear;
-    @SerializedName("tMonth")
+    @SerializedName("tmonth")
     private int tMonth;
     @SerializedName("subDiv")
     private int subDiv;

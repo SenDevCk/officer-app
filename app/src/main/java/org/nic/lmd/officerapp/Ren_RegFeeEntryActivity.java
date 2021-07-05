@@ -304,7 +304,7 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
             revenueMonthlyTarget.setYear(yearSelected);
             revenueMonthlyTarget.setUser_id(CommonPref.getUserDetails(Ren_RegFeeEntryActivity.this).getUserid());
             progressDialog = new ProgressDialog(Ren_RegFeeEntryActivity.this);
-            progressDialog.setTitle("Upload...");
+            progressDialog.setMessage("Upload...");
             progressDialog.setCancelable(false);
             progressDialog.show();
             apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
@@ -351,8 +351,8 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(Ren_RegFeeEntryActivity.this)
-                .setTitle("Really Exit ?")
-                .setMessage("Are you sure want to close ?")
+                .setTitle("Really Close ?")
+                .setMessage("Are you sure want to close ? This will lost your currently filled data .")
                 .setPositiveButton(android.R.string.no, null)
                 .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {

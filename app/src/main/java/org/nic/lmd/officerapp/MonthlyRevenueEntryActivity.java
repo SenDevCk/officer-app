@@ -289,7 +289,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
             re.setRevenueReportEntities_entry(revenueReportEntities_entry);
             re.setRevenueMonthlyTarget(revenueMonthlyTarget);
             progressDialog = new ProgressDialog(MonthlyRevenueEntryActivity.this);
-            progressDialog.setTitle("Upload...");
+            progressDialog.setMessage("Upload...");
             progressDialog.setCancelable(false);
             progressDialog.show();
             apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
@@ -359,8 +359,8 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(MonthlyRevenueEntryActivity.this)
-                .setTitle("Really Exit ?")
-                .setMessage("Are you sure want to close ?")
+                .setTitle("Really Close ?")
+                .setMessage("Are you sure want to close ? This will lost your currently filled data .")
                 .setPositiveButton(android.R.string.no, null)
                 .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
