@@ -24,13 +24,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.dewinjm.monthyearpicker.MonthYearPickerDialog;
+import com.github.dewinjm.monthyearpicker.MonthYearPickerDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 
 
 import org.nic.lmd.adapters.CustomExpandableListAdapter;
 import org.nic.lmd.entities.ExpandableListDataPump;
 import org.nic.lmd.entities.UserData;
+import org.nic.lmd.officerapp.inspection.InspectionListActivity;
+import org.nic.lmd.officerapp.inspectionEntry.InspectionentryActivity;
 import org.nic.lmd.preferences.CommonPref;
+import org.nic.lmd.preferences.GlobalVariable;
 import org.nic.lmd.retrofit.APIClient;
 import org.nic.lmd.retrofit.APIInterface;
 import org.nic.lmd.retrofitPojo.DashboardResponse;
@@ -39,6 +44,7 @@ import org.nic.lmd.retrofitPojo.VendorPoso;
 import org.nic.lmd.utilities.Urls_this_pro;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,12 +72,13 @@ public class MainActivity extends AppCompatActivity {
     String locationType, loginRole, loginLocation;
     private ProgressDialog dialog;
     UserData userData;
+    int yearSelected, monthSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        userData=CommonPref.getUserDetails(MainActivity.this);
+        userData = CommonPref.getUserDetails(MainActivity.this);
         locationType = getIntent().getStringExtra("locationType");
         loginRole = getIntent().getStringExtra("loginRole");
         loginLocation = getIntent().getStringExtra("loginLocation");
@@ -119,6 +126,26 @@ public class MainActivity extends AppCompatActivity {
         callServiceForData();
     }
 
+    public void monthYearPicker() {
+        Calendar calendar = Calendar.getInstance();
+        yearSelected = calendar.get(Calendar.YEAR);
+        monthSelected = calendar.get(Calendar.MONTH);
+
+        MonthYearPickerDialogFragment dialogFragment = MonthYearPickerDialogFragment
+                .getInstance(monthSelected, yearSelected);
+
+        dialogFragment.show(getSupportFragmentManager(), null);
+        dialogFragment.setOnDateSetListener((int year, int monthOfYear) -> {
+            // do something
+            yearSelected = year;
+            monthSelected = monthOfYear + 1;
+            Intent intent=new Intent(MainActivity.this, InspectionentryActivity.class);
+            intent.putExtra("year",yearSelected);
+            intent.putExtra("month",monthSelected);
+            startActivity(intent);
+        });
+    }
+
     private void populateExpendableList() {
         expandableListView.invalidate();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
@@ -145,14 +172,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                //if (drawer.isDrawerOpen(drawer))
-                drawer.closeDrawers();
-                String name_child=parent.getExpandableListAdapter().getChild(groupPosition,childPosition).toString();
-                //Toast.makeText(MainActivity.this, ""+name_child, Toast.LENGTH_SHORT).show();
+        expandableListView.setOnChildClickListener((ExpandableListView parent, View v,
+                                                    int groupPosition, int childPosition, long id) -> {
+            //if (drawer.isDrawerOpen(drawer))
+            drawer.closeDrawers();
+            String name_parent = parent.getExpandableListAdapter().getGroup(groupPosition).toString();
+            String name_child = parent.getExpandableListAdapter().getChild(groupPosition, childPosition).toString();
+            //Toast.makeText(MainActivity.this, ""+name_child, Toast.LENGTH_SHORT).show();
                 /*if (groupPosition == 0 && childPosition == 0) {
                     Intent intent = new Intent(MainActivity.this, ApplicationListActivity.class);
                     intent.putExtra("which", "pending");
@@ -169,62 +195,82 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, ManufacturerListActivity.class);
                     intent.putExtra("which", "verified");
                     startActivity(intent);
-                } else*/  if(name_child.equals("Market Inspection Details Entry")){
-                    if(!loginRole.contains("Inspector")){
-                        Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
-                    }else {
-                        Intent intent = new Intent(MainActivity.this, MarketInspectionDetailsEntryActivity.class);
-                        intent.putExtra("subDiv",loginLocation);
-                        startActivity(intent);
+                } else*/
+            switch (name_parent) {
+                case "Report":
+                    if (name_child.equals("Market Inspection Details Entry")) {
+                        if (!loginRole.contains("Inspector")) {
+                            Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent = new Intent(MainActivity.this, MarketInspectionDetailsEntryActivity.class);
+                            intent.putExtra("subDiv", loginLocation);
+                            startActivity(intent);
+                        }
+                    } else if (name_child.equals("Revenue Details Entry")) {
+                        if (!loginRole.contains("Inspector")) {
+                            Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent = new Intent(MainActivity.this, MonthlyRevenueEntryActivity.class);
+                            intent.putExtra("subDiv", loginLocation);
+                            startActivity(intent);
+                        }
+                    } else if (name_child.equals("Renewal/Registration Entry")) {
+                        if (!loginRole.contains("Inspector")) {
+                            Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent = new Intent(MainActivity.this, Ren_RegFeeEntryActivity.class);
+                            intent.putExtra("subDiv", loginLocation);
+                            startActivity(intent);
+                        }
                     }
-                }
-                else if(name_child.equals("Revenue Details Entry")){
-                    if(!loginRole.contains("Inspector")){
-                        Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
-                    }else {
-                        Intent intent = new Intent(MainActivity.this, MonthlyRevenueEntryActivity.class);
-                        intent.putExtra("subDiv",loginLocation);
-                        startActivity(intent);
+                    break;
+
+                case "Inspection":
+                    if (name_child.equals("Inspection")) {
+                        monthYearPicker();
                     }
-                }
-                else if(name_child.equals("Renewal/Registration Entry")){
-                    if(!loginRole.contains("Inspector")){
-                        Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
-                    }else {
-                        Intent intent = new Intent(MainActivity.this, Ren_RegFeeEntryActivity.class);
-                        intent.putExtra("subDiv",loginLocation);
-                        startActivity(intent);
-                    }
-                }
-                else if (name_child.equals("Scanner")) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (checkAndRequestPermissions()) {
+                    break;
+
+                case "Tools":
+                    if (name_child.equals("Scanner")) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (checkAndRequestPermissions()) {
+                                goToscanCode();
+                            }
+                        } else {
                             goToscanCode();
                         }
-                    } else {
-                        goToscanCode();
+                    } else{
+                        Toast.makeText(MainActivity.this, "Under Construction", Toast.LENGTH_SHORT).show();
                     }
-                }
-                else if (name_child.equals("Logout")) {
-                    new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("Really Logout ?")
-                            .setMessage("Are you sure you want to logout ?")
-                            .setNegativeButton(android.R.string.no, null)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    break;
+                case "Settings":
+                    if (name_child.equals("Logout")) {
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("Really Logout ?")
+                                .setMessage("Are you sure want to logout ?")
+                                .setNegativeButton(android.R.string.no, null)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    CommonPref.clearPreferenceLogout(MainActivity.this);
-                                    Intent intent = new Intent(MainActivity.this, SplashActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
+                                    public void onClick(DialogInterface arg0, int arg1) {
+                                        CommonPref.clearPreferenceLogout(MainActivity.this);
+                                        Intent intent = new Intent(MainActivity.this, SplashActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
 
-                            }).create().show();
-                } else {
-                    Toast.makeText(MainActivity.this, "Under Progress !", Toast.LENGTH_SHORT).show();
-                }
-                return false;
+                                }).create().show();
+                    }else{
+                        Toast.makeText(MainActivity.this, "Under Construction", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                default:
+                    Toast.makeText(MainActivity.this, "No menu found", Toast.LENGTH_SHORT).show();
+                    break;
             }
+
+            return false;
+
         });
     }
 
@@ -278,6 +324,10 @@ public class MainActivity extends AppCompatActivity {
                 report.add("Revenue Details Entry");
                 report.add("Renewal/Registration Entry");
                 expandableListDetail.put("Report", report);
+
+                List<String> inspections = new ArrayList<String>();
+                inspections.add("Inspection");
+                expandableListDetail.put("Inspection", inspections);
 
                 List<String> settings = new ArrayList<String>();
                 settings.add("Profile");

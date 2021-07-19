@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".inspectionEntry.InspectionentryActivity">
+    <data>
+        <variable
+            name="viewmodel"
+            type="org.nic.lmd.officerapp.inspectionEntry.InspectionEntryViewModel" />
+        <variable
+            name="presenter"
+            type="org.nic.lmd.officerapp.inspectionEntry.InspectionEntryPresenter" />
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_vender_list"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/toolbar_vender_list"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:nextFocusDown="@+id/login2">
+
+            <EditText
+                android:id="@+id/edit_cap_max"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Premises Name"
+                android:value="@={viewmodel.getPremisesName()}"
+                android:inputType="text"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <Spinner
+                android:id="@+id/sp_business_type_ins"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rectangle"
+                android:padding="3dp"
+                />
+<!--
+app:entries="@{viewmodel.premisesTypeEntities}"
+                app:selectedValue="@={viewmodel.businessType().get}"
+-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:background="@android:color/white"
+                android:padding="3dp"
+                android:text="Business Type *"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
+        </FrameLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:nextFocusDown="@+id/login2">
+
+            <EditText
+                android:id="@+id/edit_owner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ownwr Name"
+                android:inputType="text"
+                android:singleLine="true"
+                android:text="@={viewmodel.getOwnerName}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:nextFocusDown="@+id/login2">
+
+            <EditText
+                android:id="@+id/edit_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address"
+                android:inputType="text"
+                android:singleLine="true"
+                android:text="@={viewmodel.getAddress}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:nextFocusDown="@+id/login2">
+
+            <EditText
+                android:id="@+id/edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name"
+                android:inputType="text"
+                android:singleLine="true"
+                android:text="@={viewmodel.getName}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:nextFocusDown="@+id/login2">
+
+            <EditText
+                android:id="@+id/edit_father"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Father Name"
+                android:inputType="text"
+                android:singleLine="true"
+                android:text="@={viewmodel.fatherName}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <CheckBox
+            android:id="@+id/check_is_present"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:checked="@={viewmodel.isPresent}"
+            android:text="Is Present"/>
+
+        <CheckBox
+            android:id="@+id/check_is_display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:checked="@={viewmodel.isDisplayed}"
+            android:text="Is Display Board Avalable"/>
+    </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:textColor="@android:color/white"
+            android:background="@color/colorPrimary"
+            android:onClick="@{(v)->presenter.click()}"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+</layout>

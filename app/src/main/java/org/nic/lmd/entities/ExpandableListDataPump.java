@@ -25,6 +25,9 @@ public class ExpandableListDataPump {
         report.add("Revenue Details Entry");
         report.add("Renewal/Registration Entry");
         expandableListDetail.put("Report", report);
+        List<String> inspections = new ArrayList<String>();
+        inspections.add("Inspection");
+        expandableListDetail.put("Inspection", inspections);
         List<String> settings = new ArrayList<String>();
         settings.add("Profile");
         settings.add("Logout");

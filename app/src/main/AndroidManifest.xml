@@ -42,6 +42,9 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity
+            android:name=".inspectionEntry.InspectionentryActivity"
+            android:exported="true"></activity>
+        <activity
             android:name=".Ren_RegFeeEntryActivity"
             android:exported="true" />
         <activity
@@ -114,6 +117,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".MonthlyRevenueEntryActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateVisible" />
+        <activity
+            android:name=".inspection.InspectionListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateVisible" />
 
