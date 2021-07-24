@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import org.nic.lmd.officerapp.R;
 import org.nic.lmd.officerapp.databinding.ActivityInspectionentryBinding;
-import org.nic.lmd.officerapp.databinding.ActivityMainBinding;
+
 
 public class InspectionentryActivity extends AppCompatActivity {
    InspectionEntryViewModel inspectionEntryViewModel;

@@ -32,7 +32,7 @@ import com.google.android.material.navigation.NavigationView;
 import org.nic.lmd.adapters.CustomExpandableListAdapter;
 import org.nic.lmd.entities.ExpandableListDataPump;
 import org.nic.lmd.entities.UserData;
-import org.nic.lmd.officerapp.inspection.InspectionListActivity;
+
 import org.nic.lmd.officerapp.inspectionEntry.InspectionentryActivity;
 import org.nic.lmd.preferences.CommonPref;
 import org.nic.lmd.preferences.GlobalVariable;
@@ -375,6 +375,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_ACCOUNTS:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

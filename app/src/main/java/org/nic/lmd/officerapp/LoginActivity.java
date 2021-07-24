@@ -2,6 +2,7 @@ package org.nic.lmd.officerapp;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -77,6 +78,14 @@ public class LoginActivity extends AppCompatActivity {
         Typeface face = Typeface.createFromAsset(getAssets(), "fonts/header_font.ttf");
         text_log.setTypeface(face);
         userData = CommonPref.getUserDetails(LoginActivity.this);
+        try {
+            String version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            String code_v = String.valueOf(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
+            TextView app_name_tip = findViewById(R.id.text_version);
+            app_name_tip.setText(getResources().getString(R.string.app_name) + " ( " + code_v + "." + version + " ) V");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
