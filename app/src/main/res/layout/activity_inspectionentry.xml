@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-   >
+<layout>
     <data>
         <variable
             name="viewmodel"
             type="org.nic.lmd.officerapp.inspectionEntry.InspectionEntryViewModel" />
-        <variable
-            name="presenter"
-            type="org.nic.lmd.officerapp.inspectionEntry.InspectionEntryPresenter" />
+
     </data>
+
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".inspectionEntry.InspectionentryActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".inspectionEntry.InspectionentryActivity">
+       >
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_ins_entry"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme" />
+            app:popupTheme="@style/AppTheme"
+           />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -60,10 +59,7 @@
                 android:background="@drawable/rectangle"
                 android:padding="3dp"
                 />
-<!--
-app:entries="@{viewmodel.premisesTypeEntities}"
-                app:selectedValue="@={viewmodel.businessType().get}"
--->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -130,7 +126,7 @@ app:entries="@{viewmodel.premisesTypeEntities}"
                 android:singleLine="true"
                 android:text="@={viewmodel.areaInspection.fatherName}"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <CheckBox
+     <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -141,7 +137,7 @@ app:entries="@{viewmodel.premisesTypeEntities}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:checked="@={viewmodel.areaInspection.displayed}"
+            android:checked="@={viewmodel.areaInspection.display}"
             android:text="Is Display Board Avalable"/>
     </LinearLayout>
         <Button
@@ -151,7 +147,7 @@ app:entries="@{viewmodel.premisesTypeEntities}"
             android:text="Submit"
             android:textColor="@android:color/white"
             android:background="@color/colorPrimary"
-            android:onClick="@{(v)->presenter.click()}"
+            android:onClick="@{viewmodel.onSubmit}"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 </layout>

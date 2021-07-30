@@ -21,6 +21,10 @@
         <entry key="..\:/cks apps/OfficerApp/app/src/main/res/layout/market_ins_entry_item.xml" value="0.22" />
         <entry key="..\:/cks apps/OfficerApp/app/src/main/res/layout/market_ins_head_item.xml" value="0.18" />
         <entry key="..\:/cks apps/OfficerApp/app/src/main/res/layout/revenue_report_item.xml" value="0.14" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/activity_inspection_list.xml" value="0.1" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/activity_inspectionentry.xml" value="0.22" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/inspection_list_item.xml" value="0.1" />
       </map>
     </option>
   </component>

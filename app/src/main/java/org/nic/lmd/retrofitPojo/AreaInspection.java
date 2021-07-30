@@ -1,7 +1,9 @@
 package org.nic.lmd.retrofitPojo;
 
-import com.google.gson.annotations.SerializedName;
 
+
+import org.nic.lmd.entities.NatureOfBusiness;
+import com.google.gson.annotations.SerializedName;
 import java.sql.Date;
 import java.util.Set;
 
@@ -18,7 +20,7 @@ public class AreaInspection {
 	@SerializedName("vc_no")
 	private Integer vcNo;
 	@SerializedName("business_type")
-	private Integer businessType;
+	private NatureOfBusiness businessType;
 	@SerializedName("premises_name")
 	private String premisesName;
 	@SerializedName("address")
@@ -34,7 +36,7 @@ public class AreaInspection {
 	@SerializedName("father_name")
 	private String fatherName;
 	@SerializedName("is_displayed")
-	private boolean isDisplayed;
+	private boolean isDisplay;
 	@SerializedName("vc_date")
 	private Date vcDate;
 	@SerializedName("vc_valididity")

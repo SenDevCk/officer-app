@@ -151,25 +151,17 @@ public class MainActivity extends AppCompatActivity {
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
         expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                /*Toast.makeText(getApplicationContext(),
-                        expandableListTitle.get(groupPosition) + " List Expanded.",
-                        Toast.LENGTH_SHORT).show();*/
-            }
+        expandableListView.setOnGroupExpandListener(groupPosition -> {
+            /*Toast.makeText(getApplicationContext(),
+                    expandableListTitle.get(groupPosition) + " List Expanded.",
+                    Toast.LENGTH_SHORT).show();*/
         });
 
-        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+        expandableListView.setOnGroupCollapseListener(groupPosition -> {
+           /* Toast.makeText(getApplicationContext(),
+                    expandableListTitle.get(groupPosition) + " List Collapsed.",
+                    Toast.LENGTH_SHORT).show();*/
 
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-               /* Toast.makeText(getApplicationContext(),
-                        expandableListTitle.get(groupPosition) + " List Collapsed.",
-                        Toast.LENGTH_SHORT).show();*/
-
-            }
         });
 
         expandableListView.setOnChildClickListener((ExpandableListView parent, View v,
@@ -351,11 +343,9 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle("Really Exit ?")
                 .setMessage("Are you sure want to exit ?")
                 .setNegativeButton(android.R.string.no, null)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        MainActivity.super.onBackPressed();
-                        //finish();
-                    }
+                .setPositiveButton(android.R.string.yes, (arg0, arg1) -> {
+                    MainActivity.super.onBackPressed();
+                    //finish();
                 }).create().show();
     }
 
