@@ -28,12 +28,7 @@ public class AddMoreActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddMoreActivity.super.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> AddMoreActivity.super.onBackPressed());
         frame_reg =  findViewById(R.id.frame_ap_new);
         if (getIntent().getStringExtra("from").equals("weight")){
             WeightAdderFragment weightAdderFragment = new WeightAdderFragment();

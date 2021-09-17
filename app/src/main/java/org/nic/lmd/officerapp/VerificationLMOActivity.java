@@ -64,12 +64,7 @@ public class VerificationLMOActivity extends AppCompatActivity implements View.O
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                VerificationLMOActivity.super.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> VerificationLMOActivity.super.onBackPressed());
         msg_instrument = findViewById(R.id.msg_instrument);
         msg_weight = findViewById(R.id.msg_weight);
         button_renew = findViewById(R.id.button_renew);
@@ -165,39 +160,31 @@ public class VerificationLMOActivity extends AppCompatActivity implements View.O
             new AlertDialog.Builder(VerificationLMOActivity.this)
                     .setTitle("Verify")
                     .setMessage("Really want to verify")
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //Log.d("before", jsonObject.toString());
-                            int max_vc_id = 0;
-                            String ven_id = null;
-                            ArrayList<VcPoso> jsonArray_vc = vendorDataResponse.vendorPoso.vcs;
-                            for (VcPoso vc : jsonArray_vc) {
-                                if (max_vc_id < vc.vcId) {
-                                    max_vc_id = vc.vcId;
-                                    ven_id = vc.vendorId;
-                                }
+                    .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                        //Log.d("before", jsonObject.toString());
+                        int max_vc_id = 0;
+                        String ven_id = null;
+                        ArrayList<VcPoso> jsonArray_vc = vendorDataResponse.vendorPoso.vcs;
+                        for (VcPoso vc : jsonArray_vc) {
+                            if (max_vc_id < vc.vcId) {
+                                max_vc_id = vc.vcId;
+                                ven_id = vc.vendorId;
                             }
-                            VcPoso new_vc = new VcPoso();
-                            new_vc.nextVcDate = null;
-                            new_vc.vcDate = null;
-                            new_vc.vcId = max_vc_id + 1;
-                            new_vc.vcNumber = null;
-                            new_vc.vendorId = ven_id;
-                            vendorDataResponse.vendorPoso.vcs.add(new_vc);
-                            manipulateDataForWeightAndInstrument(true, max_vc_id);
-                            manipulateDataForWeightAndInstrument(false, max_vc_id);
-                            Log.d("json_manipulated", new Gson().toJson(vendorDataResponse.vendorPoso));
-                            //call_service here
-                            //new UploadTradorService().execute()
-                            //populateRecyclerView();
                         }
+                        VcPoso new_vc = new VcPoso();
+                        new_vc.nextVcDate = null;
+                        new_vc.vcDate = null;
+                        new_vc.vcId = max_vc_id + 1;
+                        new_vc.vcNumber = null;
+                        new_vc.vendorId = ven_id;
+                        vendorDataResponse.vendorPoso.vcs.add(new_vc);
+                        manipulateDataForWeightAndInstrument(true, max_vc_id);
+                        manipulateDataForWeightAndInstrument(false, max_vc_id);
+                        Log.d("json_manipulated", new Gson().toJson(vendorDataResponse.vendorPoso));
+                        //call_service here
+                        //new UploadTradorService().execute()
+                        //populateRecyclerView();
                     }).create().show();
         }else if (v.getId()==R.id.add_weight){
             intent.putExtra("from","weight");

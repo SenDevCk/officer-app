@@ -80,12 +80,7 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MarketInspectionDetailsEntryActivity.super.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> MarketInspectionDetailsEntryActivity.super.onBackPressed());
         subDiv=getIntent().getStringExtra("subDiv");
         marketInspectionDetails_entry.clear();
         marketInspectionTabs = new DataBaseHelper(MarketInspectionDetailsEntryActivity.this).getMarketInspectionTabs();
@@ -97,12 +92,7 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
         tabLayout = findViewById(R.id.into_tab_layout);
         viewPager = findViewById(R.id.view_pager);
         text_year_month = findViewById(R.id.text_year_month);
-        text_year_month.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                monthYearPicker();
-            }
-        });
+        text_year_month.setOnClickListener(v -> monthYearPicker());
 
     }
 
@@ -115,21 +105,18 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                 .getInstance(monthSelected, yearSelected);
 
         dialogFragment.show(getSupportFragmentManager(), null);
-        dialogFragment.setOnDateSetListener(new MonthYearPickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(int year, int monthOfYear) {
-                // do something
-                yearSelected = year;
-                monthSelected = monthOfYear + 1;
-                text_year_month.setText("" + monthSelected + "-" + yearSelected);
-                //text_year_month.setClickable(false);
-                marketInspectionDetails=null;
-                marketInspectionDetails_entry.clear();
-                GlobalVariable.m_id = 0;
-                GlobalVariable.m_id = Long.parseLong("" + String.valueOf(yearSelected).substring(2, 4) + ((String.valueOf(monthSelected).length() == 1) ? "0" + monthSelected : "" + monthSelected) + Integer.parseInt(subDiv) + "0000");
-                callServiceForData(monthSelected,yearSelected,subDiv,false);
-                upload_data.setText("Next");
-            }
+        dialogFragment.setOnDateSetListener((year, monthOfYear) -> {
+            // do something
+            yearSelected = year;
+            monthSelected = monthOfYear + 1;
+            text_year_month.setText("" + monthSelected + "-" + yearSelected);
+            //text_year_month.setClickable(false);
+            marketInspectionDetails=null;
+            marketInspectionDetails_entry.clear();
+            GlobalVariable.m_id = 0;
+            GlobalVariable.m_id = Long.parseLong("" + String.valueOf(yearSelected).substring(2, 4) + ((String.valueOf(monthSelected).length() == 1) ? "0" + monthSelected : "" + monthSelected) + Integer.parseInt(subDiv) + "0000");
+            callServiceForData(monthSelected,yearSelected,subDiv,false);
+            upload_data.setText("Next");
         });
     }
 
@@ -244,41 +231,37 @@ public class MarketInspectionDetailsEntryActivity extends AppCompatActivity impl
                     .setTitle("Really "+buttonText.toLowerCase())
                     .setMessage("Are you sure you want to "+buttonText.toLowerCase()+" ?")
                     .setNegativeButton(android.R.string.no, null)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            progressDialog = new ProgressDialog(MarketInspectionDetailsEntryActivity.this);
-                            progressDialog.setMessage("Upload...");
-                            progressDialog.setCancelable(false);
-                            progressDialog.show();
-                            apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
-                            Call<MyResponse<String>> call1 = apiInterface.saveMarketInspectionDetails(marketInspectionDetails_entry);
-                            call1.enqueue(new Callback<MyResponse<String>>() {
-                                @Override
-                                public void onResponse(Call<MyResponse<String>> call, Response<MyResponse<String>> response) {
-                                    if (progressDialog.isShowing()) progressDialog.dismiss();
-                                    MyResponse<String> myResponse = null;
-                                    if (response.body() != null) myResponse = response.body();
-                                    if (myResponse == null) {
-                                        Toast.makeText(MarketInspectionDetailsEntryActivity.this, "Null Response found !", Toast.LENGTH_SHORT).show();
-                                    } else if (myResponse.getStatusCode() == 200) {
-                                        Toast.makeText(MarketInspectionDetailsEntryActivity.this, "Data Successfully Sent", Toast.LENGTH_SHORT).show();
-                                        finish();
-                                    } else {
-                                        Toast.makeText(MarketInspectionDetailsEntryActivity.this, "" + myResponse.getRemarks(), Toast.LENGTH_SHORT).show();
-                                    }
+                    .setPositiveButton(android.R.string.yes, (arg0, arg1) -> {
+                        progressDialog = new ProgressDialog(MarketInspectionDetailsEntryActivity.this);
+                        progressDialog.setMessage("Upload...");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+                        apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
+                        Call<MyResponse<String>> call1 = apiInterface.saveMarketInspectionDetails(marketInspectionDetails_entry);
+                        call1.enqueue(new Callback<MyResponse<String>>() {
+                            @Override
+                            public void onResponse(Call<MyResponse<String>> call, Response<MyResponse<String>> response) {
+                                if (progressDialog.isShowing()) progressDialog.dismiss();
+                                MyResponse<String> myResponse = null;
+                                if (response.body() != null) myResponse = response.body();
+                                if (myResponse == null) {
+                                    Toast.makeText(MarketInspectionDetailsEntryActivity.this, "Null Response found !", Toast.LENGTH_SHORT).show();
+                                } else if (myResponse.getStatusCode() == 200) {
+                                    Toast.makeText(MarketInspectionDetailsEntryActivity.this, "Data Successfully Sent", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                } else {
+                                    Toast.makeText(MarketInspectionDetailsEntryActivity.this, "" + myResponse.getRemarks(), Toast.LENGTH_SHORT).show();
                                 }
+                            }
 
-                                @Override
-                                public void onFailure(Call<MyResponse<String>> call, Throwable t) {
-                                    Log.e("error", t.getMessage());
-                                    Toast.makeText(MarketInspectionDetailsEntryActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                    if (progressDialog.isShowing()) progressDialog.dismiss();
-                                    call.cancel();
-                                }
-                            });
-                        }
-
+                            @Override
+                            public void onFailure(Call<MyResponse<String>> call, Throwable t) {
+                                Log.e("error", t.getMessage());
+                                Toast.makeText(MarketInspectionDetailsEntryActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                if (progressDialog.isShowing()) progressDialog.dismiss();
+                                call.cancel();
+                            }
+                        });
                     }).create().show();
 
         }

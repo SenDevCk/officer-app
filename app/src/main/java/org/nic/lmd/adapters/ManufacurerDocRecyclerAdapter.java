@@ -75,15 +75,12 @@ public class ManufacurerDocRecyclerAdapter extends RecyclerView.Adapter<Manufacu
             content.setSpan(new UnderlineSpan(), 0,content.length(), 0);
             String[] tokens=obj.docUrl.split("/");
             holder.text_doc_name.setText(content+" "+tokens[tokens.length-1]);
-            holder.text_doc_name.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                        //activity.startActivity(new Intent(activity, LoadUrlActivity.class).putExtra("url","http://192.168.1.20:65001/app"+obj.docUrl));
-                    try {
-                        PdfOpenHelper.openPdfFromUrl("http://192.168.0.151:65000/api" + obj.docUrl, activity);
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
+            holder.text_doc_name.setOnClickListener(v -> {
+                    //activity.startActivity(new Intent(activity, LoadUrlActivity.class).putExtra("url","http://192.168.1.20:65001/app"+obj.docUrl));
+                try {
+                    PdfOpenHelper.openPdfFromUrl("http://192.168.0.151:65000/api" + obj.docUrl, activity);
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
             });
 

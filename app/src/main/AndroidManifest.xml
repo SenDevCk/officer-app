@@ -119,10 +119,10 @@
             android:name=".MonthlyRevenueEntryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateVisible" />
-        <activity
+      <!--  <activity
             android:name=".inspection.InspectionListActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateVisible" />
+            android:windowSoftInputMode="adjustPan|stateVisible" />-->
 
         <receiver
             android:name="org.nic.lmd.smsRecever.SmsReceiver"

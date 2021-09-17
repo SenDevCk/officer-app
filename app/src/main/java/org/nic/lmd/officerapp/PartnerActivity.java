@@ -32,12 +32,7 @@ public class PartnerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PartnerActivity.super.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> PartnerActivity.super.onBackPressed());
         json_string = getIntent().getStringExtra("json_string");
          patnerEntities= WebServiceHelper.parsePatner(json_string,PartnerActivity.this);
         listView =  findViewById(R.id.list_partner);

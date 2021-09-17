@@ -74,22 +74,14 @@ public class VerificationFeeCalculationActivity extends AppCompatActivity implem
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                VerificationFeeCalculationActivity.super.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> VerificationFeeCalculationActivity.super.onBackPressed());
         rd_gp_place = findViewById(R.id.rd_gp_place);
-        rd_gp_place.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // find which radio button is selected
-                if (checkedId == R.id.radio1) {
-                    place = "OWNER OFFICE";
-                } else {
-                    place = "LMO OFFICE";
-                }
+        rd_gp_place.setOnCheckedChangeListener((group, checkedId) -> {
+            // find which radio button is selected
+            if (checkedId == R.id.radio1) {
+                place = "OWNER OFFICE";
+            } else {
+                place = "LMO OFFICE";
             }
         });
 
@@ -165,20 +157,14 @@ public class VerificationFeeCalculationActivity extends AppCompatActivity implem
             }
         });
         bt_com_date =  findViewById(R.id.bt_com_date);
-        bt_com_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ch_date_pic = 0;
-                ShowDialog2();
-            }
+        bt_com_date.setOnClickListener(view -> {
+            ch_date_pic = 0;
+            ShowDialog2();
         });
         bt_var_date =  findViewById(R.id.bt_var_date);
-        bt_var_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ch_date_pic = 1;
-                ShowDialog2();
-            }
+        bt_var_date.setOnClickListener(view -> {
+            ch_date_pic = 1;
+            ShowDialog2();
         });
         if (getIntent().hasExtra("from")){
             String from=getIntent().getStringExtra("from");

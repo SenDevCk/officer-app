@@ -80,34 +80,28 @@ public class RenewalInstrumentAdapter extends RecyclerView.Adapter<RenewalInstru
                 holder.toggle_request_for_vc.setClickable(false);
             }
         }
-        holder.toggle_request_for_vc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                ((RadioButton) holder.redio_group_action.getChildAt(0)).setChecked(isChecked);
-                if (isChecked) {
-                    holder.toggle_delete.setClickable(true);
-                    holder.toggle_delete.setChecked(false);
-                    holder.toggle_delete.setClickable(false);
-                } else {
-                    holder.toggle_delete.setClickable(true);
-                    //holder.redio_group_action.setClickable(false);
-                }
-                VerificationLMOActivity.statusForRenewalDataInstrument.get(position).setRenewed(isChecked);
-                //VerificationLMOActivity.vendorDataResponse.vendorPoso.weights.get(position).mCheck= isChecked;
+        holder.toggle_request_for_vc.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ((RadioButton) holder.redio_group_action.getChildAt(0)).setChecked(isChecked);
+            if (isChecked) {
+                holder.toggle_delete.setClickable(true);
+                holder.toggle_delete.setChecked(false);
+                holder.toggle_delete.setClickable(false);
+            } else {
+                holder.toggle_delete.setClickable(true);
+                //holder.redio_group_action.setClickable(false);
             }
+            VerificationLMOActivity.statusForRenewalDataInstrument.get(position).setRenewed(isChecked);
+            //VerificationLMOActivity.vendorDataResponse.vendorPoso.weights.get(position).mCheck= isChecked;
         });
 
-        holder.toggle_delete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    holder.toggle_request_for_vc.setChecked(false);
-                    holder.toggle_request_for_vc.setClickable(false);
-                } else {
-                    holder.toggle_request_for_vc.setClickable(true);
-                }
-                VerificationLMOActivity.statusForRenewalDataInstrument.get(position).setDeleted(isChecked);
+        holder.toggle_delete.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                holder.toggle_request_for_vc.setChecked(false);
+                holder.toggle_request_for_vc.setClickable(false);
+            } else {
+                holder.toggle_request_for_vc.setClickable(true);
             }
+            VerificationLMOActivity.statusForRenewalDataInstrument.get(position).setDeleted(isChecked);
         });
 
             holder.redio_group_action.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

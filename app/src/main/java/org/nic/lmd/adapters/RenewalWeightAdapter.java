@@ -80,54 +80,45 @@ public class RenewalWeightAdapter extends RecyclerView.Adapter<RenewalWeightAdap
                     holder.toggle_request_for_vc.setClickable(false);
                 }
             }
-            holder.toggle_request_for_vc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    ((RadioButton)holder.redio_group_action.getChildAt(0)).setChecked(isChecked);
-                        if (isChecked) {
-                            holder.toggle_delete.setClickable(true);
-                            holder.toggle_delete.setChecked(false);
-                            holder.toggle_delete.setClickable(false);
-                        }else{
-                            holder.toggle_delete.setClickable(true);
-                            //holder.redio_group_action.setClickable(false);
-                        }
-                        VerificationLMOActivity.statusForRenewalDataWeight.get(position).setRenewed(isChecked);
-                        //VerificationLMOActivity.vendorDataResponse.vendorPoso.weights.get(position).mCheck= isChecked;
-                }
-            });
-
-            holder.toggle_delete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        holder.redio_group_action.clearCheck();
-                        if (isChecked) {
-                            holder.toggle_request_for_vc.setChecked(false);
-                            holder.toggle_request_for_vc.setClickable(false);
-                        }else{
-                            holder.toggle_request_for_vc.setClickable(true);
-                        }
-                        VerificationLMOActivity.statusForRenewalDataWeight.get(position).setDeleted(isChecked);
-                }
-            });
-
-            holder.redio_group_action.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    try {
-                        if (checkedId == R.id.radio_renew) {
-                            //RenawalActivity.jsonObject.getJSONArray("weights").getJSONObject(position).put("isDeleted", isChecked);
-                            Toast.makeText(activity, "Renew Checked", Toast.LENGTH_SHORT).show();
-                        } else if (checkedId == R.id.radio_repair) {
-
-                        } else if (checkedId == R.id.radio_unrep) {
-
-                        } else {
-                            Toast.makeText(activity, "cleared", Toast.LENGTH_SHORT).show();
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
+            holder.toggle_request_for_vc.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                ((RadioButton)holder.redio_group_action.getChildAt(0)).setChecked(isChecked);
+                    if (isChecked) {
+                        holder.toggle_delete.setClickable(true);
+                        holder.toggle_delete.setChecked(false);
+                        holder.toggle_delete.setClickable(false);
+                    }else{
+                        holder.toggle_delete.setClickable(true);
+                        //holder.redio_group_action.setClickable(false);
                     }
+                    VerificationLMOActivity.statusForRenewalDataWeight.get(position).setRenewed(isChecked);
+                    //VerificationLMOActivity.vendorDataResponse.vendorPoso.weights.get(position).mCheck= isChecked;
+            });
+
+            holder.toggle_delete.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    holder.redio_group_action.clearCheck();
+                    if (isChecked) {
+                        holder.toggle_request_for_vc.setChecked(false);
+                        holder.toggle_request_for_vc.setClickable(false);
+                    }else{
+                        holder.toggle_request_for_vc.setClickable(true);
+                    }
+                    VerificationLMOActivity.statusForRenewalDataWeight.get(position).setDeleted(isChecked);
+            });
+
+            holder.redio_group_action.setOnCheckedChangeListener((group, checkedId) -> {
+                try {
+                    if (checkedId == R.id.radio_renew) {
+                        //RenawalActivity.jsonObject.getJSONArray("weights").getJSONObject(position).put("isDeleted", isChecked);
+                        Toast.makeText(activity, "Renew Checked", Toast.LENGTH_SHORT).show();
+                    } else if (checkedId == R.id.radio_repair) {
+
+                    } else if (checkedId == R.id.radio_unrep) {
+
+                    } else {
+                        Toast.makeText(activity, "cleared", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
             });
 

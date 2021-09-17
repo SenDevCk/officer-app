@@ -114,34 +114,31 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if (barcodes.size() != 0) {
-                    txtBarcodeValue.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (barcodes.valueAt(0).rawValue != null){
-                                Log.d("rawValue",barcodes.valueAt(0).rawValue);
-                                intentData = barcodes.valueAt(0).rawValue;
-                            }
-                            else  if (barcodes.valueAt(0).displayValue != null){
-                                Log.d("rawValue",barcodes.valueAt(0).displayValue);
-                                intentData = barcodes.valueAt(0).displayValue;
-                            }
-                            txtBarcodeValue.setText(""+intentData);
-                            txtBarcodeValue.append("\nScanned ID: "+Utiilties.extractInt(intentData.trim()));
-                            Intent intent=null;
-                            if (intentData.contains("VendorId") && intentData.trim().length()>=10){
-                                intent=new Intent(ScannedBarcodeActivity.this, VerificationFeeCalculationActivity.class);
-                                intent.putExtra("vid", Utiilties.extractInt(intentData.trim()));
-                                intent.putExtra("from","scan");
-                              }
-                            else if (intentData.contains("ManufactureId") && intentData.trim().length()>=10){
-                                intent=new Intent(ScannedBarcodeActivity.this, ManufactureFeeCalculationActivity.class);
-                                intent.putExtra("man_id", Utiilties.extractInt(intentData.trim()));
-                                intent.putExtra("from","scan");
-                            }
-                            startActivity(intent);
-                            btnAction.setVisibility(View.GONE);
-                            //finish();
+                    txtBarcodeValue.post(() -> {
+                        if (barcodes.valueAt(0).rawValue != null){
+                            Log.d("rawValue",barcodes.valueAt(0).rawValue);
+                            intentData = barcodes.valueAt(0).rawValue;
                         }
+                        else  if (barcodes.valueAt(0).displayValue != null){
+                            Log.d("rawValue",barcodes.valueAt(0).displayValue);
+                            intentData = barcodes.valueAt(0).displayValue;
+                        }
+                        txtBarcodeValue.setText(""+intentData);
+                        txtBarcodeValue.append("\nScanned ID: "+Utiilties.extractInt(intentData.trim()));
+                        Intent intent=null;
+                        if (intentData.contains("VendorId") && intentData.trim().length()>=10){
+                            intent=new Intent(ScannedBarcodeActivity.this, VerificationFeeCalculationActivity.class);
+                            intent.putExtra("vid", Utiilties.extractInt(intentData.trim()));
+                            intent.putExtra("from","scan");
+                          }
+                        else if (intentData.contains("ManufactureId") && intentData.trim().length()>=10){
+                            intent=new Intent(ScannedBarcodeActivity.this, ManufactureFeeCalculationActivity.class);
+                            intent.putExtra("man_id", Utiilties.extractInt(intentData.trim()));
+                            intent.putExtra("from","scan");
+                        }
+                        startActivity(intent);
+                        btnAction.setVisibility(View.GONE);
+                        //finish();
                     });
                 }
             }

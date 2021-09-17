@@ -31,13 +31,7 @@ public class WeightDenominationActivity extends AppCompatActivity implements Vie
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                WeightDenominationActivity.super.onBackPressed();
-
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> WeightDenominationActivity.super.onBackPressed());
         clear_text =  findViewById(R.id.clear_text);
         clear_text.setOnClickListener(this);
         textView =  findViewById(R.id.tv_added_cart);

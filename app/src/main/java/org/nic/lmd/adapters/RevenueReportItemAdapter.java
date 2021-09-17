@@ -143,17 +143,14 @@ public class RevenueReportItemAdapter extends RecyclerView.Adapter<RevenueReport
     }
 
     private void addFocusChangeListner(EditText editText) {
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    if (editText.getText().toString().trim().equals("0")||editText.getText().toString().trim().equals("0.0")) {
-                        editText.setText("");
-                    }
-                } else {
-                    if (editText.getText().toString().trim().equals("")) {
-                        editText.setText("0");
-                    }
+        editText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                if (editText.getText().toString().trim().equals("0")||editText.getText().toString().trim().equals("0.0")) {
+                    editText.setText("");
+                }
+            } else {
+                if (editText.getText().toString().trim().equals("")) {
+                    editText.setText("0");
                 }
             }
         });

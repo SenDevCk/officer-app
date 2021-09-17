@@ -61,13 +61,10 @@ public class ManufacturerAdapter extends BaseAdapter {
             viewHolder.text_pre_type.setText("" + new DataBaseHelper(activity).getPremissesByID(String.valueOf(manufacturerPoso.premisesType)).getName());
             viewHolder.text_mob =  rootview.findViewById(R.id.text_mob);
             viewHolder.text_mob.setText("" + manufacturerPoso.mobile);
-            rootview.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                        Intent intent = new Intent(activity, ManufactureFeeCalculationActivity.class);
-                        intent.putExtra("man_id",manufacturerPoso.manufacturerId);
-                        activity.startActivity(intent);
-                }
+            rootview.setOnClickListener(view -> {
+                    Intent intent = new Intent(activity, ManufactureFeeCalculationActivity.class);
+                    intent.putExtra("man_id",manufacturerPoso.manufacturerId);
+                    activity.startActivity(intent);
             });
         return rootview;
     }

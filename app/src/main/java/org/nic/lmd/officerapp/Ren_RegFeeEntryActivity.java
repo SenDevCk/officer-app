@@ -67,12 +67,7 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Ren_RegFeeEntryActivity.super.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> Ren_RegFeeEntryActivity.super.onBackPressed());
         edit_m_current = findViewById(R.id.edit_m_current);
         edit_d_current = findViewById(R.id.edit_d_current);
         edit_r_current = findViewById(R.id.edit_r_current);
@@ -100,12 +95,7 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
         upload_data.setVisibility(View.GONE);
         upload_data.setOnClickListener(this);
         text_year_month = findViewById(R.id.text_year_month);
-        text_year_month.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                monthYearPicker();
-            }
-        });
+        text_year_month.setOnClickListener(v -> monthYearPicker());
     }
 
     public void monthYearPicker() {
@@ -117,20 +107,17 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
                 .getInstance(monthSelected, yearSelected);
 
         dialogFragment.show(getSupportFragmentManager(), null);
-        dialogFragment.setOnDateSetListener(new MonthYearPickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(int year, int monthOfYear) {
-                // do something
-                yearSelected = year;
-                monthSelected = monthOfYear + 1;
-                text_year_month.setText("" + monthSelected + "-" + yearSelected);
-                //text_year_month.setClickable(false);
-                GlobalVariable.m_id = 0;
-                //GlobalVariable.m_id = Long.parseLong((String.valueOf(monthSelected).length() == 1) ? "" + String.valueOf(yearSelected).substring(1, 3) + "0" + monthSelected + (userData.getEstbSubdivId().equals("" ) ? 187 : userData.getEstbSubdivId()) + "000" : "" + String.valueOf(yearSelected).substring(1, 3) + "" + (userData.getEstbSubdivId().equals("" ) ? 187 : userData.getEstbSubdivId()) + "000" );
-                GlobalVariable.m_id = Long.parseLong("" + String.valueOf(yearSelected).substring(2, 4) + ((String.valueOf(monthSelected).length() == 1) ? "0" + monthSelected : "" + monthSelected) +  Integer.parseInt(subDiv));
-                upload_data.setVisibility(View.GONE);
-                callServiceForData(monthSelected, yearSelected, false);
-            }
+        dialogFragment.setOnDateSetListener((year, monthOfYear) -> {
+            // do something
+            yearSelected = year;
+            monthSelected = monthOfYear + 1;
+            text_year_month.setText("" + monthSelected + "-" + yearSelected);
+            //text_year_month.setClickable(false);
+            GlobalVariable.m_id = 0;
+            //GlobalVariable.m_id = Long.parseLong((String.valueOf(monthSelected).length() == 1) ? "" + String.valueOf(yearSelected).substring(1, 3) + "0" + monthSelected + (userData.getEstbSubdivId().equals("" ) ? 187 : userData.getEstbSubdivId()) + "000" : "" + String.valueOf(yearSelected).substring(1, 3) + "" + (userData.getEstbSubdivId().equals("" ) ? 187 : userData.getEstbSubdivId()) + "000" );
+            GlobalVariable.m_id = Long.parseLong("" + String.valueOf(yearSelected).substring(2, 4) + ((String.valueOf(monthSelected).length() == 1) ? "0" + monthSelected : "" + monthSelected) +  Integer.parseInt(subDiv));
+            upload_data.setVisibility(View.GONE);
+            callServiceForData(monthSelected, yearSelected, false);
         });
     }
 
@@ -179,17 +166,14 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
     }
 
     private void addFocusChangeListner(EditText editText) {
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    if (editText.getText().toString().trim().equals("0") || editText.getText().toString().trim().equals("0.0")) {
-                        editText.setText("");
-                    }
-                } else {
-                    if (editText.getText().toString().trim().equals("")) {
-                        editText.setText("0");
-                    }
+        editText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                if (editText.getText().toString().trim().equals("0") || editText.getText().toString().trim().equals("0.0")) {
+                    editText.setText("");
+                }
+            } else {
+                if (editText.getText().toString().trim().equals("")) {
+                    editText.setText("0");
                 }
             }
         });
@@ -354,11 +338,9 @@ public class Ren_RegFeeEntryActivity extends AppCompatActivity implements View.O
                 .setTitle("Really Close ?")
                 .setMessage("Are you sure want to close ? This will lost your currently filled data .")
                 .setPositiveButton(android.R.string.no, null)
-                .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        Ren_RegFeeEntryActivity.super.onBackPressed();
-                        //finish();
-                    }
+                .setNegativeButton(android.R.string.yes, (arg0, arg1) -> {
+                    Ren_RegFeeEntryActivity.super.onBackPressed();
+                    //finish();
                 }).create().show();
     }
 }

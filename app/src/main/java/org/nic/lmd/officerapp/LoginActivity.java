@@ -113,30 +113,27 @@ public class LoginActivity extends AppCompatActivity {
                             otp_reg.setText(tokens[1].trim().substring(0,4));
                         }
                     });
-                    LoginLoader.initiateLogin(new LoginLoader.LoginListener() {
-                        @Override
-                        public void success(String otp) {
-                            otp_by_service = otp;
-                            countDownTimer = new CountDownTimer(300000, 1000) {
-                                public void onTick(long millisUntilFinished) {
-                                    check_con_pay.setVisibility(View.VISIBLE);
-                                    check_con_pay.setText(Html.fromHtml("OTP Valid for <b style=\"color:Tomato;\">:" + (millisUntilFinished / 1000) + "</b> intervals."));
-                                    check_con_pay.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
-                                    //here you can have your logic to set text to edittext
-                                }
-                                public void onFinish() {
+                    LoginLoader.initiateLogin(otp -> {
+                        otp_by_service = otp;
+                        countDownTimer = new CountDownTimer(300000, 1000) {
+                            public void onTick(long millisUntilFinished) {
+                                check_con_pay.setVisibility(View.VISIBLE);
+                                check_con_pay.setText(Html.fromHtml("OTP Valid for <b style=\"color:Tomato;\">:" + (millisUntilFinished / 1000) + "</b> intervals."));
+                                check_con_pay.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
+                                //here you can have your logic to set text to edittext
+                            }
+                            public void onFinish() {
 
-                                    check_con_pay.setVisibility(View.GONE);
-                                    otp_by_service="";
-                                    ll_otp.setVisibility(View.GONE);
-                                    button_login.setText("Login");
-                                    findViewById(R.id.ll_user).setVisibility(View.VISIBLE);
-                                    register.setVisibility(View.VISIBLE);
-                                    setHeader(80,35);
-                                }
-                            }.start();
-                            loadData(1, "", "");
-                        }
+                                check_con_pay.setVisibility(View.GONE);
+                                otp_by_service="";
+                                ll_otp.setVisibility(View.GONE);
+                                button_login.setText("Login");
+                                findViewById(R.id.ll_user).setVisibility(View.VISIBLE);
+                                register.setVisibility(View.VISIBLE);
+                                setHeader(80,35);
+                            }
+                        }.start();
+                        loadData(1, "", "");
                     });
                     new LoginLoader(LoginActivity.this).execute(user_name.getText().toString().trim(), password.getText().toString().trim());
                 } else {

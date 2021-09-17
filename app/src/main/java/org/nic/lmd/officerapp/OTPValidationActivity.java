@@ -1,5 +1,7 @@
 package org.nic.lmd.officerapp;
 
+import static android.content.DialogInterface.*;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
@@ -72,12 +74,9 @@ public class OTPValidationActivity extends AppCompatActivity implements View.OnC
 
     private void init() {
         otp_view = (OtpView) findViewById(R.id.otp_view);
-        otp_view.setOtpCompletionListener(new OnOtpCompletionListener() {
-            @Override
-            public void onOtpCompleted(String otp) {
-                verify.setClickable(false);
-                new OTPValidationLoader().execute();
-            }
+        otp_view.setOtpCompletionListener(otp -> {
+            verify.setClickable(false);
+            new OTPValidationLoader().execute();
         });
         verify =  findViewById(R.id.verify);
         verify.setVisibility(View.GONE);
@@ -178,12 +177,7 @@ public class OTPValidationActivity extends AppCompatActivity implements View.OnC
             super.onCancelled();
             alertDialog.setMessage("Transaction Canceled !");
             alertDialog.setCancelable(false);
-            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
+            alertDialog.setButton("OK", (dialogInterface, i) -> dialogInterface.dismiss());
             alertDialog.show();
             //new DataBaseHelper(PinCodeActivity.this).deleteRequestedPayment(mruEntity.getCON_ID(), amount);
         }
@@ -193,12 +187,7 @@ public class OTPValidationActivity extends AppCompatActivity implements View.OnC
             super.onCancelled(s);
             alertDialog.setMessage(s);
             alertDialog.setCancelable(false);
-            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
+            alertDialog.setButton("OK", (dialogInterface, i) -> dialogInterface.dismiss());
             alertDialog.show();
             //new DataBaseHelper(PinCodeActivity.this).deleteRequestedPayment(mruEntity.getCON_ID(), amount);
         }

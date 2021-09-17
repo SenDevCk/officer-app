@@ -26,12 +26,7 @@ public class ManufacturerListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ManufacturerListActivity.super.onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> ManufacturerListActivity.super.onBackPressed());
         //callService();
         list_vender = findViewById(R.id.list_vender);
         populateData();

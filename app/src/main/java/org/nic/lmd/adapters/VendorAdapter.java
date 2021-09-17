@@ -59,17 +59,14 @@ public class VendorAdapter extends BaseAdapter {
         viewHolder.text_mob = rootview.findViewById(R.id.text_mob);
         viewHolder.text_mob.setText("" +vendor.mobileNo);
 
-        rootview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=null;
-                if (which.equals("pending"))
-                intent = new Intent(activity, VerificationFeeCalculationActivity.class);
-                else if (which.equals("verified"))
-                intent = new Intent(activity, VerificationLMOActivity.class);
-                intent.putExtra("vid", vendor.vendorId);
-                activity.startActivity(intent);
-            }
+        rootview.setOnClickListener(view -> {
+            Intent intent=null;
+            if (which.equals("pending"))
+            intent = new Intent(activity, VerificationFeeCalculationActivity.class);
+            else if (which.equals("verified"))
+            intent = new Intent(activity, VerificationLMOActivity.class);
+            intent.putExtra("vid", vendor.vendorId);
+            activity.startActivity(intent);
         });
 
         return rootview;

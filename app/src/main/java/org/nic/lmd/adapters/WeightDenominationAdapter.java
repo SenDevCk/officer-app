@@ -101,39 +101,33 @@ public class WeightDenominationAdapter extends BaseAdapter {
         this.val_year = denomintionEntities.get(position).getVal_year();
         viewHolder.text_val.setText("Validity : " + val_year + " year");
         viewHolder.tog_denomination = rootview.findViewById(R.id.tog_denomination);
-        viewHolder.img_inc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int incre = Integer.parseInt(viewHolder.tv_inc.getText().toString().trim());
-                incre = incre + 1;
-                viewHolder.tv_inc.setText("" + incre);
-                if (Integer.parseInt(viewHolder.tv_inc.getText().toString()) > 0) {
-                    new DataBaseHelper(activity).updateDenomination("","",denomintionEntities.get(position).getValue(), "Y", viewHolder.tv_inc.getText().toString(), 0, "0", val_year, proposalTypeEntity.getId().trim(), false);
-                }
-                textView.setText("" + new DataBaseHelper(activity).getAddedWeightCount());
-                Utiilties.didTapButton(textView, activity);
-
+        viewHolder.img_inc.setOnClickListener(view -> {
+            int incre = Integer.parseInt(viewHolder.tv_inc.getText().toString().trim());
+            incre = incre + 1;
+            viewHolder.tv_inc.setText("" + incre);
+            if (Integer.parseInt(viewHolder.tv_inc.getText().toString()) > 0) {
+                new DataBaseHelper(activity).updateDenomination("","",denomintionEntities.get(position).getValue(), "Y", viewHolder.tv_inc.getText().toString(), 0, "0", val_year, proposalTypeEntity.getId().trim(), false);
             }
+            textView.setText("" + new DataBaseHelper(activity).getAddedWeightCount());
+            Utiilties.didTapButton(textView, activity);
+
         });
-        viewHolder.img_dec.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int decre = Integer.parseInt(viewHolder.tv_inc.getText().toString().trim());
-                if (decre > 0) {
-                    if (Integer.parseInt(denomintionEntities.get(position).getIs_set())>0 && decre <= (Integer.parseInt(denomintionEntities.get(position).getSet_m())*Integer.parseInt(denomintionEntities.get(position).getIs_set()))) {
-                        Toast.makeText(activity, "It is Set Amount", Toast.LENGTH_SHORT).show();
+        viewHolder.img_dec.setOnClickListener(view -> {
+            int decre = Integer.parseInt(viewHolder.tv_inc.getText().toString().trim());
+            if (decre > 0) {
+                if (Integer.parseInt(denomintionEntities.get(position).getIs_set())>0 && decre <= (Integer.parseInt(denomintionEntities.get(position).getSet_m())*Integer.parseInt(denomintionEntities.get(position).getIs_set()))) {
+                    Toast.makeText(activity, "It is Set Amount", Toast.LENGTH_SHORT).show();
+                } else {
+                    decre = decre - 1;
+                    if (decre == 0) {
+                        viewHolder.tv_inc.setText("" + decre);
+                        new DataBaseHelper(activity).updateDenomination("","",denomintionEntities.get(position).getValue(), "N", viewHolder.tv_inc.getText().toString(), 0, "0", val_year, proposalTypeEntity.getId().trim(),false);
                     } else {
-                        decre = decre - 1;
-                        if (decre == 0) {
-                            viewHolder.tv_inc.setText("" + decre);
-                            new DataBaseHelper(activity).updateDenomination("","",denomintionEntities.get(position).getValue(), "N", viewHolder.tv_inc.getText().toString(), 0, "0", val_year, proposalTypeEntity.getId().trim(),false);
-                        } else {
-                            viewHolder.tv_inc.setText("" + decre);
-                            new DataBaseHelper(activity).updateDenomination("","",denomintionEntities.get(position).getValue(), "Y", viewHolder.tv_inc.getText().toString(), 0, "0", val_year, proposalTypeEntity.getId().trim(), false);
-                        }
-                        textView.setText("" + new DataBaseHelper(activity).getAddedWeightCount());
-                        Utiilties.didTapButton(textView, activity);
+                        viewHolder.tv_inc.setText("" + decre);
+                        new DataBaseHelper(activity).updateDenomination("","",denomintionEntities.get(position).getValue(), "Y", viewHolder.tv_inc.getText().toString(), 0, "0", val_year, proposalTypeEntity.getId().trim(), false);
                     }
+                    textView.setText("" + new DataBaseHelper(activity).getAddedWeightCount());
+                    Utiilties.didTapButton(textView, activity);
                 }
             }
         });

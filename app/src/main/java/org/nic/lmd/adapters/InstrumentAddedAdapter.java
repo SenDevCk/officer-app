@@ -97,19 +97,16 @@ public class InstrumentAddedAdapter extends BaseAdapter {
             }
         });
         viewHolder.remove=rootview.findViewById(R.id.remove_ins) ;
-        viewHolder.remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               long c=new DataBaseHelper(activity).deleteSingleInstrument(instrumentEntities.get(position).getId());
-               if (c>0) {
-                   instrumentEntities = new DataBaseHelper(activity).getInstrumentAdded();
-                   notifyDataSetChanged();
-                   textView.setText("" + new DataBaseHelper(activity).getInstrumentAddedCount());
-                   Utiilties.didTapButton(textView, activity);
-               }else{
-                   Log.e("error","instrument not deleted");
-               }
-            }
+        viewHolder.remove.setOnClickListener(view -> {
+           long c=new DataBaseHelper(activity).deleteSingleInstrument(instrumentEntities.get(position).getId());
+           if (c>0) {
+               instrumentEntities = new DataBaseHelper(activity).getInstrumentAdded();
+               notifyDataSetChanged();
+               textView.setText("" + new DataBaseHelper(activity).getInstrumentAddedCount());
+               Utiilties.didTapButton(textView, activity);
+           }else{
+               Log.e("error","instrument not deleted");
+           }
         });
         return rootview;
     }

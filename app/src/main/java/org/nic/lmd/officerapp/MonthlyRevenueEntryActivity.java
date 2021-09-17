@@ -149,12 +149,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
     public void populateRecycler(boolean isPre) {
         nest_ll.setVisibility(View.VISIBLE);
         recyclerView.invalidate();
-        RevenueReportItemAdapter.listenForSum(new RevenueReportItemAdapter.SumListener() {
-            @Override
-            public void success() {
-                showGrandTotal();
-            }
-        });
+        RevenueReportItemAdapter.listenForSum(() -> showGrandTotal());
         RevenueReportItemAdapter revenueReportItemAdapter = new RevenueReportItemAdapter(MonthlyRevenueEntryActivity.this, subDiv, isPre);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(MonthlyRevenueEntryActivity.this);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -164,12 +159,7 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 if (bottom < oldBottom) {
-                    recyclerView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            recyclerView.scrollToPosition(bottom);
-                        }
-                    }, 100);
+                    recyclerView.postDelayed(() -> recyclerView.scrollToPosition(bottom), 100);
                 }
             }
         });
@@ -362,11 +352,9 @@ public class MonthlyRevenueEntryActivity extends AppCompatActivity implements Vi
                 .setTitle("Really Close ?")
                 .setMessage("Are you sure want to close ? This will lost your currently filled data .")
                 .setPositiveButton(android.R.string.no, null)
-                .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        MonthlyRevenueEntryActivity.super.onBackPressed();
-                        //finish();
-                    }
+                .setNegativeButton(android.R.string.yes, (arg0, arg1) -> {
+                    MonthlyRevenueEntryActivity.super.onBackPressed();
+                    //finish();
                 }).create().show();
     }
 }
