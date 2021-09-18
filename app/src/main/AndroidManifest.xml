@@ -42,8 +42,11 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity
-            android:name=".inspectionEntry.InspectionentryActivity"
+            android:name=".PaymentEntryActivity"
             android:exported="true"></activity>
+        <activity
+            android:name=".inspectionEntry.InspectionentryActivity"
+            android:exported="true" />
         <activity
             android:name=".Ren_RegFeeEntryActivity"
             android:exported="true" />
@@ -119,11 +122,12 @@
             android:name=".MonthlyRevenueEntryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateVisible" />
-      <!--  <activity
+        <!--
+  <activity
             android:name=".inspection.InspectionListActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateVisible" />-->
-
+            android:windowSoftInputMode="adjustPan|stateVisible" />
+        -->
         <receiver
             android:name="org.nic.lmd.smsRecever.SmsReceiver"
             android:enabled="true"
