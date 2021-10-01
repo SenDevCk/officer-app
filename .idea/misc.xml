@@ -21,10 +21,22 @@
         <entry key="..\:/cks apps/OfficerApp/app/src/main/res/layout/market_ins_entry_item.xml" value="0.22" />
         <entry key="..\:/cks apps/OfficerApp/app/src/main/res/layout/market_ins_head_item.xml" value="0.18" />
         <entry key="..\:/cks apps/OfficerApp/app/src/main/res/layout/revenue_report_item.xml" value="0.14" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/drawable-hdpi/rectengle_uppercorner.xml" value="0.1655" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/drawable/rectangle.xml" value="0.1655" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/drawable/rectengle_uppercorner.xml" value="0.1655" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/drawable/rectengleshape.xml" value="0.1655" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/accused_item.xml" value="0.20416666666666666" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/activity_apply_new.xml" value="0.203125" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/activity_edit_case.xml" value="0.20416666666666666" />
         <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/activity_inspection_list.xml" value="0.1" />
-        <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/activity_inspectionentry.xml" value="0.22" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/activity_inspectionentry.xml" value="0.25" />
         <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/activity_payment_entry.xml" value="0.25" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/activity_register.xml" value="0.15" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/case_detail_item.xml" value="0.20416666666666666" />
         <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/inspection_list_item.xml" value="0.1" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/layout/list_item.xml" value="0.20416666666666666" />
+        <entry key="..\:/cks apps/officer-app/app/src/main/res/menu/pay_details_menu.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>

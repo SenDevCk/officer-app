@@ -9,15 +9,11 @@ public class Urls_this_pro {
 
 
     //local
-     public static final String RETROFIT_BASE_URL= "http://192.168.0.101:8080/app/";
-     public static final String RETROFIT_BASE_URL2= "http://192.168.0.106:8085/lmd-api/";
+     public static final String RETROFIT_BASE_URL= "http://192.168.0.151:65001/app/";
+     public static final String RETROFIT_BASE_URL2= "http://192.168.0.118:8085/lmd-api/";
+     public static final String RETROFIT_BASE_URL3= "http://192.168.0.118:65001/app/";
 
-    //live
-        /* public static final String RETROFIT_BASE_URL="https://wemmis.bih.nic.in/app/";
-         public static final String RETROFIT_BASE_URL2="https://wemmis.bih.nic.in/lmd-api/";*/
-    //live demo server
-        /*public static final String RETROFIT_BASE_URL="https://maaptaul.bih.nic.in/app/";
-        public static final String RETROFIT_BASE_URL2="https://maaptaul.bih.nic.in/lmd-api/";*/
+
 
     public static final String LOG_IN_URL = RETROFIT_BASE_URL+"staff/m/login";
     public static final String LOAD_REGISTER = RETROFIT_BASE_URL+"f/user";

@@ -139,6 +139,6 @@
             android:background="@drawable/green_button"
             android:onClick="CallServiceForSubmit"
             android:text="Submit"
-            android:textColor="@color/colorPrimaryDark" />
+             />
     </LinearLayout>
 </RelativeLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="horizontal">
+   <TextView
+       android:id="@+id/case_num"
+       android:layout_width="0dp"
+       android:layout_weight=".4"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center_vertical"
+       android:paddingLeft="20dp"
+       android:text="NA"/>
+    <TextView
+        android:id="@+id/amt"
+        android:layout_width="0dp"
+        android:layout_weight=".4"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="NA"/>
+    <TextView
+        android:id="@+id/remove"
+        android:layout_width="0dp"
+        android:layout_weight=".2"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColor="@android:color/holo_red_dark"
+        android:padding="5dp"
+        android:text="Remove"/>
+</LinearLayout>

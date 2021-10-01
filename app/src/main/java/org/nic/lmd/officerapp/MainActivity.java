@@ -33,7 +33,7 @@ import org.nic.lmd.adapters.CustomExpandableListAdapter;
 import org.nic.lmd.entities.ExpandableListDataPump;
 import org.nic.lmd.entities.UserData;
 
-import org.nic.lmd.officerapp.inspectionEntry.InspectionentryActivity;
+
 import org.nic.lmd.preferences.CommonPref;
 import org.nic.lmd.preferences.GlobalVariable;
 import org.nic.lmd.retrofit.APIClient;
@@ -139,10 +139,11 @@ public class MainActivity extends AppCompatActivity {
             // do something
             yearSelected = year;
             monthSelected = monthOfYear + 1;
-            Intent intent=new Intent(MainActivity.this, InspectionentryActivity.class);
+            /*Intent intent=new Intent(MainActivity.this, InspectionentryActivity.class);
             intent.putExtra("year",yearSelected);
             intent.putExtra("month",monthSelected);
-            startActivity(intent);
+            startActivity(intent);*/
+            Toast.makeText(MainActivity.this, "Under Progress !", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -211,6 +212,15 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
                         } else {
                             Intent intent = new Intent(MainActivity.this, Ren_RegFeeEntryActivity.class);
+                            intent.putExtra("subDiv", loginLocation);
+                            startActivity(intent);
+                        }
+                    }
+                    else if (name_child.equals("Payment Entry")) {
+                        if (!loginRole.contains("Inspector")) {
+                            Toast.makeText(MainActivity.this, "You are not authorised !", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent = new Intent(MainActivity.this, PaymentEntryActivity.class);
                             intent.putExtra("subDiv", loginLocation);
                             startActivity(intent);
                         }
@@ -315,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
                 report.add("Market Inspection Details Entry");
                 report.add("Revenue Details Entry");
                 report.add("Renewal/Registration Entry");
+                report.add("Payment Entry");
                 expandableListDetail.put("Report", report);
 
                 List<String> inspections = new ArrayList<String>();

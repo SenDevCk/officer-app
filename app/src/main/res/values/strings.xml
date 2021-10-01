@@ -17,5 +17,6 @@
     <string name="pay_mode">Payment Mode</string>
     <string name="recept_no">Recept Number *</string>
     <string name="payment_amt">Payment Amount *</string>
+    <string name="grn_no">GRN Number</string>
 
 </resources>

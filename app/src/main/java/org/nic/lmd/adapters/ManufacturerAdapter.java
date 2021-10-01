@@ -58,7 +58,7 @@ public class ManufacturerAdapter extends BaseAdapter {
             viewHolder.text_soap =  rootview.findViewById(R.id.text_soap);
             viewHolder.text_soap.setText("" +manufacturerPoso.name);
             viewHolder.text_pre_type =  rootview.findViewById(R.id.text_pre_type);
-            viewHolder.text_pre_type.setText("" + new DataBaseHelper(activity).getPremissesByID(String.valueOf(manufacturerPoso.premisesType)).getName());
+            viewHolder.text_pre_type.setText("" + (new DataBaseHelper(activity).getPremissesByID(String.valueOf(manufacturerPoso.premisesType))).getName());
             viewHolder.text_mob =  rootview.findViewById(R.id.text_mob);
             viewHolder.text_mob.setText("" + manufacturerPoso.mobile);
             rootview.setOnClickListener(view -> {

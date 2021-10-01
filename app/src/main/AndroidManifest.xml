@@ -42,13 +42,7 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity
-            android:name=".PaymentEntryActivity"
-            android:exported="true"></activity>
-        <activity
-            android:name=".inspectionEntry.InspectionentryActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Ren_RegFeeEntryActivity"
+            android:name=".EditCaseActivity"
             android:exported="true" />
         <activity
             android:name=".SplashActivity"
@@ -122,6 +116,13 @@
             android:name=".MonthlyRevenueEntryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateVisible" />
+        <activity
+            android:name=".PaymentEntryActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateVisible" />
+        <activity
+            android:name=".Ren_RegFeeEntryActivity"
+            android:exported="true" />
         <!--
   <activity
             android:name=".inspection.InspectionListActivity"

@@ -1,5 +1,6 @@
 package org.nic.lmd.retrofit;
 
+import org.nic.lmd.entities.AdalatPayDetails;
 import org.nic.lmd.entities.MarketInspectionDetail;
 import org.nic.lmd.entities.RenevalAndRegistrationFee;
 import org.nic.lmd.retrofitPojo.DashboardResponse;
@@ -48,6 +49,8 @@ public interface APIInterface {
     @POST("/lmd-api/lmd/saveRenevalResitrationFee")
     Call<MyResponse<String>> saveRenRegFee(@Body RenevalAndRegistrationFee requestForRevenueData);
 
+    @POST("/app/adalat/saveAdalatDetails")
+    Call<MyResponse<AdalatPayDetails>> uploadingAdalatDetails(@Body AdalatPayDetails payDetails);
 
     /* @GET("/api/manufacturer/11112")
     Call<ManufacturerPoso> doGetManufacture();*/
