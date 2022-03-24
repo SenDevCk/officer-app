@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -71,13 +72,13 @@ public class PaymentEntryActivity extends AppCompatActivity {
     District district;
     String payMode = "", typeOfAdalat = "", customerType = "";
     EditText edit_pay_amt, edit_case_no, edit_amount_com, edit_court_name,edit_grn;
-    EditText edit_com_id,edit_consumer_name,edit_consumer_add;
+    EditText edit_com_id,edit_consumer_name,edit_consumer_add,edit_no_of_con;
     private int mYear, mMonth, mDay;
     DatePickerDialog datedialog;
-    TextView text_total_amt, date_sel ,text_con_count ;
+    TextView text_total_amt, date_sel ,text_con_count , text_tot_con;
     Button button_add, button_final_submit;
     TextInputLayout text_input_com_amt, text_input_case_no, text_input_court_name,text_input_grn,text_input_amt_tot;
-    TextInputLayout text_input_con_id,text_input_con_name,text_input_con_add;
+    TextInputLayout text_input_con_id,text_input_con_name,text_input_con_add,text_input_no_of_con;
     ArrayList<AdalatCaseDetails> cases = new ArrayList<>();
     LinearLayout ll_pay,ll_com_consumer;
     CardView card_pay;
@@ -91,8 +92,8 @@ public class PaymentEntryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment_entry);
         subDiv=Integer.parseInt(getIntent().getStringExtra("subDiv"));
         toolbar = findViewById(R.id.toolbar_ap_new);
-        toolbar.setTitle("Payment Activity");
-        toolbar.setSubtitle(getResources().getString(R.string.app_name));
+        toolbar.setTitle("Payment Entry");
+        toolbar.setSubtitle(new DataBaseHelper(PaymentEntryActivity.this).getSubDivisionByID(String.valueOf(subDiv)).getSub_div_name());
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(toolbar);
@@ -102,6 +103,7 @@ public class PaymentEntryActivity extends AppCompatActivity {
         scroll_pay=findViewById(R.id.scroll_pay);
         card_pay=findViewById(R.id.card_pay);
         text_con_count=findViewById(R.id.text_con_count);
+        text_tot_con=findViewById(R.id.text_tot_con);
         sp_district = findViewById(R.id.sp_district);
         sp_block = findViewById(R.id.sp_block);
         edit_court_name = findViewById(R.id.edit_court_name);
@@ -121,6 +123,7 @@ public class PaymentEntryActivity extends AppCompatActivity {
         edit_com_id = findViewById(R.id.edit_com_id);
         edit_consumer_name = findViewById(R.id.edit_consumer_name);
         edit_consumer_add = findViewById(R.id.edit_consumer_add);
+        edit_no_of_con = findViewById(R.id.edit_no_of_con);
 
         text_date = findViewById(R.id.text_date);
         text_court = findViewById(R.id.text_court);
@@ -129,6 +132,7 @@ public class PaymentEntryActivity extends AppCompatActivity {
         text_mode = findViewById(R.id.text_mode);
         text_adalat = findViewById(R.id.text_adalat);
 
+        text_input_no_of_con = findViewById(R.id.text_input_no_of_con);
         text_input_con_name = findViewById(R.id.text_input_con_name);
         text_input_con_add = findViewById(R.id.text_input_con_add);
         text_input_con_id = findViewById(R.id.text_input_con_id);
@@ -213,8 +217,9 @@ public class PaymentEntryActivity extends AppCompatActivity {
     }
 
     private void finalSubmit() {
-        UserData userData= CommonPref.getUserDetails(PaymentEntryActivity.this);
-            AdalatPayDetails adalatPayDetails= AdalatPayDetails.builder()
+        if (Utiilties.isOnline(PaymentEntryActivity.this)) {
+            UserData userData = CommonPref.getUserDetails(PaymentEntryActivity.this);
+            AdalatPayDetails adalatPayDetails = AdalatPayDetails.builder()
                     .payment_mode(payMode)
                     .grn_number(text_grn.getText().toString().trim())
                     .amount(Double.parseDouble(text_amt.getText().toString().trim()))
@@ -231,8 +236,11 @@ public class PaymentEntryActivity extends AppCompatActivity {
                     .setMessage("Are you sure you want to Upload Data")
                     .setNegativeButton(android.R.string.no, null)
                     .setPositiveButton(android.R.string.yes, (arg0, arg1) -> {
-                                uploadPaymetDetails(adalatPayDetails);
+                        uploadPaymetDetails(adalatPayDetails);
                     }).create().show();
+        }else{
+            Toast.makeText(PaymentEntryActivity.this, "No internet Connection !", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -242,7 +250,7 @@ public class PaymentEntryActivity extends AppCompatActivity {
         progressDialog.setMessage("Uploading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL3).create(APIInterface.class);
+        apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL2).create(APIInterface.class);
         Call<MyResponse<AdalatPayDetails>> call1 = apiInterface.uploadingAdalatDetails(adalatPayDetails);
         call1.enqueue(new Callback<MyResponse<AdalatPayDetails>>() {
             @Override
@@ -312,7 +320,7 @@ public class PaymentEntryActivity extends AppCompatActivity {
                         .type_of_consumer(customerType)
                         .consumer_id(edit_com_id.getText().toString().trim().equals("")?null:edit_com_id.getText().toString().trim())
                         .consumer_address(edit_consumer_add.getText().toString().trim())
-                        .consumer_name(edit_consumer_add.getText().toString().trim())
+                        .consumer_name(edit_consumer_name.getText().toString().trim())
                         .build();
                 cons.add(consumer);
                 cases.add(AdalatCaseDetails.builder().case_number(edit_case_no.getText().toString().trim()).
@@ -339,10 +347,14 @@ public class PaymentEntryActivity extends AppCompatActivity {
 
     private void removeAllErrors() {
         edit_case_no.setError(null);
-        edit_amount_com.setText(null);
-        edit_com_id.setText(null);
-        edit_consumer_add.setText(null);
-        edit_consumer_add.setText(null);
+        edit_amount_com.setError(null);
+        edit_com_id.setError(null);
+        edit_consumer_add.setError(null);
+        edit_no_of_con.setError(null);
+        edit_case_no.setText("");
+        edit_amount_com.setText("");
+        edit_consumer_add.setText("");
+        edit_com_id.setText("");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -360,7 +372,7 @@ public class PaymentEntryActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    district = districts.get(position);
+                    district = districts.get(position-1);
                     populateBlockSpinner(district.getId());
                 } else {
                     district = null;
@@ -389,7 +401,7 @@ public class PaymentEntryActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    block = blocks.get(position + 1);
+                    block = blocks.get(position -1);
                 } else {
                     block = null;
                 }
@@ -423,13 +435,14 @@ public class PaymentEntryActivity extends AppCompatActivity {
     }
 
     private void populateTypeOfAdalatSpiner() {
-        List<String> list_pay_mode = Arrays.asList(new String[]{"--Select Mode--", "Lok-Adalat", "Other"});
+        List<String> list_pay_mode = Arrays.asList(new String[]{"-- Select Adalat Type --", "Lok-Adalat", "permanent Lok-Adalat","others"});
         sp_adalat.setAdapter(new ArrayAdapter<>(PaymentEntryActivity.this, android.R.layout.simple_list_item_1, list_pay_mode));
         sp_adalat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    typeOfAdalat = (String) ((ArrayAdapter) parent.getAdapter()).getItem(position);
+                    if(position==3) adalatNameEntryDialog();
+                    else typeOfAdalat = (String) ((ArrayAdapter) parent.getAdapter()).getItem(position);
                 } else {
                     typeOfAdalat = "";
                 }
@@ -450,8 +463,10 @@ public class PaymentEntryActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
                     customerType = (String) ((ArrayAdapter) parent.getAdapter()).getItem(position);
+                    text_input_con_id.setHint(customerType+" ID");
                 } else {
                     customerType = "";
+                    text_input_con_id.setHint("Accused ID");
                 }
             }
 
@@ -517,8 +532,15 @@ public class PaymentEntryActivity extends AppCompatActivity {
             edit_pay_amt.setError("valid amount");
         }
         else if (Double.parseDouble(edit_pay_amt.getText().toString().trim())<0){
-            edit_pay_amt.setError("valid amount");
-        }else {
+            text_input_amt_tot.setError("Enter amount");
+        }
+        else if (edit_no_of_con.getText().toString().trim().equals("")||edit_no_of_con.getText().toString().trim().equals("0")){
+            text_input_amt_tot.setError("Enter consumer count");
+        }
+        else if (Double.parseDouble(edit_no_of_con.getText().toString().trim())<0){
+            text_input_no_of_con.setError("Enter valid consumer count");
+        }
+        else {
             ll_pay.setVisibility(View.GONE);
             card_pay.setVisibility(View.VISIBLE);
             ll_com_consumer.setVisibility(View.VISIBLE);
@@ -529,12 +551,34 @@ public class PaymentEntryActivity extends AppCompatActivity {
             text_mode.setText(payMode);
             text_adalat.setText(typeOfAdalat);
             text_total_amt.setText(edit_pay_amt.getText().toString().trim());
+            text_tot_con.setText(edit_no_of_con.getText().toString().trim());
             date_sel.setText("");
             edit_court_name.setText("");
             edit_grn.setText("");
             edit_pay_amt.setText("");
             sp_paymode.setSelection(0);
         }
+    }
+
+    private void adalatNameEntryDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter Adalat Name");
+        builder.setCancelable(false);
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+        // Set up the buttons
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            typeOfAdalat = input.getText().toString();
+            dialog.cancel();
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            typeOfAdalat="";
+            dialog.cancel();
+        });
+        builder.show();
     }
 
     @Override

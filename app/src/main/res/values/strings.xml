@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="consumer_type">Consumer Type *</string>
-    <string name="consumer_id">Enter ConsumerId *</string>
+    <string name="consumer_id">Accused Id</string>
     <string name="consumer_name">Consumer Name *</string>
     <string name="consumer_add">Consumer Address *</string>
     <string name="district">District *</string>
@@ -13,10 +13,11 @@
     <string name="date">Select Date *</string>
     <string name="court">Court Name *</string>
     <string name="compounding_amt">Compounding Amount</string>
-    <string name="case_no">Case Number</string>
-    <string name="pay_mode">Payment Mode</string>
+    <string name="case_no">Case Number *</string>
+    <string name="pay_mode">Payment Mode *</string>
     <string name="recept_no">Recept Number *</string>
     <string name="payment_amt">Payment Amount *</string>
-    <string name="grn_no">GRN Number</string>
+    <string name="grn_no">GRN Number *</string>
+    <string name="consumer_count">No of Consumers *</string>
 
 </resources>

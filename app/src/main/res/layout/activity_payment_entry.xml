@@ -82,13 +82,33 @@
                 <TextView
                     android:id="@+id/text_con_count"
                     android:layout_width="0dp"
-                    android:layout_weight=".1"
+                    android:layout_weight=".033"
                     android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:textColor="@android:color/black"
                     android:text="0"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight=".033"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:text="/"/>
+
+                <TextView
+                    android:id="@+id/text_tot_con"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight=".033"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -295,6 +315,7 @@
                         android:id="@+id/edit_grn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textAllCaps="true"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -311,6 +332,19 @@
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_input_no_of_con"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/consumer_count">
+
+                    <EditText
+                        android:id="@+id/edit_no_of_con"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberSigned" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
                     android:id="@+id/add_ogrs_pay"
@@ -362,6 +396,7 @@
                         <EditText
                             android:id="@+id/edit_case_no"
                             android:layout_width="match_parent"
+                            android:textAllCaps="true"
                             android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -403,7 +438,7 @@
                         android:background="@color/colorPrimaryLight"
                         android:gravity="center_vertical"
                         android:padding="10dp"
-                        android:text="Consumer Details"
+                        android:text="Accused Details"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 
@@ -424,7 +459,8 @@
                         <EditText
                             android:id="@+id/edit_com_id"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:inputType="numberSigned"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- -->

@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog dialog;
     UserData userData;
     int yearSelected, monthSelected;
-
+    UserData userinfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,18 +112,14 @@ public class MainActivity extends AppCompatActivity {
         text_header_name = header.findViewById(R.id.text_header_name);
         text_header_mobile = header.findViewById(R.id.text_header_mobile);
         imageViewheader = header.findViewById(R.id.imageViewheader);
-        UserData userinfo = CommonPref.getUserDetails(MainActivity.this);
+        userinfo = CommonPref.getUserDetails(MainActivity.this);
         text_header_name.setText("" + userinfo.getName());
         text_header_mobile.setText("" + userinfo.getContact());
         expandableListView = navigationView.findViewById(R.id.expandableListView);
         expandableListDetail = ExpandableListDataPump.getData();
         populateExpendableList();
         list_ven = findViewById(R.id.list_ven);
-        dialog = new ProgressDialog(MainActivity.this);
-        dialog.setMessage("Hello Mr/Mrs" + userinfo.getName() + " please wait...");
-        dialog.setCancelable(false);
-        dialog.show();
-        callServiceForData();
+        //callServiceForData();
     }
 
     public void monthYearPicker() {
@@ -283,6 +279,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void callServiceForData() {
+        dialog = new ProgressDialog(MainActivity.this);
+        dialog.setMessage("Hello Mr/Mrs" + userinfo.getName() + " please wait...");
+        dialog.setCancelable(false);
+        dialog.show();
         Call<DashboardResponse> call1 = null;
         apiInterface = APIClient.getClient(Urls_this_pro.RETROFIT_BASE_URL).create(APIInterface.class);
         if (locationType.equals("HQR")) call1 = apiInterface.doGetDashboardAllData();
