@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.nic.lmd.officerapp" >
+    package="org.nic.lmd.officerapp">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -40,7 +40,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:allowBackup" >
+        tools:replace="android:allowBackup">
+        <activity
+            android:name=".RandomMarInspectionActivity"
+            android:exported="false" />
         <activity
             android:name=".InspectionListActivity"
             android:exported="false" />
@@ -49,7 +52,7 @@
             android:exported="true" />
         <activity
             android:name=".SplashActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -127,12 +130,11 @@
             android:name=".Ren_RegFeeEntryActivity"
             android:exported="true" />
 
-
         <receiver
             android:name="org.nic.lmd.smsRecever.SmsReceiver"
             android:enabled="true"
-            android:exported="true" >
-            <intent-filter android:priority="9999" >
+            android:exported="true">
+            <intent-filter android:priority="9999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
@@ -141,7 +143,7 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="org.nic.lmd.officerapp.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true" >
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
